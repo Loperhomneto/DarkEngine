@@ -1,8 +1,8 @@
 -- premake5.lua
-workspace "New Project"
+workspace "DarkEngine"
    architecture "x64"
    configurations { "Debug", "Release", "Dist" }
-   startproject "App"
+   startproject "DarkApp"
 
    -- Workspace-wide build options for MSVC
    filter "system:windows"
@@ -11,7 +11,7 @@ workspace "New Project"
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
 group "Core"
-	include "Core/Build-Core.lua"
-group ""
+    include "DarkCore/Build-Core.lua"
 
-include "App/Build-App.lua"
+group "App"
+    include "DarkApp/Build-App.lua"
