@@ -15,3 +15,9 @@ group "Core"
 
 group "App"
     include "DarkApp/Build-App.lua"
+
+group "GLFW"
+    include "Vendor/glfw/premake5.lua"
+
+group "Glad"
+    include "Vendor/Glad/premake5.lua"

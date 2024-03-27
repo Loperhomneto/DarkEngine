@@ -5,11 +5,16 @@ project "DarkCore"
    targetdir "Binaries/%{cfg.buildcfg}"
    staticruntime "off"
 
-   files { "Source/**.h", "Source/**.cpp" }
+   files { "Source/**.h", "Source/**.cpp", "Vendor/Glad/src" }
 
    includedirs
    {
-      "Source"
+      "Source", "../Vendor/Glad/include", "../Vendor/glfw/include"
+   }
+
+   links
+   {
+       "GLFW", "opengl32.lib", "Glad"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
