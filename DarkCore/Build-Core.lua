@@ -5,16 +5,16 @@ project "DarkCore"
    targetdir "Binaries/%{cfg.buildcfg}"
    staticruntime "off"
 
-   files { "Source/**.h", "Source/**.cpp", "Vendor/Glad/src" }
+   files { "Source/**.h", "Source/**.cpp" }
 
    includedirs
    {
-      "Source", "../Vendor/Glad/include", "../Vendor/glfw/include"
+      "Source", "../Vendor/Glad/include", "../Vendor/glfw/include", "../Vendor/glm/glm", "../Vendor/stb", "../Vendor/Irrklang/include"
    }
 
    links
    {
-       "GLFW", "opengl32.lib", "Glad"
+       "GLFW", "opengl32.lib", "Glad", "../Vendor/Irrklang/lib/Winx64-visualStudio/irrKlang.lib", "../Vendor/Irrklang/bin/winx64-visualStudio/irrKlang.dll"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")

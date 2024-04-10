@@ -4,7 +4,7 @@
 
 extern Dark::Application* Dark::CreateApplication();
 
-int main(int argc, char** argv)
+int main()
 {
 	auto app = Dark::CreateApplication();
 	app->Run();

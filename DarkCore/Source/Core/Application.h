@@ -17,7 +17,6 @@ namespace Dark {
 		void popLayer(s_Layer& layer);
 
 		void OnEvent(Event& e);
-		void OnMouseClick(MouseOnClickEvent& e);
 		void OnWindowClose(WindowCloseEvent& e);
 
 		void Run();
@@ -26,10 +25,9 @@ namespace Dark {
 	private:
 		bool m_running = true;
 
+		double timenext = 0.0;
+		double timeprev = 0.0;
 		int fps = 120;
-
-		const int SCR_WIDTH = 800;
-		const int SCR_HEIGHT = 600;
 
 		std::unique_ptr<Window> m_window;
 		LayerManager m_LayerManager;

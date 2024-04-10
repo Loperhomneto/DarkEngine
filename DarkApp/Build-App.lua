@@ -11,8 +11,10 @@ project "DarkApp"
    {
       "Source",
 
-	  -- Include Core
-	  "../DarkCore/Source"
+      -- Include Core
+      "../DarkCore/Source",
+      -- Include glm
+      "../Vendor/glm/glm"
    }
 
    links

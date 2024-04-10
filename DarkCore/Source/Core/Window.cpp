@@ -6,16 +6,18 @@
 namespace Dark
 {
 
-	Window::Window(int FPS, std::function<void(Event&)> func, std::string name)
+	Window::Window(int FPS, std::function<void(Event&)> func, std::string name, int width, int height)
 	{
 		fps = FPS;
+		m_data.SCR_WIDTH = width;
+		m_data.SCR_HEIGHT = height;
 
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, name.c_str(), NULL, NULL);
+		window = glfwCreateWindow(m_data.SCR_WIDTH, m_data.SCR_HEIGHT, name.c_str(), NULL, NULL);
 
 		if (window == NULL)
 		{
@@ -30,35 +32,33 @@ namespace Dark
 			std::cout << "Failed to initialize GLAD" << std::endl;
 		}
 
-		SetEventBindFuncs(func);
-	}
+		m_data.eventCallback = func;
 
-	void Window::SetEventBindFuncs(std::function<void(Event&)> func)
-	{
-		eventCallback = func;
-
-		glfwSetWindowUserPointer(window, &eventCallback);
+		glfwSetWindowUserPointer(window, &m_data);
 
 		glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 			{
-				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+				DATA data = *(DATA*)glfwGetWindowUserPointer(window);
+				std::function<void(Event&)> callback = data.eventCallback;
 
 				KeyInputEvent e(key, action);
 				callback(e);
 			});
 
-		//glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos)
-		//	{
-		//		std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+		glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos)
+			{
+				DATA data = *(DATA*)glfwGetWindowUserPointer(window);
+				std::function<void(Event&)> callback = data.eventCallback;
 
-		//		MouseMoveEvent e(xpos, ypos);
-		//		callback(e);
-		//		glfwSetCursorPos(window, xpos, ypos);
-		//	});
+				MouseMoveEvent e(xpos, ypos);
+				callback(e);
+				//glfwSetCursorPos(window, xpos, ypos);
+			});
 
 		glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
 			{
-				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+				DATA data = *(DATA*)glfwGetWindowUserPointer(window);
+				std::function<void(Event&)> callback = data.eventCallback;
 
 				MouseOnClickEvent e(button, action);
 				callback(e);
@@ -66,7 +66,8 @@ namespace Dark
 
 		glfwSetWindowCloseCallback(window, [](GLFWwindow* window)
 			{
-				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+				DATA data = *(DATA*)glfwGetWindowUserPointer(window);
+				std::function<void(Event&)> callback = data.eventCallback;
 
 				WindowCloseEvent e;
 				callback(e);
@@ -75,26 +76,22 @@ namespace Dark
 
 		glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
 			{
-				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+				glViewport(0, 0, width, height);
+				DATA* Data = (DATA*)glfwGetWindowUserPointer(window);
+				Data->SCR_WIDTH = width;
+				Data->SCR_HEIGHT = height;
+				DATA data = *Data;
+				std::function<void(Event&)> callback = data.eventCallback;
 
 				WindowResizeEvent e(width, height);
 				callback(e);
 			});
 	}
 
-	void Window::OnUpdate()
+	void Window::end()
 	{
-		double frametime = 1 / fps;
-		timenext = glfwGetTime();
-		if (timenext - timeprev > frametime)
-		{
-			timeprev = timenext;
-			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			glfwSwapBuffers(window);
-			glfwPollEvents();
-		}
+		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
 
 	void Window::ShutDown()
