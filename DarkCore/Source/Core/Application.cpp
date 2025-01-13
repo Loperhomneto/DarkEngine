@@ -25,9 +25,6 @@ namespace Dark {
 			timenext = Input::getTime();
 			if (timenext - timeprev > frametime)
 			{
-				//std::cout << "Frametime: " << frametime;
-				//std::cout << " Timenext: " << timenext;
-				//std::cout << " TimePrev:" << timeprev << std::endl;
 				timeprev = timenext;
 				Renderer::startRendererCall(m_window->getScreenWidth(), m_window->getScreenHeight());
 
@@ -77,26 +74,5 @@ namespace Dark {
 		m_window->ShutDown();
 		m_running = false;
 	}
-
-	//void Application::OnMouseClick(MouseOnClickEvent& e)
-//{
-//	if (e.button == 1)
-//	{
-//		std::cout << "Right Mouse Button ";
-//	}
-//	if (e.button == 0)
-//	{
-//		std::cout << "Left Mouse Button ";
-//	}
-//	if (e.action == 1)
-//	{
-//		std::cout << " Pressed" << std::endl;
-//	}
-//	if (e.action == 0)
-//	{
-//		std::cout << " Release " << std::endl;
-//	}
-//}
-//}
 
 }

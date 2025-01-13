@@ -9,7 +9,7 @@ App::App()
 }
 
 
-FooLayer::FooLayer() : npc(glm::vec2(0))
+FooLayer::FooLayer()
 {
 	// Make it such that the draw quad function is overloaded with the drawtexturedquad function.
 	// also maybe make it so that you draw a backdrop, and you wont have to keep updating that rect in the
@@ -54,31 +54,17 @@ void FooLayer::OnUpdate()
 	//		Renderer::DrawTexturedQuad(vert, size, "floor");
 	//	}
 	//}
-	VertexAttrib vert1(glm::vec2(0, 0));
-	Renderer::DrawTexturedQuad(vert1, glm::vec2(width, height), "floor");
+	Renderer::Draw2DQuad(glm::vec2(0), glm::vec2(width, height), "floor");
 
 	//Tables
 	float s = width / 8;
 	for (float x = 0; x < width /*- (width / 4)*/; x += width / 4) {
 		for (float y = 0; y < height ; y += height / 4) {
-			VertexAttrib vert(glm::vec2(x + width / 8 - s / 2, y + height / 8 - s / 2));
+			glm::vec2 vert = glm::vec2(x + width / 8 - s / 2, y + height / 8 - s / 2);
 			glm::vec2 size = glm::vec2(s);
-			Renderer::DrawTexturedQuad(vert, size, "table");
+			Renderer::Draw2DQuad(vert, size, "table");
 		}
 	}
-
-	//NPCS
-	//s = width / 10;
-	//for (float x = width*3/4; x < width; x += width / 8) {
-	//	for (float y = 0; y < height; y += height / 4) {
-	//		VertexAttrib vert(glm::vec2(x + width/16 - s/2, y + height / 8 - s / 2));
-	//		glm::vec2 size = glm::vec2(s);
-	//		Renderer::DrawTexturedQuad(vert, size, "idle1");
-	//	}
-	//}
-
-	npc.onUpdate();
-
 }
 
 void FooLayer::OnEvent(Event& e)
@@ -88,7 +74,6 @@ void FooLayer::OnEvent(Event& e)
 	if (Event::CheckEvent(EventTypes::MouseOnClick, e))
 	{
 		SoundEngine::PlaySound("explosion", 0.1);
-		npc.walk(glm::vec2(200, 200));
 	}
 
 }
@@ -103,53 +88,3 @@ Dark::Application* Dark::CreateApplication()
 	return new App();
 }
 
-NPC::NPC(glm::vec2 POS)
-{
-	pos = POS;
-	currentDes = pos;
-}
-
-void NPC::walk(glm::vec2 des)
-{
-	currentDes = des;
-}
-
-void NPC::onUpdate()
-{
-	// set animation stages
-	double curTime = Input::getTime();
-
-	if (curTime - lastAnimation >= timestep)
-	{
-		if (animationStage == maxAnimationStages)
-		{
-			animationStage = 1;
-		}
-		else
-		{
-			animationStage++;
-		}
-
-		lastAnimation = curTime;
-	}
-
-	glm::vec2 size(100);
-	if (animationStage == 1)
-	{
-		Renderer::DrawTexturedQuad(pos, size, "idle1");
-	}
-	else if (animationStage == 2)
-	{
-		Renderer::DrawTexturedQuad(pos, size, "idle2");
-	}
-
-	//walk toward current set destination
-	if (currentDes != pos)
-	{
-		glm::vec2 sub = abs(pos - currentDes);
-
-		pos.x += sub.x * curTime * speed;
-		pos.y += sub.y * curTime * speed;
-		std::cout << "Pos.x: " << pos.x << " Pos.y:" << pos.y << std::endl;
-	}
-}

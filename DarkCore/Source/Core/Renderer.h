@@ -27,13 +27,9 @@ namespace Dark {
 	public:
 		static void Init();
 		static void startRendererCall(int width, int height);
-		static Quad DrawQuad(const VertexAttrib& vert1, const VertexAttrib& vert2,
-			const VertexAttrib& vert3, const VertexAttrib& vert4);
-		static Quad DrawQuad(const VertexAttrib& corner, glm::vec2 size);
-		static Quad DrawQuad(const Quad& quad);
-		static Quad DrawTexturedQuad(const VertexAttrib& corner, glm::vec2 size, std::string texSource);
-		static Quad DrawTexturedQuad(const VertexAttrib& vert1, const VertexAttrib& vert2,
-			const VertexAttrib& vert3, const VertexAttrib& vert4, std::string texSource);
+		static Quad Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec3 color = glm::vec3(1.0f));
+		static Quad Draw2DQuad(const Quad& quad);
+		static Quad Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texSource, glm::vec3 color = glm::vec3(1.0f));
 		static void AddTexture(std::string texSoure, bool alpha, std::string name);
 	private:
 		static Quad privateDrawTexturedQuad(float vertices[], float length, std::string texSource);

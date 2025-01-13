@@ -10,14 +10,7 @@ workspace "DarkEngine"
 
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
-group "Core"
-    include "DarkCore/Build-Core.lua"
-
-group "App"
-    include "DarkApp/Build-App.lua"
-
-group "GLFW"
-    include "Vendor/glfw/premake5.lua"
-
-group "Glad"
-    include "Vendor/Glad/premake5.lua"
+include "DarkCore/Build-Core.lua"
+include "DarkApp/Build-App.lua"
+include "Vendor/glfw/premake5.lua"
+include "Vendor/Glad/premake5.lua"

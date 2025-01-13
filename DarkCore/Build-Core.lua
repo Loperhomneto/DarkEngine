@@ -12,9 +12,14 @@ project "DarkCore"
       "Source", "../Vendor/Glad/include", "../Vendor/glfw/include", "../Vendor/glm/glm", "../Vendor/stb", "../Vendor/Irrklang/include"
    }
 
+   libdirs
+   {
+      "../Vendor/Irrklang/lib/Winx64-visualStudio"
+   }
+
    links
    {
-       "GLFW", "opengl32.lib", "Glad", "../Vendor/Irrklang/lib/Winx64-visualStudio/irrKlang.lib", "../Vendor/Irrklang/bin/winx64-visualStudio/irrKlang.dll"
+       "GLFW", "opengl32.lib", "Glad", "irrKlang.lib"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")

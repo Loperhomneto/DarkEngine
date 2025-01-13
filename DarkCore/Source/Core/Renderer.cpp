@@ -78,30 +78,51 @@ namespace Dark {
 		units = 0;
 	}
 
-	Quad Renderer::DrawQuad(const VertexAttrib& vert1, const VertexAttrib& vert2,
-		const VertexAttrib& vert3, const VertexAttrib& vert4)
+	Quad Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec3 color)
 	{
-        float vertices[] = {
-             vert1.pos.x, vert1.pos.y, 0.0f, vert1.color.x, vert1.color.y, vert1.color.z,  // top right
-			 vert2.pos.x, vert2.pos.y, 0.0f, vert2.color.x, vert2.color.y, vert2.color.z,  // bottom right
-			 vert3.pos.x, vert3.pos.y, 0.0f, vert3.color.x, vert3.color.y, vert3.color.z,  // bottom left
-			 vert4.pos.x, vert4.pos.y, 0.0f, vert4.color.x, vert4.color.y, vert4.color.z   // top left 
-        };
+		float vertices[] = {
+			corner.x + size.x, corner.y, 0.0f, color.x, color.y, color.z,  // top right
+			corner.x + size.x, corner.y + size.y, 0.0f, color.x, color.y, color.z,  // bottom right
+			corner.x, corner.y + size.y, 0.0f, color.x, color.y, color.z,  // bottom left
+			corner.x, corner.y, 0.0f, color.x, color.y, color.z   // top left 
+		};
 
 		return privateDrawQuad(vertices, sizeof(vertices));
 	}
 
-	Quad Renderer::DrawQuad(const VertexAttrib& corner, glm::vec2 size)
+	Quad Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texName, glm::vec3 color)
 	{
-		glm::vec3 color = corner.color;
 		float vertices[] = {
-			corner.pos.x + size.x, corner.pos.y, 0.0f, color.x, color.y, color.z,  // top right
-			corner.pos.x + size.x, corner.pos.y + size.y, 0.0f, color.x, color.y, color.z,  // bottom right
-			corner.pos.x, corner.pos.y + size.y, 0.0f, color.x, color.y, color.z,  // bottom left
-			corner.pos.x, corner.pos.y, 0.0f, color.x, color.y, color.z   // top left 
+			corner.x + size.x, corner.y, 0.0f,			color.x, color.y, color.z, 1.0f, 1.0f,// top right
+			corner.x + size.x, corner.y + size.y, 0.0f, color.x, color.y, color.z, 1.0f, 0.0f, // bottom right
+			corner.x,		   corner.y + size.y, 0.0f,	color.x, color.y, color.z, 0.0f, 0.0f, // bottom left
+			corner.x,          corner.y, 0.0f,			color.x, color.y, color.z, 0.0f, 1.0f // top left 
 		};
 
-		return privateDrawQuad(vertices, sizeof(vertices));
+		return privateDrawTexturedQuad(vertices, sizeof(vertices), texName);
+	}
+
+	Quad Renderer::Draw2DQuad(const Quad& quad)
+	{
+		if (quad.texID == 0)
+		{
+			glBindVertexArray(quad.VAO);
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		}
+		else
+		{
+			TextureShader.Use();
+			TextureShader.setInt("texture1", units);
+
+			glActiveTexture(GL_TEXTURE0 + units);
+			glBindTexture(GL_TEXTURE_2D, quad.texID);
+			units++;
+
+			TextureShader.Use();
+			glBindVertexArray(quad.VAO);
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		}
+		return quad;
 	}
 
 	Quad Renderer::privateDrawQuad(float* vertices, float length)
@@ -144,57 +165,6 @@ namespace Dark {
 		Quad quad;
 		quad.VAO = VAO;
 		return quad;
-	}
-
-	Quad Renderer::DrawQuad(const Quad& quad)
-	{
-		if (quad.texID == 0)
-		{
-			glBindVertexArray(quad.VAO);
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		}
-		else
-		{
-			TextureShader.Use();
-			TextureShader.setInt("texture1", units);
-
-			glActiveTexture(GL_TEXTURE0 + units);
-			glBindTexture(GL_TEXTURE_2D, quad.texID);
-			units++;
-
-			TextureShader.Use();
-			glBindVertexArray(quad.VAO);
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		}
-		return quad;
-	}
-
-	//Texture Quads---------------------------------------------------------------------
-	//----------------------------------------------------------------------------------
-
-	Quad Renderer::DrawTexturedQuad(const VertexAttrib& corner, glm::vec2 size, std::string texName)
-	{
-		glm::vec3 color = corner.color;
-		float vertices[] = {
-			corner.pos.x + size.x, corner.pos.y, 0.0f,			color.x, color.y, color.z, 1.0f, 1.0f,// top right
-			corner.pos.x + size.x, corner.pos.y + size.y, 0.0f, color.x, color.y, color.z, 1.0f, 0.0f, // bottom right
-			corner.pos.x,		   corner.pos.y + size.y, 0.0f,	color.x, color.y, color.z, 0.0f, 0.0f, // bottom left
-			corner.pos.x,          corner.pos.y, 0.0f,			color.x, color.y, color.z, 0.0f, 1.0f // top left 
-		};
-
-		return privateDrawTexturedQuad(vertices, sizeof(vertices), texName);
-	}
-
-	Quad Renderer::DrawTexturedQuad(const VertexAttrib& vert1, const VertexAttrib& vert2, const VertexAttrib& vert3, const VertexAttrib& vert4, std::string texName)
-	{
-		float vertices[] = {
-			vert1.pos.x, vert1.pos.y, 0.0f, vert1.color.x, vert1.color.y, vert1.color.z, 1.0f, 1.0f, // top right
-			vert2.pos.x, vert2.pos.y, 0.0f, vert2.color.x, vert2.color.y, vert2.color.z, 1.0f, 0.0f, // bottom right
-			vert3.pos.x, vert3.pos.y, 0.0f, vert3.color.x, vert3.color.y, vert3.color.z, 0.0f, 0.0f, // bottom left
-			vert4.pos.x, vert4.pos.y, 0.0f, vert4.color.x, vert4.color.y, vert4.color.z, 0.0f, 1.0f // top left 
-		};
-
-		return privateDrawTexturedQuad(vertices, sizeof(vertices), texName);
 	}
 
 	Quad Renderer::privateDrawTexturedQuad(float vertices[], float length, std::string texName)
@@ -243,6 +213,7 @@ namespace Dark {
 
 		return Quad(VAO, texture->getID());
 	}
+
 
 	void Renderer::AddTexture(std::string texSoure, bool alpha, std::string name)
 	{
