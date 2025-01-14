@@ -11,7 +11,6 @@ App::App()
 
 FooLayer::FooLayer()
 {
-	// Make it such that the draw quad function is overloaded with the drawtexturedquad function.
 	// also maybe make it so that you draw a backdrop, and you wont have to keep updating that rect in the
 	// onupdate function in foolayer. Make it so that you only have to set a background through a function or in 
 	// the constructer of the foolayer.
@@ -46,15 +45,7 @@ void FooLayer::OnUpdate(TimeStep ts)
 	//Backdrop	
 	float width = Input::GetWindowWidth();
 	float height = Input::GetWindowHeight();
-	//float s = width / 8;
-	//for (float x = 0; x < width; x += width / 8) {
-	//	for (float y = 0; y < height; y += height / 8) {
-	//		VertexAttrib vert(glm::vec2(x, y));
-	//		glm::vec2 size(s);
-	//		Renderer::DrawTexturedQuad(vert, size, "floor");
-	//	}
-	//}
-	Renderer::Draw2DQuad(glm::vec2(0), glm::vec2(width, height), "floor");
+	Renderer::DrawBackDrop("floor");
 
 	//Tables
 	float s = width / 8;

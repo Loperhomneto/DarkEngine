@@ -29,7 +29,7 @@ namespace Dark {
 		double timeprev = 0.0;
 		int capfps = 540;
 
-		std::unique_ptr<Window> m_window;
+		std::shared_ptr<Window> m_window;
 		LayerManager m_LayerManager;
 	};
 

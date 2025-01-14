@@ -9,9 +9,12 @@ namespace Dark {
 	Shader Renderer::TextureShader = Shader();
 	TextureLibrary Renderer::texLib = TextureLibrary();
 	int Renderer::units = 0;
+	std::shared_ptr<Window> Renderer::m_window;
 	
-	void Renderer::Init()
+	void Renderer::Init(std::shared_ptr<Window> window)
 	{
+		m_window = window;
+
 		const char* vSource1 = "#version 330 core\n"
 			"layout (location = 0) in vec3 aPos;\n"
 			"layout (location = 1) in vec3 aColor;\n"
@@ -76,6 +79,20 @@ namespace Dark {
 
 		Shader1.Use();
 		units = 0;
+	}
+
+	Quad Renderer::DrawBackDrop(const glm::vec3 color)
+	{
+		int width = m_window->getScreenWidth();
+		int height = m_window->getScreenHeight();
+		return Draw2DQuad(glm::vec2(0.0f), glm::vec2(width, height), color);
+	}
+
+	Quad Renderer::DrawBackDrop(std::string texSource)
+	{
+		int width = m_window->getScreenWidth();
+		int height = m_window->getScreenHeight();
+		return Draw2DQuad(glm::vec2(0.0f), glm::vec2(width, height), texSource);
 	}
 
 	Quad Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec3 color)
