@@ -9,7 +9,7 @@ namespace Dark
 	class Window
 	{
 	public:
-		Window(int FPS, std::function<void(Event&)> func, std::string name, int width, int height);
+		Window(std::function<void(Event&)> func, std::string name, int width, int height);
 
 		int getScreenWidth() { return m_data.SCR_WIDTH; }
 		int getScreenHeight() { return m_data.SCR_HEIGHT; }

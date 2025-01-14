@@ -6,9 +6,8 @@
 namespace Dark
 {
 
-	Window::Window(int FPS, std::function<void(Event&)> func, std::string name, int width, int height)
+	Window::Window(std::function<void(Event&)> func, std::string name, int width, int height)
 	{
-		fps = FPS;
 		m_data.SCR_WIDTH = width;
 		m_data.SCR_HEIGHT = height;
 

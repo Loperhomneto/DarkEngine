@@ -1,6 +1,6 @@
 #pragma once
 #include "Event.h"
-
+#include "TimeStep.h"
 namespace Dark {
 
 	class Layer
@@ -9,7 +9,7 @@ namespace Dark {
 		Layer() {};
 		virtual ~Layer() {};
 
-		void virtual OnUpdate() {};
+		void virtual OnUpdate(TimeStep ts) {};
 		void virtual OnEvent(Event& e) {};
 	};
 

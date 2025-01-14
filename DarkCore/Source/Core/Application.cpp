@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Renderer.h"
 #include "Input.h"
+#include "TimeStep.h"
 #include <iostream>
 #include <functional>
 
@@ -11,9 +12,10 @@ namespace Dark {
 
 #define DARK_BIND_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
+
 	Application::Application()
 	{
-		m_window = std::unique_ptr<Window>(new Window(fps, DARK_BIND_FN(OnEvent), "New Window", 800, 600));
+		m_window = std::unique_ptr<Window>(new Window(DARK_BIND_FN(OnEvent), "New Window", 800, 600));
 		Renderer::Init();
 	}
 
@@ -21,20 +23,19 @@ namespace Dark {
 	{
 		while (m_running) 
 		{
-			double frametime = (double)1/fps;
-			timenext = Input::getTime();
-			if (timenext - timeprev > frametime)
-			{
-				timeprev = timenext;
-				Renderer::startRendererCall(m_window->getScreenWidth(), m_window->getScreenHeight());
+			timenext = Input::getProgramTime();
+			double deltatime = timenext - timeprev;
+			timeprev = timenext;
+			TimeStep ts(deltatime);
 
-				auto it = m_LayerManager.begin();
-				for (s_Layer layer = m_LayerManager(it); it < m_LayerManager.end(); it++)
-				{
-					layer->OnUpdate();
-				}
-				m_window->end();
+			Renderer::startRendererCall(m_window->getScreenWidth(), m_window->getScreenHeight());
+
+			auto it = m_LayerManager.begin();
+			for (s_Layer layer = m_LayerManager(it); it < m_LayerManager.end(); it++)
+			{
+				layer->OnUpdate(ts);
 			}
+			m_window->end();
 		}
 	}
 

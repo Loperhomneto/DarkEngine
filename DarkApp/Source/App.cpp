@@ -41,7 +41,7 @@ FooLayer::FooLayer()
 	Renderer::AddTexture("assets/textures/table.png", true, "table");
 }
 
-void FooLayer::OnUpdate()
+void FooLayer::OnUpdate(TimeStep ts)
 {
 	//Backdrop	
 	float width = Input::GetWindowWidth();
