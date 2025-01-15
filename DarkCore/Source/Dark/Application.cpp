@@ -35,6 +35,9 @@ namespace Dark {
 			{
 				layer->OnUpdate(ts);
 			}
+
+			Renderer::endRendererCall();
+
 			m_window->end();
 		}
 	}

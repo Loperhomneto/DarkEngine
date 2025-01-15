@@ -40,17 +40,20 @@ void FooLayer::OnUpdate(TimeStep ts)
 	//Backdrop	
 	float width = Input::GetWindowWidth();
 	float height = Input::GetWindowHeight();
-	Renderer::DrawBackDrop("floor");
 
-	//Tables
-	float s = width / 8;
-	for (float x = 0; x < width /*- (width / 4)*/; x += width / 4) {
-		for (float y = 0; y < height ; y += height / 4) {
-			glm::vec2 vert = glm::vec2(x + width / 8 - s / 2, y + height / 8 - s / 2);
-			glm::vec2 size = glm::vec2(s);
-			Renderer::Draw2DQuad(vert, size, "table");
-		}
-	}
+	Renderer::Draw2DQuad(glm::vec2(0, 0), glm::vec2(100, 100), glm::vec3(0.0f));
+
+	//Renderer::DrawBackDrop("floor");
+
+	////Tables
+	//float s = width / 8;
+	//for (float x = 0; x < width /*- (width / 4)*/; x += width / 4) {
+	//	for (float y = 0; y < height ; y += height / 4) {
+	//		glm::vec2 vert = glm::vec2(x + width / 8 - s / 2, y + height / 8 - s / 2);
+	//		glm::vec2 size = glm::vec2(s);
+	//		Renderer::Draw2DQuad(vert, size, "table");
+	//	}
+	//}
 }
 
 void FooLayer::OnEvent(Event& e)

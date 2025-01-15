@@ -2,6 +2,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include <iostream>
+#include <algorithm>
 
 namespace Dark {
 
@@ -10,6 +11,8 @@ namespace Dark {
 	TextureLibrary Renderer::texLib = TextureLibrary();
 	int Renderer::units = 0;
 	std::shared_ptr<Window> Renderer::m_window;
+	std::vector<float> Renderer::verts = std::vector<float>();
+	int Renderer::quads = 0;
 	
 	void Renderer::Init(std::shared_ptr<Window> window)
 	{
@@ -79,6 +82,72 @@ namespace Dark {
 
 		Shader1.Use();
 		units = 0;
+		verts = {};
+		quads = 0;
+	}
+
+	void Renderer::endRendererCall()
+	{
+		int vertsSize = verts.size()*sizeof(float);
+		float* vertices = &verts[0];
+		
+		std::vector<unsigned int> inds;
+		for (int i = 1; i <= quads; i++)
+		{
+			inds.push_back(0 * i);
+			inds.push_back(1 * i);
+			inds.push_back(3 * i);
+			inds.push_back(1 * i);
+			inds.push_back(2 * i);
+			inds.push_back(3 * i);
+		}
+		int indsSize = inds.size()*sizeof(unsigned int);
+		unsigned int* indices = &inds[0];
+		//glm::vec2 corner(0.0f);
+		//glm::vec2 size(100.0f);
+		//glm::vec3 color(0.5f);
+		//float vertices[] = {
+		//	corner.x + size.x, corner.y, 0.0f, color.x, color.y, color.z,  // top right
+		//	corner.x + size.x, corner.y + size.y, 0.0f, color.x, color.y, color.z,  // bottom right
+		//	corner.x, corner.y + size.y, 0.0f, color.x, color.y, color.z,  // bottom left
+		//	corner.x, corner.y, 0.0f, color.x, color.y, color.z   // top left 
+		//};
+		//unsigned int indices[] = {  // note that we start from 0!
+		//	0, 1, 3,  // first Triangle
+		//	1, 2, 3   // second Triangle
+		//};
+		//std::cout << sizeof(vertices) << " " << sizeof(indices) << std::endl;
+
+
+		unsigned int VBO, VAO, EBO;
+		glGenVertexArrays(1, &VAO);
+		// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+		glBindVertexArray(VAO);
+
+		glGenBuffers(1, &EBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indsSize, indices, GL_DYNAMIC_DRAW);
+
+		glGenBuffers(1, &VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, vertsSize, vertices, GL_DYNAMIC_DRAW);
+
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(1);
+
+		// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		// remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
+		// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, quads*6, GL_UNSIGNED_INT, 0);
 	}
 
 	Quad Renderer::DrawBackDrop(const glm::vec3 color)
@@ -103,8 +172,12 @@ namespace Dark {
 			corner.x, corner.y + size.y, 0.0f, color.x, color.y, color.z,  // bottom left
 			corner.x, corner.y, 0.0f, color.x, color.y, color.z   // top left 
 		};
+		verts.insert(verts.end(), std::begin(vertices), std::end(vertices));
+		quads++;
 
-		return privateDrawQuad(vertices, sizeof(vertices));
+		Quad quad(0);
+		return quad;
+		//return privateDrawQuad(vertices, sizeof(vertices));
 	}
 
 	Quad Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texName, glm::vec3 color)
@@ -115,8 +188,11 @@ namespace Dark {
 			corner.x,		   corner.y + size.y, 0.0f,	color.x, color.y, color.z, 0.0f, 0.0f, // bottom left
 			corner.x,          corner.y, 0.0f,			color.x, color.y, color.z, 0.0f, 1.0f // top left 
 		};
+		verts.insert(verts.end(), std::begin(vertices), std::end(vertices));
+		quads++;
 
-		return privateDrawTexturedQuad(vertices, sizeof(vertices), texName);
+		Quad quad(0);
+		return quad;
 	}
 
 	Quad Renderer::Draw2DQuad(const Quad& quad)
@@ -186,7 +262,6 @@ namespace Dark {
 
 	Quad Renderer::privateDrawTexturedQuad(float vertices[], float length, std::string texName)
 	{
-
 		unsigned int indices[] = {
 			0, 1, 3, // first triangle
 			1, 2, 3  // second triangle
@@ -230,7 +305,6 @@ namespace Dark {
 
 		return Quad(VAO, texture->getID());
 	}
-
 
 	void Renderer::AddTexture(std::string texSoure, bool alpha, std::string name)
 	{

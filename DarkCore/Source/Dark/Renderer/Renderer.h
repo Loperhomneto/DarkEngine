@@ -29,6 +29,7 @@ namespace Dark {
 	public:
 		static void Init(std::shared_ptr<Window> window);
 		static void startRendererCall(int width, int height);
+		static void endRendererCall();
 		static Quad DrawBackDrop(const glm::vec3 color);
 		static Quad DrawBackDrop(std::string texSource);
 		static Quad Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec3 color = glm::vec3(1.0f));
@@ -39,6 +40,8 @@ namespace Dark {
 		static Quad privateDrawQuad(float vertices[], float length);
 		static Quad privateDrawTexturedQuad(float vertices[], float length, std::string texSource);
 	private:
+		static std::vector<float> verts;
+		static int quads;
 		static Shader Shader1;
 		static Shader TextureShader;
 
