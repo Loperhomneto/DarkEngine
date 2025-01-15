@@ -11,17 +11,12 @@ App::App()
 
 FooLayer::FooLayer()
 {
-	// also maybe make it so that you draw a backdrop, and you wont have to keep updating that rect in the
-	// onupdate function in foolayer. Make it so that you only have to set a background through a function or in 
-	// the constructer of the foolayer.
-	// ability to make ur own texture. e.g. rotate a texture to make a new one or create a one by one white pixel
-	// VertexAttrib should be not always have to be created, sometimes it should be replaced with a simple
-	// glm::vec2 for the position of the rectangle
+	// how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
+	// spritesheets/how to render them
 	// add profiling, not sure if something is taking a really long time to render
 	// BATCH RENDERING!!!!
 	// text rendering
-	// how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
-	// spritesheets/how to render them
+	// ability to make ur own texture. e.g. rotate a texture to make a new one or create a one by one white pixel
 
 
 	//init
