@@ -11,6 +11,7 @@ App::App()
 
 FooLayer::FooLayer()
 {
+	// add rotated quads
 	// how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
 	// spritesheets/how to render them
 	// add profiling, not sure if something is taking a really long time to render
@@ -41,7 +42,9 @@ void FooLayer::OnUpdate(TimeStep ts)
 	float width = Input::GetWindowWidth();
 	float height = Input::GetWindowHeight();
 
-	Renderer::Draw2DQuad(glm::vec2(0, 0), glm::vec2(100, 100), glm::vec3(0.0f));
+	Renderer::Draw2DQuad(glm::vec2(0, 0), glm::vec2(100, 100), glm::vec3(1.0f));
+
+	Renderer::Draw2DQuad(glm::vec2(100, 100), glm::vec2(100, 100), glm::vec3(1.0f));
 
 	//Renderer::DrawBackDrop("floor");
 
