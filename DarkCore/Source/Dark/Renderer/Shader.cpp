@@ -63,6 +63,10 @@ namespace Dark
     {
         glUniform1i(glGetUniformLocation(m_shaderProgram, name.c_str()), value);
     }
+    void Shader::setIntArray(const std::string& name, int* values, int count) const
+    {
+        glUniform1iv(glGetUniformLocation(m_shaderProgram, name.c_str()), count, values);
+    }
     // ------------------------------------------------------------------------
     void Shader::setFloat(const std::string& name, float value) const
     {

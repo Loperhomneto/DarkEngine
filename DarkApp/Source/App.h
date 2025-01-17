@@ -19,12 +19,4 @@ public:
 	//void EventWindowResize(WindowResizeEvent& e);
 
 	//game logic
-private:
-	Quad floor;
-	Quad up1;
-	Quad up2;
-	Quad any1;
-	Quad any2;
-	Quad idle1;
-	Quad idle2;
 };

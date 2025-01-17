@@ -12,9 +12,9 @@ namespace Dark
 		this->source = source;
 		this->alpha = alpha;
 		m_texture = 0;
-	}
-	void Texture::Create()
-	{
+
+		stbi_set_flip_vertically_on_load(1);
+
 		glGenTextures(1, &m_texture);
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 		// set the texture wrapping parameters
@@ -29,9 +29,9 @@ namespace Dark
 		// The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
 
 		int rgb = GL_RGB;
-		if (alpha == true) 
+		if (alpha == true)
 		{
-			rgb = GL_RGBA; 
+			rgb = GL_RGBA;
 		}
 
 		unsigned char* data = stbi_load(source.c_str(), &width, &height, &nrChannels, 0);
@@ -46,9 +46,9 @@ namespace Dark
 		}
 		stbi_image_free(data);
 	}
+
 	void Texture::Bind(int unit)
 	{
-		glActiveTexture(GL_TEXTURE0+unit);
-		glBindTexture(GL_TEXTURE_2D, m_texture);
+		glBindTextureUnit(unit, m_texture);
 	}
 }

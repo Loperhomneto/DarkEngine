@@ -8,7 +8,6 @@ namespace Dark
 	public:
 		Texture(std::string source, bool alpha);
 	
-		void Create();
 		void Bind(int unit);
 
 		unsigned int getID() { return m_texture; }
