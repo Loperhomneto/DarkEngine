@@ -3,6 +3,7 @@
 #include "stb_image.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "Dark/Core.h"
 #include <iostream>
 
 namespace Dark
@@ -42,7 +43,7 @@ namespace Dark
 		}
 		else
 		{
-			std::cout << "Failed to load texture" << std::endl;
+			DK_CORE_ERROR("Failed to load texture");
 		}
 		stbi_image_free(data);
 	}

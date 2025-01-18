@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "Dark/Core.h"
 #include <iostream>
 
 namespace Dark
@@ -20,7 +21,7 @@ namespace Dark
 
 		if (window == NULL)
 		{
-			std::cout << "Failed to create GLFW window" << std::endl;
+			DK_CORE_ERROR("Failed to create GLFW window");
 			glfwTerminate();
 		}
 		glfwMakeContextCurrent(window);
@@ -28,7 +29,7 @@ namespace Dark
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
-			std::cout << "Failed to initialize GLAD" << std::endl;
+			DK_CORE_ERROR("Failed to initialize GLAD");
 		}
 
 		m_data.eventCallback = func;
