@@ -191,7 +191,6 @@ namespace Dark {
 		for (int i = 0; i < data.batchdata.texIndex; i++)
 		{
 			std::shared_ptr<Texture> tex = data.texLib.LoadTexture(data.batchdata.textures[i]);
-			std::cout << data.batchdata.textures[i] << " " << i << std::endl;
 			tex->Bind(i);
 		}
 

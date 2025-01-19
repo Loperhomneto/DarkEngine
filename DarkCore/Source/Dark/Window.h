@@ -18,8 +18,6 @@ namespace Dark
 
 		void ShutDown();
 	private:
-		int fps;
-
 		GLFWwindow* window;
 
 		struct DATA

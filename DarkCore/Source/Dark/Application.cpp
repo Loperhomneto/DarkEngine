@@ -2,6 +2,7 @@
 #include "Renderer/Renderer.h"
 #include "Input.h"
 #include "TimeStep.h"
+#include "Core.h"
 #include <iostream>
 #include <functional>
 
@@ -18,7 +19,7 @@ namespace Dark {
 		m_window = std::shared_ptr<Window>(new Window(DARK_BIND_FN(OnEvent), "New Window", 800, 600));
 		Renderer::Init(m_window);
 	}
-
+	
 	void Application::Run()
 	{
 		while (m_running) 

@@ -30,18 +30,18 @@ project "DarkCore"
        defines { }
 
    filter "configurations:Debug"
-       defines { "DEBUG" }
+       defines { "DK_DEBUG" }
        runtime "Debug"
        symbols "On"
 
    filter "configurations:Release"
-       defines { "RELEASE" }
+       defines { "DK_RELEASE" }
        runtime "Release"
        optimize "On"
        symbols "On"
 
    filter "configurations:Dist"
-       defines { "DIST" }
+       defines { "DK_DIST" }
        runtime "Release"
        optimize "On"
        symbols "Off"
