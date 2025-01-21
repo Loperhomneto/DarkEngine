@@ -15,6 +15,7 @@ namespace Dark {
 
 	void LayerManager::popLayer(s_Layer& layer)
 	{
+		layer->OnDetach();
 		auto it = std::find(m_layers.begin(), m_layers.end(), layer);
 		if (it != m_layers.end())
 		{

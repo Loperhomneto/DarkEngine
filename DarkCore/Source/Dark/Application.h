@@ -13,9 +13,9 @@ namespace Dark {
 		Application();
 		virtual ~Application() = default;
 		
-		void pushLayer(s_Layer& layer);
-		void pushLayerEnd(s_Layer& layer);
-		void popLayer(s_Layer& layer);
+		void pushLayer(std::shared_ptr<Layer>& layer);
+		void pushLayerEnd(std::shared_ptr<Layer>& layer);
+		void popLayer(std::shared_ptr<Layer>& layer);
 
 		void OnEvent(Event& e);
 		void OnWindowClose(WindowCloseEvent& e);
@@ -30,6 +30,7 @@ namespace Dark {
 		double timeprev = 0.0;
 		int capfps = 540;
 
+		//TODO: make LayerManager shared_ptr
 		std::shared_ptr<Window> m_window;
 		LayerManager m_LayerManager;
 		std::shared_ptr<Layer> m_ImGuiLayer;

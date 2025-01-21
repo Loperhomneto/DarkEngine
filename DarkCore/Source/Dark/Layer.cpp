@@ -2,16 +2,5 @@
 
 namespace Dark
 {
-
-	Layer::Layer()
-	{
-		Layer::OnAttach();
-	}
-
-	Layer::~Layer()
-	{
-		Layer::OnDetach();
-	}
-
 }
 	

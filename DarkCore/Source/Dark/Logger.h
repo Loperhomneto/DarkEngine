@@ -1,5 +1,4 @@
 #pragma once
-
 #include "spdlog/spdlog.h"
 
 #define DK_CORE_TRACE(...) spdlog::trace(__VA_ARGS__);

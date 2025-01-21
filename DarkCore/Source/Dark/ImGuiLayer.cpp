@@ -5,6 +5,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Dark/Core.h"
+#include <iostream>
 
 namespace Dark
 {
@@ -27,6 +28,7 @@ namespace Dark
         ImGui_ImplOpenGL3_Init("#version 330");
 
         DK_CORE_INFO("I like men");
+        std::cout << "I like men" << std::endl;
 	}
 
     void ImGuiLayer::OnDetach()

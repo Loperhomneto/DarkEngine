@@ -12,7 +12,7 @@ public:
 class FooLayer : public Layer
 {
 public:
-	FooLayer();
+	virtual void OnAttach() override;
 
 	virtual void OnUpdate(TimeStep ts) override;
 	virtual void OnEvent(Event& e) override;

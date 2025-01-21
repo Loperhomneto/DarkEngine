@@ -8,19 +8,21 @@ App::App()
 	pushLayer(layer);
 }
 
-
-FooLayer::FooLayer()
+void FooLayer::OnAttach()
 {
+	//DK_INFO("onattach app");
+	std::cout << "onattach app" << std::endl;
+
 	// add rotated quads
-	// how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
-	// spritesheets/how to render them
-	// add profiling, not sure if something is taking a really long time to render
-	// BATCH RENDERING!!!!
-	// text rendering
-	// ability to make ur own texture. e.g. rotate a texture to make a new one or create a one by one white pixel
+// how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
+// spritesheets/how to render them
+// add profiling, not sure if something is taking a really long time to render
+// BATCH RENDERING!!!!
+// text rendering
+// ability to make ur own texture. e.g. rotate a texture to make a new one or create a one by one white pixel
 
 
-	//init
+//init
 	SoundEngine::AddSound("assets/sounds/explosion.wav", "explosion");
 
 	Renderer::AddTexture("assets/textures/container.jpg", false, "container");

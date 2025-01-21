@@ -21,7 +21,7 @@ namespace Dark {
 		Renderer::Init(m_window);
 
 		m_ImGuiLayer = std::make_shared<Layer>();
-		m_LayerManager.pushLayer(m_ImGuiLayer);
+		pushLayer(m_ImGuiLayer);
 	}
 	
 	void Application::Run()
@@ -63,23 +63,26 @@ namespace Dark {
 		Shutdown();
 	}
 
-	void Application::pushLayer(s_Layer& layer)
+	void Application::pushLayer(std::shared_ptr<Layer>& layer)
 	{
 		m_LayerManager.pushLayer(layer);
+		layer->OnAttach();
 	}
 
-	void Application::pushLayerEnd(s_Layer& layer)
+	void Application::pushLayerEnd(std::shared_ptr<Layer>& layer)
 	{
 		m_LayerManager.pushLayerEnd(layer);
 	}
 
-	void Application::popLayer(s_Layer& layer)
+	void Application::popLayer(std::shared_ptr<Layer>& layer)
 	{
 		m_LayerManager.popLayer(layer);
+		layer->OnDetach();
 	}
 
 	void Application::Shutdown()
 	{
+		//TODO: ondeatch all layers
 		m_window->ShutDown();
 		m_running = false;
 	}
