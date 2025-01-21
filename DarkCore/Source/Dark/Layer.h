@@ -6,8 +6,11 @@ namespace Dark {
 	class Layer
 	{
 	public:
-		Layer() {};
-		virtual ~Layer() {};
+		Layer();
+		virtual ~Layer();
+
+		void virtual OnAttach() {};
+		void virtual OnDetach() {};
 
 		void virtual OnUpdate(TimeStep ts) {};
 		void virtual OnEvent(Event& e) {};
