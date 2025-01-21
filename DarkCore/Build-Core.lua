@@ -9,7 +9,7 @@ project "DarkCore"
 
    includedirs
    {
-      "Source", "../Vendor/Glad/include", "../Vendor/glfw/include", "../Vendor/glm/glm", "../Vendor/stb", "../Vendor/Irrklang/include", "../Vendor/spdlog/include", "../Vendor/imgui"
+      "Source", "../Vendor/Glad/include", "../Vendor/glfw/include", "../Vendor/glm/glm", "../Vendor/stb", "../Vendor/Irrklang/include", "../Vendor/spdlog/include", "../Vendor/imgui", "../Vendor/imgui/backends"
    }
 
    libdirs
@@ -19,7 +19,7 @@ project "DarkCore"
 
    links
    {
-       "GLFW", "opengl32.lib", "Glad", "irrKlang.lib"
+       "GLFW", "opengl32.lib", "Glad", "irrKlang.lib", "ImGui"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")

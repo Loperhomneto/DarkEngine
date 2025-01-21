@@ -1,7 +1,7 @@
 #include "ImGuiLayer.h"
 #include "imgui.h"
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Dark/Core.h"
@@ -26,9 +26,6 @@ namespace Dark
         GLFWwindow* window = glfwGetCurrentContext();
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 330");
-
-        DK_CORE_INFO("I like men");
-        std::cout << "I like men" << std::endl;
 	}
 
     void ImGuiLayer::OnDetach()
@@ -49,6 +46,10 @@ namespace Dark
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+
+    void ImGuiLayer::OnEvent(Event& e)
+    {
     }
 
 }

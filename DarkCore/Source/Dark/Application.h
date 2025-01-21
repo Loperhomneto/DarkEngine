@@ -33,7 +33,6 @@ namespace Dark {
 		//TODO: make LayerManager shared_ptr
 		std::shared_ptr<Window> m_window;
 		LayerManager m_LayerManager;
-		std::shared_ptr<Layer> m_ImGuiLayer;
 	};
 
 	Application* CreateApplication();

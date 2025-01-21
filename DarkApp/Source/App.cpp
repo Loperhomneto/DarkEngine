@@ -11,7 +11,6 @@ App::App()
 void FooLayer::OnAttach()
 {
 	//DK_INFO("onattach app");
-	std::cout << "onattach app" << std::endl;
 
 	// add rotated quads
 // how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
