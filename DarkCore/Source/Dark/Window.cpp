@@ -2,7 +2,6 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Dark/Core.h"
-#include <iostream>
 
 namespace Dark
 {

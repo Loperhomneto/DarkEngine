@@ -1,5 +1,4 @@
 #include "App.h"
-#include <cstdlib>
 using namespace Dark;
 
 App::App()
