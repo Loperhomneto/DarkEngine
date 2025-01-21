@@ -8,8 +8,10 @@ namespace Dark
 	{
 	public:
 		virtual void OnAttach() override;
-		void virtual OnUpdate(TimeStep ts) {};
-		void virtual OnEvent(Event& e) {};
-	};
+		virtual void OnDetach() override;
+
+		virtual void OnUpdate(TimeStep ts);
+		virtual void OnEvent(Event& e);
+	};			
 
 }
