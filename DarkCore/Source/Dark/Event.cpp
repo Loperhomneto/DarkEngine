@@ -1,6 +1,7 @@
 #pragma once
+#include "dkpch.h"
 #include "Event.h"
-#include <functional>
+#include "Dark/Core.h"
 
 namespace Dark
 {

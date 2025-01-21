@@ -1,9 +1,9 @@
+#include "dkpch.h"
+#include "Dark/Core.h"
 #include "Application.h"
 #include "Renderer/Renderer.h"
 #include "Input.h"
 #include "TimeStep.h"
-#include "Core.h"
-#include <functional>
 
 
 //std::bind(&Application::OnEvent, this, std::placeholders::_1)

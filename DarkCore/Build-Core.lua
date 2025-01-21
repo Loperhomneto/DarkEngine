@@ -5,7 +5,13 @@ project "DarkCore"
    targetdir "Binaries/%{cfg.buildcfg}"
    staticruntime "off"
 
-   files { "Source/**.h", "Source/**.cpp" }
+   targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
+   objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
+
+   pchheader "dkpch.h"
+   pchsource "Source/dkpch.cpp"
+
+   files { "Source/**.h", "Source/**.cpp" }	
 
    includedirs
    {
@@ -21,9 +27,6 @@ project "DarkCore"
    {
        "GLFW", "opengl32.lib", "Glad", "irrKlang.lib", "ImGui"
    }
-
-   targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
-   objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
    filter "system:windows"
        systemversion "latest"

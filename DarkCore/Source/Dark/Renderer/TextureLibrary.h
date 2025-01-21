@@ -1,8 +1,7 @@
 #pragma once
-
+#include "dkpch.h"
 #include "Texture.h"
-#include <memory>
-#include <unordered_map>
+#include "Dark/Core.h"
 
 namespace Dark
 {

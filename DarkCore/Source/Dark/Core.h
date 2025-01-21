@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Logger.h"
 
 #ifdef DK_DEBUG

@@ -1,9 +1,9 @@
 #pragma once
-#include <memory>
 #include "Event.h"
 #include "Window.h"
 #include "LayerManager.h"
 #include "Layer.h"
+#include "Dark/Core.h"
 
 namespace Dark {
 

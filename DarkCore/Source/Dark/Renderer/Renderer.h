@@ -2,7 +2,7 @@
 #include "Shader.h"
 #include "TextureLibrary.h"
 #include "Dark/Window.h"
-#include <memory>
+#include "Dark/Core.h"
 
 namespace Dark {
 

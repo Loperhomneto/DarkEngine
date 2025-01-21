@@ -1,5 +1,6 @@
+#include "dkpch.h"
 #include "LayerManager.h"
-#include <algorithm>
+#include "Dark/Core.h"
 
 namespace Dark {
 
@@ -24,5 +25,3 @@ namespace Dark {
 	}
 
 }
-
-

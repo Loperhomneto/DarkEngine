@@ -1,9 +1,9 @@
+#include "dkpch.h"
 #include "Renderer.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "ImGuiRenderer.h"
-#include <algorithm>
-#include <array>
+#include "Dark/Core.h"
 
 namespace Dark {
 
