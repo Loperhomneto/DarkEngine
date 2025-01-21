@@ -12,7 +12,7 @@ void FooLayer::OnAttach()
 {
 	//Logger::info("onattach app");
 
-	//TODO: refs, camera, imgui, framebuffers, unity like editor, overlay with layers
+	//TODO: refs, camera, imgui, framebuffers, unity like editor, overlay with layers, precompiled headers
 	// add rotated quads
 // how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
 // spritesheets/how to render them
