@@ -10,7 +10,7 @@ App::App()
 
 void FooLayer::OnAttach()
 {
-	//Logger::info("onattach app");
+	Logger::info("onattach app");
 
 	//TODO: refs, camera, imgui, framebuffers, unity like editor, overlay with layers, precompiled headers
 	// add rotated quads

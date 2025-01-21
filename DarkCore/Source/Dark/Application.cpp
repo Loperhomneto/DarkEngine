@@ -41,7 +41,7 @@ namespace Dark {
 
 			m_window->end();
 
-			Logger::info("geegerbis");
+			Logger::info("geegerbis", "good for bludington");
 		}
 	}
 
