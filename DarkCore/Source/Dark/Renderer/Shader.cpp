@@ -21,7 +21,7 @@ namespace Dark
         if (!success)
         {
             glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-            DK_CORE_ERROR("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n", infoLog);
+            Logger::error("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n", infoLog);
         }
         // fragment shader
         const char* fShaderSource = fShader.c_str();
@@ -33,7 +33,7 @@ namespace Dark
         if (!success)
         {
             glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-            DK_CORE_ERROR("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n", infoLog);
+            Logger::error("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n", infoLog);
         }
         // link shaders
         m_shaderProgram = glCreateProgram();
@@ -44,7 +44,7 @@ namespace Dark
         glGetProgramiv(m_shaderProgram, GL_LINK_STATUS, &success);
         if (!success) {
             glGetProgramInfoLog(m_shaderProgram, 512, NULL, infoLog);
-            DK_CORE_ERROR("ERROR::SHADER::PROGRAM::LINKING_FAILED\n", infoLog);
+            Logger::error("ERROR::SHADER::PROGRAM::LINKING_FAILED\n", infoLog);
         }
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);

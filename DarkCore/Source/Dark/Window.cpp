@@ -21,7 +21,7 @@ namespace Dark
 
 		if (window == NULL)
 		{
-			DK_CORE_ERROR("Failed to create GLFW window");
+			Logger::error("Failed to create GLFW window");
 			glfwTerminate();
 		}
 		glfwMakeContextCurrent(window);
@@ -29,7 +29,7 @@ namespace Dark
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
-			DK_CORE_ERROR("Failed to initialize GLAD");
+			Logger::error("Failed to initialize GLAD");
 		}
 
 		m_data.eventCallback = func;

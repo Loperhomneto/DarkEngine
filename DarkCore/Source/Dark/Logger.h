@@ -1,14 +1,41 @@
 #pragma once
 #include "spdlog/spdlog.h"
 
-#define DK_CORE_TRACE(...) spdlog::trace(__VA_ARGS__);
-#define DK_CORE_INFO(...) spdlog::info(__VA_ARGS__);
-#define DK_CORE_WARN(...) spdlog::warn(__VA_ARGS__);
-#define DK_CORE_ERROR(...) spdlog::error(__VA_ARGS__);
-#define DK_CORE_CRITICAL(...) spdlog::critical(__VA_ARGS__);
+namespace Dark
+{
 
-#define DK_TRACE(...) spdlog::trace(__VA_ARGS__);
-#define DK_INFO(...) spdlog::info(__VA_ARGS__);
-#define DK_WARN(...) spdlog::warn(__VA_ARGS__);
-#define DK_ERROR(...) spdlog::error(__VA_ARGS__);
-#define DK_CRITICAL(...) spdlog::critical(_VA__ARGS__);
+	class Logger
+	{
+	public:
+		template<typename String, typename ... Strings>
+		static void trace(String var1, const Strings&... var2)
+		{
+			spdlog::trace(var1);
+		}
+
+		template<typename String, typename ... Strings>
+		static void info(String var1, const Strings&... var2)
+		{
+			spdlog::info(var1);
+		}
+
+		template<typename String, typename ... Strings>
+		static void warn(String var1, const Strings&... var2)
+		{
+			spdlog::warn(var1);
+		};
+
+		template<typename String, typename ... Strings>
+		static void error(String var1, const Strings&... var2)
+		{
+			spdlog::error(var1);
+		};
+
+		template<typename String, typename ... Strings>
+		static void critical(String var1, const Strings&... var2)
+		{
+			spdlog::critical(var1);
+		};
+	};
+
+}

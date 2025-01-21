@@ -40,6 +40,8 @@ namespace Dark {
 			Renderer::endRendererCall();
 
 			m_window->end();
+
+			Logger::info("geegerbis");
 		}
 	}
 

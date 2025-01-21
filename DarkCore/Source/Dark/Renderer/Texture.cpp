@@ -43,7 +43,7 @@ namespace Dark
 		}
 		else
 		{
-			DK_CORE_ERROR("Failed to load texture");
+			Logger::error("Failed to load texture");
 		}
 		stbi_image_free(data);
 	}

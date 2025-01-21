@@ -5,6 +5,6 @@
 #include "Dark/EntryPoint.h"
 #include "Dark/SoundEngine.h"
 #include "Dark/Input.h"
-//TODO: add logger and fix issue wiht spdlog
+//#include "Dark/Logger.h"
 
 #define BIND_FN(x) std::bind(x, this, std::placeholders::_1)
