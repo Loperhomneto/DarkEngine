@@ -3,6 +3,7 @@
 #include "Event.h"
 #include "Window.h"
 #include "LayerManager.h"
+#include "Layer.h"
 
 namespace Dark {
 
@@ -31,6 +32,7 @@ namespace Dark {
 
 		std::shared_ptr<Window> m_window;
 		LayerManager m_LayerManager;
+		std::shared_ptr<Layer> m_ImGuiLayer;
 	};
 
 	Application* CreateApplication();

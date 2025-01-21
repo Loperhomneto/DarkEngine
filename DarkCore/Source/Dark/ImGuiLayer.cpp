@@ -4,6 +4,7 @@
 #include "backends/imgui_impl_opengl3.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "Dark/Core.h"
 
 namespace Dark
 {
@@ -24,6 +25,8 @@ namespace Dark
         GLFWwindow* window = glfwGetCurrentContext();
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 330");
+
+        DK_CORE_INFO("I like men");
 	}
 
     void ImGuiLayer::OnDetach()
