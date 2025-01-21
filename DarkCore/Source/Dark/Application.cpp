@@ -78,7 +78,6 @@ namespace Dark {
 
 	void Application::Shutdown()
 	{
-		//TODO: ondeatch all layers
 		m_window->ShutDown();
 		m_running = false;
 	}
