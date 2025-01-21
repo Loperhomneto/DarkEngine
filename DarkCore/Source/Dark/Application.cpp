@@ -3,7 +3,6 @@
 #include "Input.h"
 #include "TimeStep.h"
 #include "Core.h"
-#include "ImGuiLayer.h"
 #include <iostream>
 #include <functional>
 
@@ -19,9 +18,6 @@ namespace Dark {
 	{
 		m_window = std::shared_ptr<Window>(new Window(DARK_BIND_FN(OnEvent), "New Window", 800, 600));
 		Renderer::Init(m_window);
-
-		std::shared_ptr<Layer> m_ImGuiLayer = std::make_shared<ImGuiLayer>();
-		pushLayer(m_ImGuiLayer);
 	}
 	
 	void Application::Run()

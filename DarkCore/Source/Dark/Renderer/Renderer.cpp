@@ -1,7 +1,7 @@
 #include "Renderer.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-#include <iostream>
+#include "ImGuiRenderer.h"
 #include <algorithm>
 #include <array>
 
@@ -38,6 +38,8 @@ namespace Dark {
 		std::shared_ptr<Window> m_window;
 
 		BatchData batchdata;
+
+		std::shared_ptr<ImGuiRenderer> imGuiRenderer;
 	} data;
 	
 	void Renderer::Init(std::shared_ptr<Window> window)
@@ -76,6 +78,8 @@ namespace Dark {
 
 		 glEnable(GL_BLEND);
 		 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		 data.imGuiRenderer->Init();
 	}
 
 	void Renderer::startRendererCall(int width, int height)
@@ -96,12 +100,16 @@ namespace Dark {
 		data.batchdata.vertsStart = new Vertex[data.batchdata.MaxVertices];
 		data.batchdata.vertsPtr = data.batchdata.vertsStart;
 		data.batchdata.texIndex = 0.0f;
+
+		data.imGuiRenderer->StartRendererCall();
 	}
 
 	void Renderer::endRendererCall()
 	{
 		flushBatch();
 		delete data.batchdata.vertsStart;
+
+		data.imGuiRenderer->EndRendererCall();
 	}
 
 	void Renderer::DrawBackDrop(const glm::vec3 color)
