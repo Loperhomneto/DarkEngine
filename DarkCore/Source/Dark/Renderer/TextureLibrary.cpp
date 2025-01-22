@@ -1,3 +1,4 @@
+#include "dkpch.h"
 #include "TextureLibrary.h"
 
 namespace Dark
@@ -21,5 +22,3 @@ namespace Dark
 	}
 
 }
-
-
