@@ -41,13 +41,12 @@ void FooLayer::OnUpdate(TimeStep ts)
 	float width = Input::GetWindowWidth();
 	float height = Input::GetWindowHeight();
 
-	Renderer::Draw2DQuad(glm::vec2(200, 200), glm::vec2(100, 100), "container");
-	Renderer::Draw2DQuad(glm::vec2(0, 0), glm::vec2(200, 200), "papiface");
-	Renderer::Draw2DQuad(glm::vec2(300, 300), glm::vec2(300, 300), "papiface");
+	//Renderer::Draw2DQuad(glm::vec2(200, 200), glm::vec2(100, 100), "container");
+	//Renderer::Draw2DQuad(glm::vec2(0, 0), glm::vec2(200, 200), "papiface");
+	//Renderer::Draw2DQuad(glm::vec2(300, 300), glm::vec2(300, 300), "papiface");
 
 
 	//Renderer::Draw2DQuad(glm::vec2(0, 0), glm::vec2(100, 100), glm::vec3(1.0f));
-
 	//Renderer::Draw2DQuad(glm::vec2(100, 100), glm::vec2(100, 100), glm::vec3(1.0f));
 
 	//Renderer::DrawBackDrop("floor");
@@ -69,7 +68,7 @@ void FooLayer::OnEvent(Event& e)
 
 	if (Event::CheckEvent(EventTypes::KeyInput, e))
 	{
-		SoundEngine::PlaySound("explosion", 0.1);
+		//SoundEngine::PlaySound("explosion", 0.1);
 	}
 
 }

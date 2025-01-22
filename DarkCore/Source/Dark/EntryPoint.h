@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Application.h"
 
 extern Dark::Application* Dark::CreateApplication();

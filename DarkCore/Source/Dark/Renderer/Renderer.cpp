@@ -87,6 +87,7 @@ namespace Dark {
 	void Renderer::DeInit()
 	{
 		delete[] data.batchdata.vertsStart;
+		data.imGuiRenderer->Shutdown();
 	}
 
 	void Renderer::startRendererCall(int width, int height)

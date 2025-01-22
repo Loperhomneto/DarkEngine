@@ -17,6 +17,10 @@ namespace Dark {
 	{
 		m_window = std::make_shared<Window>(DARK_BIND_FN(OnEvent), "New Window", 800, 600);
 		Renderer::Init(m_window);
+
+#ifdef DK_DEBUG
+		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
 	}
 	
 	void Application::Run()

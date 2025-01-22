@@ -8,6 +8,9 @@ workspace "DarkEngine"
    filter "system:windows"
       buildoptions { "/EHsc", "/Zc:preprocessor", "/Zc:__cplusplus", "/utf-8" }
 
+   filter "configurations:Debug"
+       defines { "_CRTDBG_MAP_ALLOC" }
+
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
 include "DarkCore/Build-Core.lua"
