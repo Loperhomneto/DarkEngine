@@ -10,7 +10,7 @@ namespace Dark
 
 	void TextureLibrary::AddTexture(std::string texSource, bool alpha, std::string name)
 	{
-		std::shared_ptr<Texture> texture = std::shared_ptr<Texture>(new Texture(texSource, alpha));
+		std::shared_ptr<Texture> texture = std::make_shared<Texture>(texSource, alpha);
 
 		m_textures[name] = texture;
 	}

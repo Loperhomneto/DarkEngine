@@ -107,7 +107,7 @@ namespace Dark {
 	void Renderer::endRendererCall()
 	{
 		flushBatch();
-		delete data.batchdata.vertsStart;
+		delete[] data.batchdata.vertsStart;
 
 		data.imGuiRenderer->EndRendererCall();
 	}
