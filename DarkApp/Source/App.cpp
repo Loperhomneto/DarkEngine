@@ -11,13 +11,11 @@ void FooLayer::OnAttach()
 {
 	Logger::info("onattach app");
 
-	//TODO: camera, imgui, framebuffers, unity like editor
-	// add rotated quads
+//TODO: camera, imgui, framebuffers, unity like editor
+// add rotated quads
 // how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
 // spritesheets/how to render them
 // add profiling, not sure if something is taking a really long time to render
-// BATCH RENDERING!!!!
-// text rendering
 // ability to make ur own texture. e.g. rotate a texture to make a new one or create a one by one white pixel
 
 
