@@ -80,6 +80,13 @@ namespace Dark {
 		 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		 data.imGuiRenderer->Init();
+
+		 data.batchdata.vertsStart = new Vertex[data.batchdata.MaxVertices];
+	}
+
+	void Renderer::DeInit()
+	{
+		delete[] data.batchdata.vertsStart;
 	}
 
 	void Renderer::startRendererCall(int width, int height)
@@ -97,7 +104,6 @@ namespace Dark {
 		}
 		data.TextureShader.setIntArray("u_Textures", samplers, data.batchdata.MaxTextures);
 
-		data.batchdata.vertsStart = new Vertex[data.batchdata.MaxVertices];
 		data.batchdata.vertsPtr = data.batchdata.vertsStart;
 		data.batchdata.texIndex = 0.0f;
 
@@ -107,7 +113,7 @@ namespace Dark {
 	void Renderer::endRendererCall()
 	{
 		flushBatch();
-		delete[] data.batchdata.vertsStart;
+		//delete[] data.batchdata.vertsStart;
 
 		data.imGuiRenderer->EndRendererCall();
 	}

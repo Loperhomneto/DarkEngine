@@ -78,6 +78,7 @@ namespace Dark {
 
 	void Application::Shutdown()
 	{
+		Renderer::DeInit();
 		m_window->ShutDown();
 		m_running = false;
 	}
