@@ -235,7 +235,7 @@ namespace Dark {
 		unsigned int* indices = new unsigned int[data.batchdata.MaxIndices];
 
 		unsigned int offset = 0;
-		for (int i = 0; i < data.batchdata.QuadCount * 6; i += 6)
+		for (int i = 0; i < (data.batchdata.QuadCount+1) * 6; i += 6)
 		{
 			indices[i + 0] = offset + 0;
 			indices[i + 1] = offset + 1;
@@ -288,7 +288,7 @@ namespace Dark {
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, data.batchdata.QuadCount * 6, GL_UNSIGNED_INT, 0);
 
-		delete indices;
+		delete[] indices;
 	}
 
 	void Renderer::AddTexture(std::string texSoure, bool alpha, std::string name)
