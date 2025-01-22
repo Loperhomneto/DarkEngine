@@ -67,7 +67,7 @@ void FooLayer::OnEvent(Event& e)
 {
 	//Event::CheckEventFunc<WindowResizeEvent>(e, BIND_FN(&FooLayer::EventWindowResize));
 
-	if (Event::CheckEvent(EventTypes::MouseOnClick, e))
+	if (Event::CheckEvent(EventTypes::KeyInput, e))
 	{
 		SoundEngine::PlaySound("explosion", 0.1);
 	}

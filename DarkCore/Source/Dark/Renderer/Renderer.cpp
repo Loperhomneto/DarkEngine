@@ -238,10 +238,10 @@ namespace Dark {
 		//};
 		//std::cout << sizeof(vertices) << " " << sizeof(indices) << std::endl;
 
-		unsigned int* indices = new unsigned int[data.batchdata.MaxIndices];
+		unsigned int* indices = new unsigned int[data.batchdata.QuadCount * 6];
 
 		unsigned int offset = 0;
-		for (int i = 0; i < (data.batchdata.QuadCount+1) * 6; i += 6)
+		for (int i = 0; i < (data.batchdata.QuadCount) * 6; i += 6)
 		{
 			indices[i + 0] = offset + 0;
 			indices[i + 1] = offset + 1;
