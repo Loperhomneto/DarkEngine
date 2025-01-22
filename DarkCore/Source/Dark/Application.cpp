@@ -69,6 +69,7 @@ namespace Dark {
 	void Application::pushLayerEnd(std::shared_ptr<Layer>& layer)
 	{
 		m_LayerManager.pushLayerEnd(layer);
+		layer->OnAttach();
 	}
 
 	void Application::popLayer(std::shared_ptr<Layer>& layer)
