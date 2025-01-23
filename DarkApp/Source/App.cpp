@@ -17,7 +17,6 @@ void FooLayer::OnAttach()
 // how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
 // spritesheets/how to render them
 // add profiling, not sure if something is taking a really long time to render
-// ability to make ur own texture. e.g. rotate a texture to make a new one or create a one by one white pixel
 
 
 //init
@@ -42,12 +41,12 @@ void FooLayer::OnUpdate(TimeStep ts)
 	//float width = Input::GetWindowWidth();
 	//float height = Input::GetWindowHeight();
 
-	//Renderer::Draw2DQuad(glm::vec2(200, 200), glm::vec2(100, 100), "container");
-	//Renderer::Draw2DQuad(glm::vec2(0, 0), glm::vec2(200, 200), "papiface");
-	//Renderer::Draw2DQuad(glm::vec2(300, 300), glm::vec2(300, 300), "papiface");
+	Renderer::Draw2DQuad(glm::vec2(400, 200), glm::vec2(200, 200), glm::vec4(0.8f, 0.8f, 0.8f, 0.5f));
+	Renderer::Draw2DQuad(glm::vec2(100, 100), glm::vec2(100, 100), glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
 
-	Renderer::Draw2DQuad(glm::vec2(400, 200), glm::vec2(200, 200), glm::vec3(1.0f));
-	Renderer::Draw2DQuad(glm::vec2(100, 100), glm::vec2(100, 100), glm::vec3(1.0f));
+	Renderer::Draw2DQuad(glm::vec2(200, 200), glm::vec2(100, 100), "container");
+	Renderer::Draw2DQuad(glm::vec2(0, 0), glm::vec2(200, 200), "papiface");
+	Renderer::Draw2DQuad(glm::vec2(300, 300), glm::vec2(300, 300), "papiface");
 
 	//Renderer::DrawBackDrop("floor");
 

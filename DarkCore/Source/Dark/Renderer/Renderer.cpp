@@ -10,7 +10,7 @@ namespace Dark {
 	struct Vertex
 	{
 		glm::vec3 position;
-		glm::vec3 color;
+		glm::vec4 color;
 		glm::vec2 texCoords;
 		float texIndex;
 	};
@@ -50,10 +50,10 @@ namespace Dark {
 
 		const char* vSource2 = "#version 330 core\n"
 			"layout(location = 0) in vec3 aPos; \n"
-			"layout(location = 1) in vec3 aColor; \n"
+			"layout(location = 1) in vec4 aColor; \n"
 			"layout(location = 2) in vec2 aTexCoord; \n"
 			"layout(location = 3) in float aTexIndex; \n"
-			"out vec3 ourColor; \n"
+			"out vec4 ourColor; \n"
 			"out vec2 TexCoord; \n"
 			"out float TexIndex; \n"
 			"uniform int sHeight;\n"
@@ -67,13 +67,13 @@ namespace Dark {
 			"}\0";
 		const char* fSource2 = "#version 330 core\n"
 			"out vec4 FragColor; \n"
-			"in vec3 ourColor; \n"
+			"in vec4 ourColor; \n"
 			"in vec2 TexCoord; \n"
 			"in float TexIndex; \n"
 			"uniform sampler2D u_Textures[32]; \n"
 			"void main()\n"
 			"{\n"
-			"	FragColor = texture(u_Textures[int(TexIndex)], TexCoord) * vec4(ourColor, 1.0);\n"
+			"	FragColor = texture(u_Textures[int(TexIndex)], TexCoord) * ourColor;\n"
 			"}\n\0";
 
 		 data.TextureShader = Shader(std::string(vSource2), std::string(fSource2));
@@ -127,7 +127,7 @@ namespace Dark {
 		data.imGuiRenderer->EndRendererCall();
 	}
 
-	void Renderer::DrawBackDrop(const glm::vec3 color)
+	void Renderer::DrawBackDrop(const glm::vec4 color)
 	{
 		int width = data.m_window->getScreenWidth();
 		int height = data.m_window->getScreenHeight();
@@ -141,7 +141,7 @@ namespace Dark {
 		Draw2DQuad(glm::vec2(0.0f), glm::vec2(width, height), texSource);
 	}
 
-	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec3 color)
+	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec4 color)
 	{
 		float textureIndex = 0.0f;
 
@@ -171,7 +171,7 @@ namespace Dark {
 		data.batchdata.QuadCount++;
 	}
 
-	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texName, glm::vec3 color)
+	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texName, glm::vec4 color)
 	{
 		float textureIndex = 1.0f;
 		bool uniqueTexture = true;
@@ -253,16 +253,16 @@ namespace Dark {
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, (data.batchdata.vertsPtr - data.batchdata.vertsStart)*sizeof(Vertex), data.batchdata.vertsStart, GL_DYNAMIC_DRAW);
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(6 * sizeof(float)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)(7 * sizeof(float)));
 		glEnableVertexAttribArray(2);
 
-		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(8 * sizeof(float)));
+		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)(9 * sizeof(float)));
 		glEnableVertexAttribArray(3);
 
 		// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
