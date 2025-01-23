@@ -28,7 +28,7 @@ namespace Dark {
 
 		unsigned int* indicesStart = nullptr;
 
-		float texIndex = 0;
+		float texIndex = 1;
 		std::array<std::string, MaxTextures> textures;
 	};
 
@@ -42,6 +42,8 @@ namespace Dark {
 		BatchData batchdata;
 
 		std::shared_ptr<ImGuiRenderer> imGuiRenderer;
+
+		std::shared_ptr<Texture> whiteTexture;
 	} data;
 	
 	void Renderer::Init(std::shared_ptr<Window> window)
@@ -111,6 +113,10 @@ namespace Dark {
 
 		data.batchdata.vertsPtr = data.batchdata.vertsStart;
 		data.batchdata.texIndex = 0.0f;
+
+		unsigned int whiteTextureData = 0xffffffff;
+		data.whiteTexture = std::make_shared<Texture>(1, 1, whiteTextureData);
+		//data.texLib.AddTexture(data.whiteTexture);
 
 		data.imGuiRenderer->StartRendererCall();
 	}
