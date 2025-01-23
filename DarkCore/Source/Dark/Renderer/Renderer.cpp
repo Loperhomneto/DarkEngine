@@ -263,9 +263,15 @@ namespace Dark {
 		//{
 		//	data.texLib.LoadTexture(data.batchdata.textures[i])->Bind(i);
 		//}
-		
+		//Logger::info(std::to_string(VAO).c_str());
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, data.batchdata.QuadCount * 6, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+
+		GLuint buffers[] = { VBO, EBO };
+		glDeleteBuffers(2, buffers);
+		unsigned int vertexArraysBuffer[] = {VAO};
+		glDeleteVertexArrays(1, vertexArraysBuffer);
 	}
 
 	void Renderer::AddTexture(std::string texSoure, bool alpha, std::string name)

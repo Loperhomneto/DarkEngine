@@ -43,6 +43,7 @@ namespace Dark {
 			Renderer::endRendererCall();
 
 			m_window->end();
+			//_CrtDumpMemoryLeaks();
 		}
 	}
 
