@@ -10,8 +10,6 @@ namespace Dark
 {
 	Texture::Texture(std::string source, bool alpha)
 	{
-		this->source = source;
-		this->alpha = alpha;
 		m_texture = 0;
 
 		stbi_set_flip_vertically_on_load(1);
@@ -46,6 +44,22 @@ namespace Dark
 			Logger::error("Failed to load texture");
 		}
 		stbi_image_free(data);
+	}
+
+	Texture::Texture(unsigned int width, unsigned int height, void* data)
+	{
+		unsigned int InternalFormat = GL_RGBA8;
+		unsigned int DataFormat = GL_RGBA;
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_texture);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
+
+		glTextureParameteri(m_texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTextureParameteri(m_texture, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_texture, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, InternalFormat, width, height, 0, InternalFormat, GL_UNSIGNED_BYTE, data);
 	}
 
 	void Texture::Bind(int unit)

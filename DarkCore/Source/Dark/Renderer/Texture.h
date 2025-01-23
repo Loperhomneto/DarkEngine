@@ -7,13 +7,12 @@ namespace Dark
 	{
 	public:
 		Texture(std::string source, bool alpha);
+		Texture(unsigned int width, unsigned int height, void* data);
 	
 		void Bind(int unit);
 
 		unsigned int getID() { return m_texture; }
 	private:
-		std::string source;
-		bool alpha;
 		unsigned int m_texture;
 	};
 }
