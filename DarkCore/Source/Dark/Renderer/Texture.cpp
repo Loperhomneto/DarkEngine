@@ -10,8 +10,6 @@ namespace Dark
 {
 	Texture::Texture(std::string source, bool alpha)
 	{
-		m_texture = 0;
-
 		stbi_set_flip_vertically_on_load(1);
 
 		glGenTextures(1, &m_texture);
@@ -52,14 +50,14 @@ namespace Dark
 		unsigned int DataFormat = GL_RGBA;
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_texture);
-		glBindTexture(GL_TEXTURE_2D, m_texture);
+		glTextureStorage2D(m_texture, 1, InternalFormat, width, height);
 
 		glTextureParameteri(m_texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri(m_texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTextureParameteri(m_texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTextureParameteri(m_texture, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri(m_texture, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA8, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(m_texture, 0, 0, 0, width, height, DataFormat, GL_UNSIGNED_BYTE, data);
 	}
 
 	void Texture::Bind(int unit)

@@ -12,7 +12,7 @@ void FooLayer::OnAttach()
 	Logger::info("onattach app");
 
 //TODO: camera, imgui, framebuffers, unity like editor, make so that renderer:init() or deinit() cant be called by app, flat colors quad not working, 
-// fix why the other constructor of the texlib class is not working with shared_ptr, fix logger not working with integers, logger::trace not working
+// fix logger not working with integers, logger::trace not working
 // add rotated quads
 // how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
 // spritesheets/how to render them
@@ -42,12 +42,11 @@ void FooLayer::OnUpdate(TimeStep ts)
 	//float width = Input::GetWindowWidth();
 	//float height = Input::GetWindowHeight();
 
-	Renderer::Draw2DQuad(glm::vec2(200, 200), glm::vec2(100, 100), "container");
-	Renderer::Draw2DQuad(glm::vec2(0, 0), glm::vec2(200, 200), "papiface");
-	Renderer::Draw2DQuad(glm::vec2(300, 300), glm::vec2(300, 300), "papiface");
+	//Renderer::Draw2DQuad(glm::vec2(200, 200), glm::vec2(100, 100), "container");
+	//Renderer::Draw2DQuad(glm::vec2(0, 0), glm::vec2(200, 200), "papiface");
+	//Renderer::Draw2DQuad(glm::vec2(300, 300), glm::vec2(300, 300), "papiface");
 
-
-	Renderer::Draw2DQuad(glm::vec2(0, 0), glm::vec2(100, 100), glm::vec3(1.0f));
+	Renderer::Draw2DQuad(glm::vec2(400, 200), glm::vec2(200, 200), glm::vec3(1.0f));
 	Renderer::Draw2DQuad(glm::vec2(100, 100), glm::vec2(100, 100), glm::vec3(1.0f));
 
 	//Renderer::DrawBackDrop("floor");

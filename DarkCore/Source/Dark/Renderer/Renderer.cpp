@@ -85,6 +85,11 @@ namespace Dark {
 
 		 data.batchdata.vertsStart = new Vertex[data.batchdata.MaxVertices];
 		 data.batchdata.indicesStart = new unsigned int[data.batchdata.MaxIndices];
+
+		 unsigned int whiteTextureData = 0xffffffff;
+		 std::shared_ptr<Texture> whiteTexture = std::make_shared<Texture>(1, 1, &whiteTextureData);
+		 data.texLib.AddTexture(whiteTexture, "whiteTexture");
+		 data.batchdata.textures[0] = "whiteTexture";
 	}
 
 	void Renderer::DeInit()
@@ -111,11 +116,6 @@ namespace Dark {
 
 		data.batchdata.vertsPtr = data.batchdata.vertsStart;
 		data.batchdata.texIndex = 1.0f;
-
-		unsigned int whiteTextureData = 0xffffffff;
-		std::shared_ptr<Texture> whiteTexture = std::make_shared<Texture>(1, 1, &whiteTextureData);
-		data.texLib.AddTexture(whiteTexture, "whiteTexture");
-		data.batchdata.textures[0] = "whiteTexture";
 
 		data.imGuiRenderer->StartRendererCall();
 	}
@@ -223,7 +223,6 @@ namespace Dark {
 	{
 		for (int i = 0; i < data.batchdata.texIndex; i++)
 		{
-			Logger::info(std::string(data.batchdata.textures[i]).c_str(), std::to_string(i).c_str());
 			std::shared_ptr<Texture> tex = data.texLib.LoadTexture(data.batchdata.textures[i]);
 			tex->Bind(i);
 		}
