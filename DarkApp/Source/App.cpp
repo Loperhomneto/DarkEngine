@@ -11,7 +11,7 @@ void FooLayer::OnAttach()
 {
 	Logger::info("onattach app");
 
-//TODO: camera, imgui, framebuffers, unity like editor, make so that renderer:init() or deinit() cant be called by app, flat colors quad not working, 
+//TODO: camera, imgui, framebuffers, unity like editor, make so that renderer:init() or deinit() cant be called by app
 // fix logger not working with integers, logger::trace not working
 // add rotated quads
 // how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
