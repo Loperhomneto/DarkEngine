@@ -116,7 +116,7 @@ namespace Dark {
 
 		unsigned int whiteTextureData = 0xffffffff;
 		data.whiteTexture = std::make_shared<Texture>(1, 1, whiteTextureData);
-		//data.texLib.AddTexture(data.whiteTexture);
+		data.texLib.AddTexture(data.whiteTexture, "whiteTexture");
 
 		data.imGuiRenderer->StartRendererCall();
 	}
