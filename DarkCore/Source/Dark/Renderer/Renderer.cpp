@@ -26,6 +26,8 @@ namespace Dark {
 		Vertex* vertsStart = nullptr;
 		Vertex* vertsPtr = nullptr;
 
+		unsigned int* indicesStart = nullptr;
+
 		float texIndex = 0;
 		std::array<std::string, MaxTextures> textures;
 	};
@@ -82,11 +84,13 @@ namespace Dark {
 		 data.imGuiRenderer->Init();
 
 		 data.batchdata.vertsStart = new Vertex[data.batchdata.MaxVertices];
+		 data.batchdata.indicesStart = new unsigned int[data.batchdata.MaxIndices];
 	}
 
 	void Renderer::DeInit()
 	{
 		delete[] data.batchdata.vertsStart;
+		delete[] data.batchdata.indicesStart;
 		data.imGuiRenderer->Shutdown();
 	}
 
@@ -209,47 +213,15 @@ namespace Dark {
 			tex->Bind(i);
 		}
 
-		/*int vertsSize = data.verts.size() * sizeof(float);
-		float* vertices = &data.verts[0];
-
-		std::vector<unsigned int> inds;
-		for (int i = 1; i <= data.quads; i++)
-		{
-			inds.push_back(0 * i);
-			inds.push_back(1 * i);
-			inds.push_back(3 * i);
-			inds.push_back(1 * i);
-			inds.push_back(2 * i);
-			inds.push_back(3 * i);
-		}
-		int indsSize = inds.size() * sizeof(unsigned int);
-		unsigned int* indices = &inds[0];*/
-		//glm::vec2 corner(0.0f);
-		//glm::vec2 size(100.0f);
-		//glm::vec3 color(0.5f);
-		//float vertices[] = {
-		//	corner.x + size.x, corner.y, 0.0f, color.x, color.y, color.z,  // top right
-		//	corner.x + size.x, corner.y + size.y, 0.0f, color.x, color.y, color.z,  // bottom right
-		//	corner.x, corner.y + size.y, 0.0f, color.x, color.y, color.z,  // bottom left
-		//	corner.x, corner.y, 0.0f, color.x, color.y, color.z   // top left 
-		//};
-		//unsigned int indices[] = {  // note that we start from 0!
-		//	0, 1, 3,  // first Triangle
-		//	1, 2, 3   // second Triangle
-		//};
-		//std::cout << sizeof(vertices) << " " << sizeof(indices) << std::endl;
-
-		unsigned int* indices = new unsigned int[data.batchdata.QuadCount * 6];
-
 		unsigned int offset = 0;
 		for (int i = 0; i < (data.batchdata.QuadCount) * 6; i += 6)
 		{
-			indices[i + 0] = offset + 0;
-			indices[i + 1] = offset + 1;
-			indices[i + 2] = offset + 3;
-			indices[i + 3] = offset + 1;
-			indices[i + 4] = offset + 2;
-			indices[i + 5] = offset + 3;
+			data.batchdata.indicesStart[i + 0] = offset + 0;
+			data.batchdata.indicesStart[i + 1] = offset + 1;
+			data.batchdata.indicesStart[i + 2] = offset + 3;
+			data.batchdata.indicesStart[i + 3] = offset + 1;
+			data.batchdata.indicesStart[i + 4] = offset + 2;
+			data.batchdata.indicesStart[i + 5] = offset + 3;
 
 			offset += 4;
 		}
@@ -261,7 +233,7 @@ namespace Dark {
 
 		glGenBuffers(1, &EBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.batchdata.QuadCount*24, indices, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.batchdata.QuadCount*24, data.batchdata.indicesStart, GL_DYNAMIC_DRAW);
 
 		glGenBuffers(1, &VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -294,8 +266,6 @@ namespace Dark {
 		
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, data.batchdata.QuadCount * 6, GL_UNSIGNED_INT, 0);
-
-		delete[] indices;
 	}
 
 	void Renderer::AddTexture(std::string texSoure, bool alpha, std::string name)
