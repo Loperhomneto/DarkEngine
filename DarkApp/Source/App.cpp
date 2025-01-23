@@ -40,6 +40,7 @@ void FooLayer::OnUpdate(TimeStep ts)
 	//Backdrop	
 	//float width = Input::GetWindowWidth();
 	//float height = Input::GetWindowHeight();
+	Renderer::DrawBackDrop(glm::vec3(0.1f, 0.2f, 0.3f));
 
 	Renderer::Draw2DQuad(glm::vec2(400, 200), glm::vec2(200, 200), glm::vec4(0.8f, 0.8f, 0.8f, 0.5f));
 	Renderer::Draw2DQuad(glm::vec2(100, 100), glm::vec2(100, 100), glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));

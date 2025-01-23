@@ -127,6 +127,11 @@ namespace Dark {
 		data.imGuiRenderer->EndRendererCall();
 	}
 
+	void Renderer::DrawBackDrop(const glm::vec3 color)
+	{
+		Renderer::DrawBackDrop(glm::vec4(color.x, color.y, color.z, 1.0f));
+	}
+
 	void Renderer::DrawBackDrop(const glm::vec4 color)
 	{
 		int width = data.m_window->getScreenWidth();
@@ -139,6 +144,11 @@ namespace Dark {
 		int width = data.m_window->getScreenWidth();
 		int height = data.m_window->getScreenHeight();
 		Draw2DQuad(glm::vec2(0.0f), glm::vec2(width, height), texSource);
+	}
+
+	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec3 color)
+	{
+		Renderer::Draw2DQuad(corner, size, glm::vec4(color.x, color.y, color.z, 1.0f));
 	}
 
 	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec4 color)
@@ -169,6 +179,11 @@ namespace Dark {
 		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 		data.batchdata.QuadCount++;
+	}
+
+	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texName, glm::vec3 color)
+	{
+		Renderer::Draw2DQuad(corner, size, texName, glm::vec4(color.x, color.y, color.z, 1.0f));
 	}
 
 	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texName, glm::vec4 color)
