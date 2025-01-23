@@ -15,8 +15,16 @@ namespace Dark
 
 		m_textures[name] = texture;
 	}
-	void TextureLibrary::AddTexture(std::shared_ptr<Texture> texture, std::string name)
+
+	void TextureLibrary::AddTexture(const std::shared_ptr<Texture>& texture, std::string name)
 	{
+		m_textures[name] = texture;
+	}
+
+	void TextureLibrary::AddTexture(unsigned int width, unsigned int height, void* data, std::string name)
+	{
+		std::shared_ptr<Texture> texture = std::make_shared<Texture>(width, height, data);
+
 		m_textures[name] = texture;
 	}
 

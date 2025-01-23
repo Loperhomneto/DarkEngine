@@ -42,8 +42,6 @@ namespace Dark {
 		BatchData batchdata;
 
 		std::shared_ptr<ImGuiRenderer> imGuiRenderer;
-
-		std::shared_ptr<Texture> whiteTexture;
 	} data;
 	
 	void Renderer::Init(std::shared_ptr<Window> window)
@@ -115,8 +113,13 @@ namespace Dark {
 		data.batchdata.texIndex = 0.0f;
 
 		unsigned int whiteTextureData = 0xffffffff;
-		data.whiteTexture = std::make_shared<Texture>(1, 1, whiteTextureData);
-		data.texLib.AddTexture(data.whiteTexture, "whiteTexture");
+		//TODO: fix this later
+		//std::shared_ptr<Texture> whiteTexture = std::make_shared<Texture>(1, 1, whiteTextureData);
+		//data.texLib.AddTexture(whiteTexture, "whiteTexture");
+		unsigned int Width = 1;
+		unsigned int Height = 1;
+		std::string name = "whiteTexture";
+		data.texLib.AddTexture(Width, Height, (void*)whiteTextureData, name);
 
 		data.imGuiRenderer->StartRendererCall();
 	}
@@ -124,7 +127,6 @@ namespace Dark {
 	void Renderer::endRendererCall()
 	{
 		flushBatch();
-		//delete[] data.batchdata.vertsStart;
 
 		data.imGuiRenderer->EndRendererCall();
 	}
@@ -145,29 +147,39 @@ namespace Dark {
 
 	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec3 color)
 	{
+		float textureIndex = 0.0f;
+
 		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;
+		data.batchdata.vertsPtr->texCoords = { 1.0f, 0.0f };
+		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 
 		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y + size.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;
+		data.batchdata.vertsPtr->texCoords = { 1.0f, 1.0f };
+		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 
 		data.batchdata.vertsPtr->position = { corner.x, corner.y + size.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;
+		data.batchdata.vertsPtr->texCoords = { 0.0f, 1.0f };
+		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 
 		data.batchdata.vertsPtr->position = { corner.x, corner.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;
+		data.batchdata.vertsPtr->texCoords = { 0.0f, 0.0f };
+		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 		data.batchdata.QuadCount++;
 	}
 
 	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texName, glm::vec3 color)
 	{
-		float textureIndex = 0.0f;
+		float textureIndex = 1.0f;
 		bool uniqueTexture = true;
-		for (int i = 0; i < data.batchdata.texIndex; i++)
+		for (int i = 1; i < data.batchdata.texIndex; i++)
 		{
 			if (data.batchdata.textures[i] == texName) 
 			{
