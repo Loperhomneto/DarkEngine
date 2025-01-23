@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Dark/Renderer/Renderer.h"
+#include "Dark/Renderer/Renderer2D.h"
 #include "Dark/Application.h"
 #include "Dark/EntryPoint.h"
 #include "Dark/SoundEngine.h"

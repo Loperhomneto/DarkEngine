@@ -1,18 +1,15 @@
 #pragma once
-#include "TextureLibrary.h"
-#include "Dark/Window.h"
+
+#include "dkpch.h"
 #include "Dark/Core.h"
 #include "glm.hpp"
 
-namespace Dark {
+namespace Dark
+{
 
-	class Renderer
+	class Renderer2D
 	{
 	public:
-		static void Init(std::shared_ptr<Window> window);
-		static void DeInit();
-		static void startRendererCall(int width, int height);
-		static void endRendererCall();
 		static void DrawBackDrop(const glm::vec4 color);
 		static void DrawBackDrop(const glm::vec3 color);
 		static void DrawBackDrop(std::string texSource);
@@ -21,8 +18,6 @@ namespace Dark {
 		static void Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texSource, glm::vec4 color = glm::vec4(1.0f));
 		static void Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texSource, glm::vec3 color);
 		static void AddTexture(std::string texSource, bool alpha, std::string name);
-	private:
-		static void flushBatch();
 	};
 
 }

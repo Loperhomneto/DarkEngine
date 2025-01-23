@@ -4,6 +4,7 @@
 #include "GLFW/glfw3.h"
 #include "ImGuiRenderer.h"
 #include "Dark/Core.h"
+#include "Shader.h"
 
 namespace Dark {
 
@@ -303,9 +304,9 @@ namespace Dark {
 		glDeleteVertexArrays(1, vertexArraysBuffer);
 	}
 
-	void Renderer::AddTexture(std::string texSoure, bool alpha, std::string name)
+	void Renderer::AddTexture(std::string texSource, bool alpha, std::string name)
 	{
-		data.texLib.AddTexture(texSoure, alpha, name);
+		data.texLib.AddTexture(texSource, alpha, name);
 	}
 
 }
