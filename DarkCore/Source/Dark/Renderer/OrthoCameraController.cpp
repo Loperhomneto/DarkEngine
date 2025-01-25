@@ -1,6 +1,8 @@
 #include "dkpch.h"
 #include "OrthoCameraController.h"
 #include "Dark/KeyCodes.h"
+#include "Dark/Input.h"
+#include "gtc/matrix_transform.hpp"
 
 namespace Dark
 {
@@ -9,12 +11,31 @@ namespace Dark
 
 	OrthoCameraController::OrthoCameraController()
 	{
-		
+		float aspectRatio = Input::GetWindowHeight() / Input::GetWindowWidth();
+		m_projectionMatrix = glm::ortho(-aspectRatio, aspectRatio, -1.0f, 1.0f);
+		m_viewMatrix = glm::mat4(1.0f);
+		m_viewProjectionMatrix = m_viewMatrix * m_projectionMatrix;
 	}
 
 	void OrthoCameraController::OnUpdate(TimeStep ts)
 	{
+		if (Input::isKeyPressed(DARK_KEY_W))
+		{
+			m_CameraPosition.y += ts.getDeltatime() * m_CameraTranslationSpeed;
+		}
+		else if (Input::isKeyPressed(DARK_KEY_S))
+		{
+			m_CameraPosition.y -= ts.getDeltatime() * m_CameraTranslationSpeed;
+		}
 
+		if (Input::isKeyPressed(DARK_KEY_A))
+		{
+			m_CameraPosition.x += ts.getDeltatime() * m_CameraTranslationSpeed;
+		}
+		else if (Input::isKeyPressed(DARK_KEY_D))
+		{
+			m_CameraPosition.x -= ts.getDeltatime() * m_CameraTranslationSpeed;
+		}
 	}
 
 	void OrthoCameraController::OnEvent(Event& e)
@@ -25,6 +46,7 @@ namespace Dark
 
 	void OrthoCameraController::OnWindowResize(WindowResizeEvent& e)	
 	{
+
 	}
 
 	void OrthoCameraController::OnMouseScroll(MouseScrollEvent& e)
