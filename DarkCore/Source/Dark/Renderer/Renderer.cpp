@@ -131,6 +131,7 @@ namespace Dark {
 
 		data.batchdata.vertsPtr = data.batchdata.vertsStart;
 		data.batchdata.texIndex = 1.0f;
+		data.batchdata.QuadCount = 0;
 
 		data.imGuiRenderer->StartRendererCall();
 	}
