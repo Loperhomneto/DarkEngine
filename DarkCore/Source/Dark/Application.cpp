@@ -33,6 +33,7 @@ namespace Dark {
 			TimeStep ts(deltatime);
 
 			Renderer::startRendererCall(m_window->getScreenWidth(), m_window->getScreenHeight());
+			Renderer::OnUpdate(ts);
 
 			auto it = m_LayerManager.begin();
 			for (s_Layer layer = m_LayerManager(it); it < m_LayerManager.end(); it++)
@@ -49,6 +50,8 @@ namespace Dark {
 
 	void Application::OnEvent(Event& e)
 	{
+		Renderer::OnEvent(e);
+
 		Event::CheckEventFunc<WindowCloseEvent>(e, DARK_BIND_FN(OnWindowClose));
 
 		auto it = m_LayerManager.begin();
