@@ -18,6 +18,7 @@ namespace Dark
 		static void Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texSource, glm::vec4 color = glm::vec4(1.0f));
 		static void Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texSource, glm::vec3 color);
 		static void AddTexture(std::string texSource, bool alpha, std::string name);
+		static void AddOrthoCameraController();
 	};
 
 }

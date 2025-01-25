@@ -38,4 +38,9 @@ namespace Dark
 		Renderer::AddTexture(texSource, alpha, name);
 	}
 
+	void Renderer2D::AddOrthoCameraController()
+	{
+		Renderer::AddOrthoCameraController();
+	}
+
 }

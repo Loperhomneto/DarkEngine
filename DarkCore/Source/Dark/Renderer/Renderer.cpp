@@ -63,9 +63,10 @@ namespace Dark {
 			"out float TexIndex; \n"
 			"uniform int sHeight;\n"
 			"uniform int sWidth;\n"
+			"uniform mat4 sViewProjectionMatrix;"
 			"void main()\n"
 			"{\n"
-			"	gl_Position = vec4(((aPos.x*2)-sWidth)/sWidth, ((aPos.y*2)-sHeight)/sHeight, aPos.z, 1.0); \n"
+			"	gl_Position = sViewProjectionMatrix * vec4(((aPos.x*2)-sWidth)/sWidth, ((aPos.y*2)-sHeight)/sHeight, aPos.z, 1.0); \n"
 			"	ourColor = aColor; \n"
 			"	TexCoord = aTexCoord; \n"
 			"   TexIndex = aTexIndex; \n"
@@ -111,6 +112,15 @@ namespace Dark {
 		data.TextureShader.Use();
 		data.TextureShader.setInt("sWidth", width);
 		data.TextureShader.setInt("sHeight", height);
+
+		if (data.isCameraController)
+		{
+			data.TextureShader.setMat4("sViewProjectionMatrix", data.orthoCameraController->getViewProjectionMatrix());
+		}
+		else
+		{
+			data.TextureShader.setMat4("sViewProjectionMatrix", glm::mat4(1.0f));
+		}
 
 		int samplers[data.batchdata.MaxTextures];
 		for (int i = 0; i < data.batchdata.MaxTextures; i++)

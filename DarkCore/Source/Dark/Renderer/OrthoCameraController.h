@@ -14,9 +14,7 @@ namespace Dark
 		void OnUpdate(TimeStep ts);
 		void OnEvent(Event& e);
 
-		glm::mat4 getViewProjectionMatrix() {
-			return m_viewProjectionMatrix;
-		};
+		glm::mat4 getViewProjectionMatrix();
 	private:
 		glm::mat4 m_projectionMatrix;
 		glm::mat4 m_viewMatrix;
