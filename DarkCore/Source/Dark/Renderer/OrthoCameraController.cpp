@@ -19,7 +19,6 @@ namespace Dark
 
 	void OrthoCameraController::OnUpdate(TimeStep ts)
 	{
-		// TODO: add camera rotation
 		if (Input::isKeyPressed(DARK_KEY_W))
 		{
 			m_CameraPosition.y -= ts.getDeltatime() * m_CameraTranslationSpeed;

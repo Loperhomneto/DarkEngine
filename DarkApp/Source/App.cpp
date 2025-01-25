@@ -11,7 +11,7 @@ void FooLayer::OnAttach()
 {
 	Logger::info("onattach app");
 
-//TODO: camera, imgui, framebuffers, unity like editor, fix background
+//TODO: framebuffers, unity like editor, fix background
 // add rotated quads
 // how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
 // spritesheets/how to render them
