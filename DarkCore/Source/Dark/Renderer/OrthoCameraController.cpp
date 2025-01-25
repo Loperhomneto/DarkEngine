@@ -12,13 +12,14 @@ namespace Dark
 	OrthoCameraController::OrthoCameraController()
 	{
 		float aspectRatio = Input::GetWindowHeight() / Input::GetWindowWidth();
-		m_projectionMatrix = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f);
+		m_projectionMatrix = glm::ortho(-1.0f * m_ZoomLevel, 1.0f * m_ZoomLevel, -1.0f * m_ZoomLevel, 1.0f * m_ZoomLevel);
 		//m_projectionMatrix = glm::mat4(1.0f);
 		m_viewMatrix = glm::mat4(1.0f);
 	}
 
 	void OrthoCameraController::OnUpdate(TimeStep ts)
 	{
+		// TODO: add camera rotation
 		if (Input::isKeyPressed(DARK_KEY_W))
 		{
 			m_CameraPosition.y -= ts.getDeltatime() * m_CameraTranslationSpeed;
@@ -54,12 +55,15 @@ namespace Dark
 
 	void OrthoCameraController::OnWindowResize(WindowResizeEvent& e)	
 	{
-
+		Logger::info("WindowResized");
 	}
 
 	void OrthoCameraController::OnMouseScroll(MouseScrollEvent& e)
 	{
+		m_ZoomLevel += e.scrollx;
+		Logger::info(m_ZoomLevel, e.scrollx, e.scrolly);
 
+		m_projectionMatrix = glm::ortho(-1.0f * m_ZoomLevel, 1.0f * m_ZoomLevel, -1.0f * m_ZoomLevel, 1.0f * m_ZoomLevel);
 	}
 
 }

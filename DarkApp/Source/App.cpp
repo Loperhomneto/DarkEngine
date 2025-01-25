@@ -11,7 +11,7 @@ void FooLayer::OnAttach()
 {
 	Logger::info("onattach app");
 
-//TODO: camera, imgui, framebuffers, unity like editor
+//TODO: camera, imgui, framebuffers, unity like editor, fix background
 // add rotated quads
 // how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
 // spritesheets/how to render them
@@ -33,7 +33,7 @@ void FooLayer::OnAttach()
 	Renderer2D::AddTexture("assets/textures/idle2.png", true, "idle2");
 	Renderer2D::AddTexture("assets/textures/table.png", true, "table");
 
-	Renderer2D::AddOrthoCameraController();
+	//Renderer2D::AddOrthoCameraController();
 }
 
 void FooLayer::OnUpdate(TimeStep ts)
