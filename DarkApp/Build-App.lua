@@ -14,7 +14,8 @@ project "DarkApp"
       -- Include Core
       "../DarkCore/Source",
       -- Include glm
-      "../Vendor/glm/glm"
+      "../Vendor/glm/glm",
+      "../Vendor/imgui"
    }
 
    links
