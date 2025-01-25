@@ -11,10 +11,10 @@ namespace Dark
 
 	OrthoCameraController::OrthoCameraController()
 	{
-		float aspectRatio = Input::GetWindowHeight() / Input::GetWindowWidth();
+		m_AspectRatio = (float)Input::GetWindowWidth() / (float)Input::GetWindowHeight();
+		m_viewMatrix = glm::translate(glm::mat4(1.0f), m_CameraPosition);
 		m_projectionMatrix = glm::ortho(-1.0f * m_ZoomLevel, 1.0f * m_ZoomLevel, -1.0f * m_ZoomLevel, 1.0f * m_ZoomLevel);
-		//m_projectionMatrix = glm::mat4(1.0f);
-		m_viewMatrix = glm::mat4(1.0f);
+		m_viewProjectionMatrix = m_viewMatrix * m_projectionMatrix;
 	}
 
 	void OrthoCameraController::OnUpdate(TimeStep ts)
@@ -38,11 +38,21 @@ namespace Dark
 			m_CameraPosition.x -= ts.getDeltatime() * m_CameraTranslationSpeed;
 		}
 
-		m_viewMatrix = glm::translate(glm::mat4(1.0f), m_CameraPosition);
+		if (Input::isKeyPressed(DARK_KEY_Q))
+		{
+			m_CameraRotation += ts.getDeltatime() * m_CameraRotationSpeed;
+		}
+		else if (Input::isKeyPressed(DARK_KEY_E))
+		{
+			m_CameraRotation -= ts.getDeltatime() * m_CameraRotationSpeed;
+		}
+
 	}
 
 	glm::mat4 OrthoCameraController::getViewProjectionMatrix()
 	{
+		m_viewMatrix = glm::translate(glm::mat4(1.0f), m_CameraPosition) * glm::rotate(glm::mat4(1.0f), glm::radians(m_CameraRotation), glm::vec3(0.0f, 0.0f, 1.0f));
+		m_projectionMatrix = glm::ortho(-1.0f * m_ZoomLevel, 1.0f * m_ZoomLevel, -1.0f * m_ZoomLevel, 1.0f * m_ZoomLevel);
 		m_viewProjectionMatrix = m_viewMatrix * m_projectionMatrix;
 		return m_viewProjectionMatrix;
 	}
@@ -55,13 +65,12 @@ namespace Dark
 
 	void OrthoCameraController::OnWindowResize(WindowResizeEvent& e)	
 	{
-		Logger::info("WindowResized");
+		m_AspectRatio = (float)Input::GetWindowWidth() / (float)Input::GetWindowHeight();
 	}
 
 	void OrthoCameraController::OnMouseScroll(MouseScrollEvent& e)
 	{
 		m_ZoomLevel += e.scrolly * m_ZoomSpeed;
-		m_projectionMatrix = glm::ortho(-1.0f * m_ZoomLevel, 1.0f * m_ZoomLevel, -1.0f * m_ZoomLevel, 1.0f * m_ZoomLevel);
 	}
 
 }
