@@ -55,6 +55,16 @@ namespace Dark
 				//glfwSetCursorPos(window, xpos, ypos);
 			});
 
+		glfwSetScrollCallback(window, [](GLFWwindow* window, double xscroll, double yscroll)
+			{
+				DATA data = *(DATA*)glfwGetWindowUserPointer(window);
+				std::function<void(Event&)> callback = data.eventCallback;
+
+				MouseScrollEvent e(xscroll, yscroll);
+				callback(e);
+				//glfwSetCursorPos(window, xpos, ypos);
+			});
+
 		glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
 			{
 				DATA data = *(DATA*)glfwGetWindowUserPointer(window);
@@ -71,7 +81,6 @@ namespace Dark
 
 				WindowCloseEvent e;
 				callback(e);
-
 			});
 
 		glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)

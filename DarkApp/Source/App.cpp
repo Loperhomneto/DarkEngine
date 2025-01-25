@@ -33,7 +33,7 @@ void FooLayer::OnAttach()
 	Renderer2D::AddTexture("assets/textures/idle2.png", true, "idle2");
 	Renderer2D::AddTexture("assets/textures/table.png", true, "table");
 
-	//Renderer2D::AddOrthoCameraController();
+	Renderer2D::AddOrthoCameraController();
 }
 
 void FooLayer::OnUpdate(TimeStep ts)

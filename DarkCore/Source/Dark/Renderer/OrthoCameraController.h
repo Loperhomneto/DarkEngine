@@ -21,7 +21,7 @@ namespace Dark
 		glm::mat4 m_viewProjectionMatrix;
 		glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
 
-		float m_CameraTranslationSpeed = 5.0f, m_CameraRotationSpeed = 180.0f;
+		float m_CameraTranslationSpeed = 5.0f, m_CameraRotationSpeed = 180.0f, m_ZoomSpeed = 0.25f;
 		float m_ZoomLevel = 1.0f;
 	private:
 		void OnWindowResize(WindowResizeEvent& e);

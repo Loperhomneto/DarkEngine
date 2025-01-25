@@ -60,9 +60,7 @@ namespace Dark
 
 	void OrthoCameraController::OnMouseScroll(MouseScrollEvent& e)
 	{
-		m_ZoomLevel += e.scrollx;
-		Logger::info(m_ZoomLevel, e.scrollx, e.scrolly);
-
+		m_ZoomLevel += e.scrolly * m_ZoomSpeed;
 		m_projectionMatrix = glm::ortho(-1.0f * m_ZoomLevel, 1.0f * m_ZoomLevel, -1.0f * m_ZoomLevel, 1.0f * m_ZoomLevel);
 	}
 
