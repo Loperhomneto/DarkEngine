@@ -5,6 +5,7 @@
 #include "ImGuiRenderer.h"
 #include "Dark/Core.h"
 #include "Shader.h"
+#include "OrthoCameraController.h"
 
 namespace Dark {
 
@@ -43,6 +44,9 @@ namespace Dark {
 		BatchData batchdata;
 
 		std::shared_ptr<ImGuiRenderer> imGuiRenderer;
+
+		bool isCameraController = false;
+		std::shared_ptr<OrthoCameraController> orthoCameraController;
 	} data;
 	
 	void Renderer::Init(std::shared_ptr<Window> window)
@@ -307,6 +311,32 @@ namespace Dark {
 	void Renderer::AddTexture(std::string texSource, bool alpha, std::string name)
 	{
 		data.texLib.AddTexture(texSource, alpha, name);
+	}
+
+	void Renderer::AddOrthoCameraController()
+	{
+		if (!data.isCameraController)
+		{
+			data.isCameraController = true;
+
+			data.orthoCameraController = std::make_shared<OrthoCameraController>();
+		}
+	}
+
+	void Renderer::OnUpdate(TimeStep ts)
+	{
+		if (data.isCameraController)
+		{
+			data.orthoCameraController->OnUpdate(ts);
+		}
+	}
+
+	void Renderer::OnEvent(Event& e)
+	{
+		if (data.isCameraController)
+		{
+			data.orthoCameraController->OnEvent(e);
+		}
 	}
 
 }
