@@ -2,6 +2,7 @@
 #include "TextureLibrary.h"
 #include "Dark/Window.h"
 #include "Dark/Core.h"
+#include "Dark/TimeStep.h"
 #include "glm.hpp"
 
 namespace Dark {
