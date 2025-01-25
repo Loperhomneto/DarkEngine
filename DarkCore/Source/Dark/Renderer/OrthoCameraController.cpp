@@ -71,6 +71,10 @@ namespace Dark
 	void OrthoCameraController::OnMouseScroll(MouseScrollEvent& e)
 	{
 		m_ZoomLevel += e.scrolly * m_ZoomSpeed;
+		if (m_ZoomLevel < 0.25f)
+		{
+			m_ZoomLevel = 0.25f;
+		}
 	}
 
 }
