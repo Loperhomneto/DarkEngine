@@ -333,14 +333,13 @@ namespace Dark {
 		data.spritesheetTexLib.AddSpritesheet(texSource, alpha, name, spritesheetSize, spriteSize);
 	}
 	
-	void Renderer::DrawSprite(const glm::vec2& corner, const glm::vec2& size, const glm::vec2& spriteCoords, const glm::vec2& spriteSize,
-		std::string spritesheetName, glm::vec3 color)
+	void Renderer::DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec3 color)
 	{
-		DrawSprite(corner, size, spriteCoords, spriteSize, spritesheetName, glm::vec4(color.x, color.y, color.z, 1.0f));
+		DrawSprite(corner, size, spritesheetName, spriteCoords, spriteSize, glm::vec4(color.x, color.y, color.z, 1.0f));
 	}
 
-	void Renderer::DrawSprite(const glm::vec2& corner, const glm::vec2& size, const glm::vec2& spriteCoords, const glm::vec2& spriteSize, 
-		std::string spritesheetName, glm::vec4 color)
+	void Renderer::DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
+		const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec4 color)
 	{
 		float textureIndex = 0.0f;
 		bool uniqueTexture = true;
@@ -363,27 +362,41 @@ namespace Dark {
 		}
 
 		std::shared_ptr<SpriteSheet> spritesheet = data.spritesheetTexLib.LoadSpritesheet(spritesheetName);
+		glm::vec2 texCoords[4] = { 
+			{ (spritesheet->spriteSize.x * spriteCoords.x + spriteSize.x * spritesheet->spriteSize.x) / spritesheet->spritesheetSize.x,
+			(spritesheet->spriteSize.y * spriteCoords) / spritesheet->spritesheetSize.y},
+
+			{ (spritesheet->spriteSize.x * spriteCoords.x + spriteSize.x * spritesheet->spriteSize.x) / spritesheet->spritesheetSize.x,
+			(spritesheet->spriteSize.y * spriteCoords + spriteSize.y * spritesheet->spriteSize.y) / spritesheet->spritesheetSize.y},
+			
+			{ (spritesheet->spriteSize.x * spriteCoords.x) / spritesheet->spritesheetSize.x,
+			(spritesheet->spriteSize.y * spriteCoords + spriteSize.y * spritesheet->spriteSize.y) / spritesheet->spritesheetSize.y},
+			
+			{ (spritesheet->spriteSize.x * spriteCoords.x) / spritesheet->spritesheetSize.x,
+			(spritesheet->spriteSize.y * spriteCoords) / spritesheet->spritesheetSize.y},
+		};
+
 		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 0.0f };
+		data.batchdata.vertsPtr->texCoords = texCoords[0];
 		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 
 		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y + size.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 1.0f };
+		data.batchdata.vertsPtr->texCoords = texCoords[1];
 		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 
 		data.batchdata.vertsPtr->position = { corner.x, corner.y + size.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 1.0f };
+		data.batchdata.vertsPtr->texCoords = texCoords[2];
 		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 
 		data.batchdata.vertsPtr->position = { corner.x, corner.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 0.0f };
+		data.batchdata.vertsPtr->texCoords = texCoords[3];
 		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 		data.batchdata.QuadCount++;
