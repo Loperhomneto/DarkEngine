@@ -16,18 +16,19 @@ namespace Dark {
 		static void endRendererCall();
 		static void DrawBackDrop(const glm::vec4 color);
 		static void DrawBackDrop(const glm::vec3 color);
-		static void DrawBackDrop(std::string texSource);
-		static void Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec4 color = glm::vec4(1.0f));
-		static void Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec3 color);
-		static void Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texSource, glm::vec4 color = glm::vec4(1.0f));
-		static void Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texSource, glm::vec3 color);
+		static void DrawBackDrop(const std::string& texSource);
+		static void Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, glm::vec4 color = glm::vec4(1.0f));
+		static void Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, glm::vec3 color);
+		static void Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, const std::string& texSource, glm::vec4 color = glm::vec4(1.0f));
+		static void Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, const std::string& texSource, glm::vec3 color);
 		
-		static void AddTexture(std::string texSource, bool alpha, std::string name);
+		static void AddTexture(const std::string& texSource, bool alpha, const std::string& name);
 
-		static void AddSpriteSheet(std::string texSource, bool alpha, std::string name, unsigned int width, unsigned int height);
-		static void DrawSprite(const glm::vec2& corner, glm::vec2 size, unsigned int spriteWidth, unsigned int spriteHeight, unsigned int x, unsigned int y, 
+		static void AddSpriteSheet(const std::string& texSource, bool alpha, const std::string& name, unsigned int width, unsigned int height,
+			unsigned int spriteWidth, unsigned int spriteHeight);
+		static void DrawSprite(const glm::vec2& corner, const glm::vec2& size, unsigned int spriteWidth, unsigned int spriteHeight, unsigned int x, unsigned int y, 
 			std::string spritesheetSource, glm::vec4 color = glm::vec4(1.0f));
-		static void DrawSprite(const glm::vec2& corner, glm::vec2 size, unsigned int spriteWidth, unsigned int spriteHeight, unsigned int x, unsigned int y, 
+		static void DrawSprite(const glm::vec2& corner, const glm::vec2& size, unsigned int spriteWidth, unsigned int spriteHeight, unsigned int x, unsigned int y, 
 			std::string spritesheetSource, glm::vec3 color);
 
 		static void AddOrthoCameraController();

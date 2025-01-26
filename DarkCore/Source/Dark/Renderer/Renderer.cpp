@@ -159,19 +159,19 @@ namespace Dark {
 		Draw2DQuad(glm::vec2(0.0f), glm::vec2(width, height), color);
 	}
 
-	void Renderer::DrawBackDrop(std::string texSource)
+	void Renderer::DrawBackDrop(const std::string& texSource)
 	{
 		int width = data.m_window->getScreenWidth();
 		int height = data.m_window->getScreenHeight();
 		Draw2DQuad(glm::vec2(0.0f), glm::vec2(width, height), texSource);
 	}
 
-	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec3 color)
+	void Renderer::Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, glm::vec3 color)
 	{
 		Renderer::Draw2DQuad(corner, size, glm::vec4(color.x, color.y, color.z, 1.0f));
 	}
 
-	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, glm::vec4 color)
+	void Renderer::Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, glm::vec4 color)
 	{
 		float textureIndex = 0.0f;
 
@@ -201,12 +201,12 @@ namespace Dark {
 		data.batchdata.QuadCount++;
 	}
 
-	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texName, glm::vec3 color)
+	void Renderer::Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, const std::string& texName, glm::vec3 color)
 	{
 		Renderer::Draw2DQuad(corner, size, texName, glm::vec4(color.x, color.y, color.z, 1.0f));
 	}
 
-	void Renderer::Draw2DQuad(const glm::vec2& corner, glm::vec2 size, std::string texName, glm::vec4 color)
+	void Renderer::Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, const std::string& texName, glm::vec4 color)
 	{
 		float textureIndex = 1.0f;
 		bool uniqueTexture = true;
@@ -323,22 +323,22 @@ namespace Dark {
 		glDeleteVertexArrays(1, vertexArraysBuffer);
 	}
 
-	void Renderer::AddTexture(std::string texSource, bool alpha, std::string name)
+	void Renderer::AddTexture(const std::string& texSource, bool alpha, const std::string& name)
 	{
 		data.texLib.AddTexture(texSource, alpha, name);
 	}
 
-	void Renderer::AddSpriteSheet(std::string texSource, bool alpha, std::string name, unsigned int width, unsigned int height)
+	void Renderer::AddSpriteSheet(const std::string& texSource, bool alpha, const std::string& name, unsigned int width, unsigned int height, unsigned int spriteWidth, unsigned int spriteHeight)
 	{
-		data.spritesheetTexLib.AddSpritesheet(texSource, alpha, name, width, height);
+		data.spritesheetTexLib.AddSpritesheet(texSource, alpha, name, width, height, spriteWidth, spriteHeight);
 	}
 	
-	void Renderer::DrawSprite(const glm::vec2& corner, glm::vec2 size, unsigned int spriteWidth, unsigned int spriteHeight, unsigned int x, unsigned int y, std::string spritesheetName, glm::vec3 color)
+	void Renderer::DrawSprite(const glm::vec2& corner, const glm::vec2& size, unsigned int spriteWidth, unsigned int spriteHeight, unsigned int x, unsigned int y, std::string spritesheetName, glm::vec3 color)
 	{
 		DrawSprite(corner, size, spriteWidth, spriteHeight, x, y, spritesheetName, glm::vec4(color.x, color.y, color.z, 1.0f));
 	}
 
-	void Renderer::DrawSprite(const glm::vec2& corner, glm::vec2 size, unsigned int spriteWidth, unsigned int spriteHeight, unsigned int x, unsigned int y, std::string spritesheetName, glm::vec4 color)
+	void Renderer::DrawSprite(const glm::vec2& corner, const glm::vec2& size, unsigned int spriteWidth, unsigned int spriteHeight, unsigned int x, unsigned int y, std::string spritesheetName, glm::vec4 color)
 	{
 		float textureIndex = 0.0f;
 		bool uniqueTexture = true;
