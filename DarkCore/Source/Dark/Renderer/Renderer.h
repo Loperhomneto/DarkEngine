@@ -24,6 +24,8 @@ namespace Dark {
 		
 		static void AddTexture(std::string texSource, bool alpha, std::string name);
 
+		static void AddSpriteSheet(std::string texSource, bool alpha, std::string name);
+
 		static void AddOrthoCameraController();
 		static void OnUpdate(TimeStep ts);
 		static void OnEvent(Event& e);

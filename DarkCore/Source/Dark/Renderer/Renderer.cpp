@@ -39,6 +39,9 @@ namespace Dark {
 		Shader TextureShader;
 		TextureLibrary texLib = TextureLibrary();
 
+		TextureLibrary spritesheetTexLib = TextureLibrary();
+		int spritesheets = 0;
+
 		std::shared_ptr<Window> m_window;
 
 		BatchData batchdata;
@@ -322,6 +325,11 @@ namespace Dark {
 	void Renderer::AddTexture(std::string texSource, bool alpha, std::string name)
 	{
 		data.texLib.AddTexture(texSource, alpha, name);
+	}
+
+	void Renderer::AddSpriteSheet(std::string texSource, bool alpha, std::string name)
+	{
+		data.spritesheetTexLib.AddTexture(texSource, alpha, name);
 	}
 
 	void Renderer::AddOrthoCameraController()
