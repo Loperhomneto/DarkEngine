@@ -22,8 +22,19 @@ namespace Dark
 	struct SpriteSheet
 	{
 		std::shared_ptr<Texture> texture;
-		int spritesheetWidth;
-		int spritesheetHeight;
+		unsigned int spritesheetWidth;
+		unsigned int spritesheetHeight;
+		unsigned int spriteWidth;
+		unsigned int spriteHeight;
+
+		SpriteSheet(std::shared_ptr<Texture> texture, unsigned int spritesheetWidth, unsigned int spritesheetHeight, unsigned int spriteWidth, unsigned int spriteHeight)
+		{
+			this->texture = texture;
+			this->spritesheetWidth = spritesheetWidth;
+			this->spritesheetHeight = spritesheetHeight;
+			this->spriteWidth = spriteWidth;
+			this->spriteHeight = spriteHeight;
+		}
 	};
 
 	class SpritesheetLibrary
@@ -31,9 +42,9 @@ namespace Dark
 	public:
 		SpritesheetLibrary();
 
-		void AddSpritesheet(std::string texSource, bool alpha, std::string name, unsigned int width, unsigned int height);
-		void AddSpritesheet(const std::shared_ptr<Texture>& texture, std::string name, unsigned int width, unsigned int height);
-		void AddSpritesheet(unsigned int width, unsigned int height, void* data, std::string name);
+		void AddSpritesheet(std::string texSource, bool alpha, std::string name, unsigned int width, unsigned int height, unsigned int spriteWidth, unsigned int spriteHeight);
+		void AddSpritesheet(const std::shared_ptr<Texture>& texture, std::string name, unsigned int width, unsigned int height, unsigned int spriteWidth, unsigned int spriteHeight);
+		void AddSpritesheet(unsigned int width, unsigned int height, void* data, std::string name, unsigned int spriteWidth, unsigned int spriteHeight);
 		std::shared_ptr<SpriteSheet> LoadSpritesheet(std::string name);
 	private:
 		std::unordered_map<std::string, std::shared_ptr<SpriteSheet>> m_spritesheets;
