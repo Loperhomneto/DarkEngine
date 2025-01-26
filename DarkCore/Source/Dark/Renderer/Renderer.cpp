@@ -39,8 +39,9 @@ namespace Dark {
 		Shader TextureShader;
 		TextureLibrary texLib = TextureLibrary();
 
-		TextureLibrary spritesheetTexLib = TextureLibrary();
-		int spritesheets = 0;
+		SpritesheetLibrary spritesheetTexLib = SpritesheetLibrary();
+		unsigned int spritesheets = 0;
+		unsigned int spriteIndex = 0;
 
 		std::shared_ptr<Window> m_window;
 
@@ -327,9 +328,63 @@ namespace Dark {
 		data.texLib.AddTexture(texSource, alpha, name);
 	}
 
-	void Renderer::AddSpriteSheet(std::string texSource, bool alpha, std::string name)
+	void Renderer::AddSpriteSheet(std::string texSource, bool alpha, std::string name, unsigned int width, unsigned int height)
 	{
-		data.spritesheetTexLib.AddTexture(texSource, alpha, name);
+		data.spritesheetTexLib.AddSpritesheet(texSource, alpha, name, width, height);
+	}
+	
+	void Renderer::DrawSprite(const glm::vec2& corner, glm::vec2 size, unsigned int spriteWidth, unsigned int spriteHeight, unsigned int x, unsigned int y, std::string spritesheetName, glm::vec3 color)
+	{
+		DrawSprite(corner, size, spriteWidth, spriteHeight, x, y, spritesheetName, glm::vec4(color.x, color.y, color.z, 1.0f));
+	}
+
+	void Renderer::DrawSprite(const glm::vec2& corner, glm::vec2 size, unsigned int spriteWidth, unsigned int spriteHeight, unsigned int x, unsigned int y, std::string spritesheetName, glm::vec4 color)
+	{
+		float textureIndex = 0.0f;
+		bool uniqueTexture = true;
+		for (int i = 0; i < data.batchdata.texIndex; i++)
+		{
+			if (data.batchdata.textures[i] == spritesheetName)
+			{
+				textureIndex = i;
+				uniqueTexture = false;
+				break;
+			}
+		}
+
+		if (uniqueTexture)
+		{
+			textureIndex = data.batchdata.texIndex;
+			data.batchdata.textures[textureIndex] = spritesheetName;
+			data.batchdata.texIndex++;
+			data.spritesheets++;
+		}
+
+		std::shared_ptr<SpriteSheet> spritesheet = data.spritesheetTexLib.LoadSpritesheet(spritesheetName);
+		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y, 0.0f };
+		data.batchdata.vertsPtr->color = color;
+		data.batchdata.vertsPtr->texCoords = { 1.0f, 0.0f };
+		data.batchdata.vertsPtr->texIndex = textureIndex;
+		data.batchdata.vertsPtr++;
+
+		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y + size.y, 0.0f };
+		data.batchdata.vertsPtr->color = color;
+		data.batchdata.vertsPtr->texCoords = { 1.0f, 1.0f };
+		data.batchdata.vertsPtr->texIndex = textureIndex;
+		data.batchdata.vertsPtr++;
+
+		data.batchdata.vertsPtr->position = { corner.x, corner.y + size.y, 0.0f };
+		data.batchdata.vertsPtr->color = color;
+		data.batchdata.vertsPtr->texCoords = { 0.0f, 1.0f };
+		data.batchdata.vertsPtr->texIndex = textureIndex;
+		data.batchdata.vertsPtr++;
+
+		data.batchdata.vertsPtr->position = { corner.x, corner.y, 0.0f };
+		data.batchdata.vertsPtr->color = color;
+		data.batchdata.vertsPtr->texCoords = { 0.0f, 0.0f };
+		data.batchdata.vertsPtr->texIndex = textureIndex;
+		data.batchdata.vertsPtr++;
+		data.batchdata.QuadCount++;
 	}
 
 	void Renderer::AddOrthoCameraController()
