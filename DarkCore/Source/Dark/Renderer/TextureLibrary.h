@@ -2,6 +2,7 @@
 #include "dkpch.h"
 #include "Texture.h"
 #include "Dark/Core.h"
+#include "glm.hpp"
 
 namespace Dark
 {
@@ -22,18 +23,14 @@ namespace Dark
 	struct SpriteSheet
 	{
 		std::shared_ptr<Texture> texture;
-		unsigned int spritesheetWidth;
-		unsigned int spritesheetHeight;
-		unsigned int spriteWidth;
-		unsigned int spriteHeight;
+		glm::vec2 spritesheetSize;
+		glm::vec2 spriteSize;
 
-		SpriteSheet(std::shared_ptr<Texture> texture, unsigned int spritesheetWidth, unsigned int spritesheetHeight, unsigned int spriteWidth, unsigned int spriteHeight)
+		SpriteSheet(std::shared_ptr<Texture> texture, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize)
 		{
 			this->texture = texture;
-			this->spritesheetWidth = spritesheetWidth;
-			this->spritesheetHeight = spritesheetHeight;
-			this->spriteWidth = spriteWidth;
-			this->spriteHeight = spriteHeight;
+			this->spritesheetSize= spritesheetSize;
+			this->spriteSize = spriteSize;
 		}
 	};
 
@@ -42,9 +39,9 @@ namespace Dark
 	public:
 		SpritesheetLibrary();
 
-		void AddSpritesheet(std::string texSource, bool alpha, std::string name, unsigned int width, unsigned int height, unsigned int spriteWidth, unsigned int spriteHeight);
-		void AddSpritesheet(const std::shared_ptr<Texture>& texture, std::string name, unsigned int width, unsigned int height, unsigned int spriteWidth, unsigned int spriteHeight);
-		void AddSpritesheet(unsigned int width, unsigned int height, void* data, std::string name, unsigned int spriteWidth, unsigned int spriteHeight);
+		void AddSpritesheet(std::string texSource, bool alpha, std::string name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize);
+		void AddSpritesheet(const std::shared_ptr<Texture>& texture, std::string name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize);
+		void AddSpritesheet(unsigned int width, unsigned int height, void* data, std::string name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize);
 		std::shared_ptr<SpriteSheet> LoadSpritesheet(std::string name);
 	private:
 		std::unordered_map<std::string, std::shared_ptr<SpriteSheet>> m_spritesheets;

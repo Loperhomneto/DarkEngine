@@ -330,7 +330,7 @@ namespace Dark {
 
 	void Renderer::AddSpriteSheet(const std::string& texSource, bool alpha, const std::string& name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize)
 	{
-		data.spritesheetTexLib.AddSpritesheet(texSource, alpha, name, spritesheetSize.x, spritesheetSize.y, spriteSize.x, spriteSize.y);
+		data.spritesheetTexLib.AddSpritesheet(texSource, alpha, name, spritesheetSize, spriteSize);
 	}
 	
 	void Renderer::DrawSprite(const glm::vec2& corner, const glm::vec2& size, const glm::vec2& spriteCoords, const glm::vec2& spriteSize,
