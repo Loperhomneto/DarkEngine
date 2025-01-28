@@ -361,27 +361,36 @@ namespace Dark {
 			data.batchdata.texIndex++;
 		}
 
+		unsigned int spritesheetWidth = data.texLib.LoadTexture(spritesheetName)->getWidth();
+		unsigned int spritesheetHeight = data.texLib.LoadTexture(spritesheetName)->getHeight();
+		glm::vec2 texCoords[] = {
+			{ (spriteCoords.x + 1) * spriteSize.x / spritesheetWidth, spriteCoords.y * spriteSize.y / spritesheetHeight },
+			{ (spriteCoords.x + 1) * spriteSize.x / spritesheetWidth, (spriteCoords.y + 1)* spriteSize.y / spritesheetHeight },
+			{ (spriteCoords.x) * spriteSize.x / spritesheetWidth, (spriteCoords.y + 1) * spriteSize.y / spritesheetHeight },
+			{ (spriteCoords.x) * spriteSize.x / spritesheetWidth, spriteCoords.y * spriteSize.y / spritesheetHeight }
+		};
+		
 		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 0.0f };
+		data.batchdata.vertsPtr->texCoords = texCoords[0];
 		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 
 		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y + size.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 1.0f };
+		data.batchdata.vertsPtr->texCoords = texCoords[1];
 		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 
 		data.batchdata.vertsPtr->position = { corner.x, corner.y + size.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 1.0f };
+		data.batchdata.vertsPtr->texCoords = texCoords[2];
 		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 
 		data.batchdata.vertsPtr->position = { corner.x, corner.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 0.0f };
+		data.batchdata.vertsPtr->texCoords = texCoords[3];
 		data.batchdata.vertsPtr->texIndex = textureIndex;
 		data.batchdata.vertsPtr++;
 		data.batchdata.QuadCount++;
