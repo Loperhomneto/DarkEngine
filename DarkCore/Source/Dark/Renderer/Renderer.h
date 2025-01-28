@@ -24,10 +24,10 @@ namespace Dark {
 		
 		static void AddTexture(const std::string& texSource, bool alpha, const std::string& name);
 
-		static void AddSpriteSheet(const std::string& texSource, bool alpha, const std::string& name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize);
-		static void DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetSource, 
+		static void AddSpriteSheet(const std::string& texSource, bool alpha, const std::string& name);
+		static void DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName, 
 			const glm::vec2& spriteCoords, const glm::vec2& spriteSize = glm::vec2(1.0f), glm::vec4 color = glm::vec4(1.0f));
-		static void DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetSource, 
+		static void DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
 			const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec3 color);
 
 		static void AddOrthoCameraController();
