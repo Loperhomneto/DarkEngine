@@ -43,4 +43,20 @@ namespace Dark
 		Renderer::AddOrthoCameraController();
 	}
 
+	void Renderer2D::AddSpriteSheet(const std::string& texSource, bool alpha, const std::string& name)
+	{
+		Renderer::AddSpriteSheet(texSource, alpha, name);
+	}
+	void Renderer2D::DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
+		const glm::vec2& spriteCoords, const glm::vec2& spriteSize = glm::vec2(1.0f), glm::vec4 color = glm::vec4(1.0f))
+	{
+		Renderer::DrawSprite(corner, size, spritesheetName, spriteCoords, spriteSize, color);
+	}
+	void Renderer2D::DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
+		const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec3 color)
+	{
+		Renderer:DrawSprite(corner, size, spritesheetName, spriteCoords, spriteSize, color);
+	}
+
+
 }
