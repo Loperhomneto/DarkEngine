@@ -32,6 +32,7 @@ void FooLayer::OnAttach()
 	Renderer2D::AddTexture("assets/textures/idle1.png", true, "idle1");
 	Renderer2D::AddTexture("assets/textures/idle2.png", true, "idle2");
 	Renderer2D::AddTexture("assets/textures/table.png", true, "table");
+	Renderer2D::AddSpritesheet("assets/textures/RPGpack_sheet_2X.png", true, "testSpritesheet");
 
 	Renderer2D::AddOrthoCameraController();
 }
@@ -49,6 +50,8 @@ void FooLayer::OnUpdate(TimeStep ts)
 	Renderer2D::Draw2DQuad(glm::vec2(200, 200), glm::vec2(100, 100), "container");
 	Renderer2D::Draw2DQuad(glm::vec2(0, 0), glm::vec2(200, 200), "papiface");
 	Renderer2D::Draw2DQuad(glm::vec2(300, 300), glm::vec2(300, 300), "papiface");
+
+	Renderer2D::DrawSprite(glm::vec2(400, 0), glm::vec2(128, 128), "testSpritesheet", glm::vec2(0, 3), glm::vec2(128, 128));
 
 	//Renderer2D::DrawBackDrop("floor");
 
