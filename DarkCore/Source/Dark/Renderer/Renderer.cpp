@@ -9,6 +9,16 @@
 
 namespace Dark {
 
+	struct Spritesheet
+	{
+		glm::vec2 spriteSize;
+
+		Spritesheet(const glm::vec2& spriteSize)
+		{
+			this->spriteSize = spriteSize;
+		}
+	};
+
 	struct Vertex
 	{
 		glm::vec3 position;
@@ -47,6 +57,8 @@ namespace Dark {
 
 		bool isCameraController = false;
 		std::shared_ptr<OrthoCameraController> orthoCameraController;
+
+		std::unordered_map<std::string, std::shared_ptr<Spritesheet>> spritesheets;
 	} data;
 	
 	void Renderer::Init(std::shared_ptr<Window> window)
@@ -334,9 +346,11 @@ namespace Dark {
 		}
 	}
 
-	void Renderer::AddSpriteSheet(const std::string& texSource, bool alpha, const std::string& name)
+	void Renderer::AddSpritesheet(const std::string& texSource, bool alpha, const std::string& name, const glm::vec2& spriteSize)
 	{
 		data.texLib.AddTexture(texSource, alpha, name);
+		std::shared_ptr<Spritesheet> spritesheet = std::make_shared<Spritesheet>(spriteSize);
+		data.spritesheets[name] = spritesheet;
 	}
 
 	void Renderer::DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
@@ -363,11 +377,12 @@ namespace Dark {
 
 		unsigned int spritesheetWidth = data.texLib.LoadTexture(spritesheetName)->getWidth();
 		unsigned int spritesheetHeight = data.texLib.LoadTexture(spritesheetName)->getHeight();
+		std::shared_ptr<Spritesheet> spritesheet = data.spritesheets[spritesheetName];
 		glm::vec2 texCoords[] = {
-			{ (spriteCoords.x + 1) * spriteSize.x / spritesheetWidth, spriteCoords.y * spriteSize.y / spritesheetHeight },
-			{ (spriteCoords.x + 1) * spriteSize.x / spritesheetWidth, (spriteCoords.y + 1)* spriteSize.y / spritesheetHeight },
-			{ (spriteCoords.x) * spriteSize.x / spritesheetWidth, (spriteCoords.y + 1) * spriteSize.y / spritesheetHeight },
-			{ (spriteCoords.x) * spriteSize.x / spritesheetWidth, spriteCoords.y * spriteSize.y / spritesheetHeight }
+			{ (spriteCoords.x + spriteSize.x) * spritesheet->spriteSize.x / spritesheetWidth, spriteCoords.y * spritesheet->spriteSize.y / spritesheetHeight },
+			{ (spriteCoords.x + spriteSize.x) * spritesheet->spriteSize.x / spritesheetWidth, (spriteCoords.y + spriteSize.y) * spritesheet->spriteSize.y / spritesheetHeight },
+			{ (spriteCoords.x) * spritesheet->spriteSize.x / spritesheetWidth, (spriteCoords.y + spriteSize.y) * spritesheet->spriteSize.y / spritesheetHeight },
+			{ (spriteCoords.x) * spritesheet->spriteSize.x / spritesheetWidth, spriteCoords.y * spritesheet->spriteSize.y / spritesheetHeight }
 		};
 		
 		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y, 0.0f };

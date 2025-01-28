@@ -20,32 +20,18 @@ namespace Dark
 		std::unordered_map<std::string, std::shared_ptr<Texture>> m_textures;
 	};
 
-	struct SpriteSheet
-	{
-		std::shared_ptr<Texture> texture;
-		glm::vec2 spritesheetSize;
-		glm::vec2 spriteSize;
+	//class SpritesheetLibrary
+	//{
+	//public:
+	//	SpritesheetLibrary();
 
-		SpriteSheet(std::shared_ptr<Texture> texture, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize)
-		{
-			this->texture = texture;
-			this->spritesheetSize= spritesheetSize;
-			this->spriteSize = spriteSize;
-		}
-	};
-
-	class SpritesheetLibrary
-	{
-	public:
-		SpritesheetLibrary();
-
-		void AddSpritesheet(std::string texSource, bool alpha, std::string name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize);
-		void AddSpritesheet(const std::shared_ptr<Texture>& texture, std::string name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize);
-		void AddSpritesheet(unsigned int width, unsigned int height, void* data, std::string name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize);
-		std::shared_ptr<SpriteSheet> LoadSpritesheet(std::string name);
-	private:
-		std::unordered_map<std::string, std::shared_ptr<SpriteSheet>> m_spritesheets;
-	};
+	//	void AddSpritesheet(std::string texSource, bool alpha, std::string name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize);
+	//	void AddSpritesheet(const std::shared_ptr<Texture>& texture, std::string name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize);
+	//	void AddSpritesheet(unsigned int width, unsigned int height, void* data, std::string name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize);
+	//	std::shared_ptr<SpriteSheet> LoadSpritesheet(std::string name);
+	//private:
+	//	std::unordered_map<std::string, std::shared_ptr<SpriteSheet>> m_spritesheets;
+	//};
 
 }
 
