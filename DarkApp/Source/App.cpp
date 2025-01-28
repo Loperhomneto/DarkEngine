@@ -14,7 +14,6 @@ void FooLayer::OnAttach()
 //TODO: framebuffers, unity like editor, fix background
 // add rotated quads
 // how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
-// spritesheets/how to render them
 // add profiling, not sure if something is taking a really long time to render
 
 
