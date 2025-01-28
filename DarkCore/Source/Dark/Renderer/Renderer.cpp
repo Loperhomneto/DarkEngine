@@ -360,7 +360,6 @@ namespace Dark {
 			data.batchdata.textures[textureIndex] = spritesheetName;
 			data.batchdata.texIndex++;
 		}
-		//std::cout << textureIndex << " " << texName << " uniqueTexture " << uniqueTexture << std::endl;
 
 		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y, 0.0f };
 		data.batchdata.vertsPtr->color = color;

@@ -32,6 +32,8 @@ namespace Dark
 		}
 
 		unsigned char* data = stbi_load(source.c_str(), &width, &height, &nrChannels, 0);
+		m_width = width;
+		m_height = height;
 		if (data)
 		{
 			glTexImage2D(GL_TEXTURE_2D, 0, rgb, width, height, 0, rgb, GL_UNSIGNED_BYTE, data);
@@ -46,6 +48,9 @@ namespace Dark
 
 	Texture::Texture(unsigned int width, unsigned int height, void* data)
 	{
+		m_width = width;
+		m_height = height;
+
 		unsigned int InternalFormat = GL_RGBA8;
 		unsigned int DataFormat = GL_RGBA;
 

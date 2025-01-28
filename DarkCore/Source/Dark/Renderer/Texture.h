@@ -12,8 +12,12 @@ namespace Dark
 		void Bind(int unit);
 
 		unsigned int getID() { return m_texture; }
+		unsigned int getWidth() { return m_width;  }
+		unsigned int getHeight() { return m_height;  }
 	private:
 		unsigned int m_texture;
+		unsigned int m_width;
+		unsigned int m_height;
 	};
 }
 
