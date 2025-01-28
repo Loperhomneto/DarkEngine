@@ -340,7 +340,7 @@ namespace Dark {
 	}
 
 	void Renderer::DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
-		const glm::vec2& spriteCoords, const glm::vec2& spriteSize = glm::vec2(1.0f), glm::vec4 color = glm::vec4(1.0f))
+		const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec4 color)
 	{
 		float textureIndex = 1.0f;
 		bool uniqueTexture = true;
