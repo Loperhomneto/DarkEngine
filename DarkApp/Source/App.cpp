@@ -12,6 +12,7 @@ void FooLayer::OnAttach()
 	Logger::info("onattach app");
 
 //TODO: framebuffers, unity like editor, fix background
+// make logger work wihout seperating lines
 // add rotated quads
 // how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
 // add profiling, not sure if something is taking a really long time to render
