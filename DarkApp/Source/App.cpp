@@ -23,7 +23,7 @@ void FooLayer::OnAttach()
 	Renderer2D::AddTexture("assets/textures/container.jpg", false, "container");
 	Renderer2D::AddTexture("assets/textures/awesomeface.png", true, "papiface");
 	//Renderer2D::AddTexture("assets/textures/flooring.jpg", false, "flooring");
-	//Renderer2D::AddTexture("assets/textures/floor.png", true, "floor");
+	Renderer2D::AddTexture("assets/textures/floor.png", true, "floor");
 	//Renderer2D::AddTexture("assets/textures/up1.png", true, "up1");
 	//Renderer2D::AddTexture("assets/textures/up2.png", true, "up2");
 	//Renderer2D::AddTexture("assets/textures/any1.png", true, "any1");
@@ -38,11 +38,18 @@ void FooLayer::OnAttach()
 
 void FooLayer::OnUpdate(TimeStep ts)
 {
-	//Doesn't work!!
-	//Renderer2D::DrawBackDrop("floor");
-	Renderer2D::DrawBackDrop(glm::vec3(0.1f, 0.2f, 0.3f));
-
-	m_Color = glm::vec3(1.0f, 1.0f, m_Color.z - (ts.getDeltatime()/10));
+	Renderer2D::DrawBackDrop("floor");
+	//Renderer2D::DrawBackDrop(glm::vec3(0.1f, 0.2f, 0.3f));
+	float colorZ = m_Color.z + (ts.getDeltatime() * add * 5.0f);
+	if (colorZ < 0.0f)
+	{
+		add = 1.0f;
+	}
+	else if (colorZ > 1.0f)
+	{
+		add = -1.0f;
+	}
+	m_Color = glm::vec3(1.0f, 1.0f, colorZ);
 	Renderer2D::Draw2DQuad(glm::vec2(0.5f, 0.5f), glm::vec2(1.0f, 1.0f), m_Color);
 	Renderer2D::Draw2DQuad(glm::vec2(1.0f, -2.0f), glm::vec2(2.0f, 2.0f), glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
 

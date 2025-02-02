@@ -18,6 +18,7 @@ public:
 
 private:
 	glm::vec3 m_Color = glm::vec3(1.0f);
+	int add = -1;
 	//void EventWindowResize(WindowResizeEvent& e);
 
 	//game logic
