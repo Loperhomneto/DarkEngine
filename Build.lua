@@ -2,7 +2,7 @@
 workspace "DarkEngine"
    architecture "x64"
    configurations { "Debug", "Release", "Dist" }
-   startproject "DarkApp"
+   startproject "DarkEditor"
 
    -- Workspace-wide build options for MSVC
    filter "system:windows"
@@ -14,7 +14,10 @@ workspace "DarkEngine"
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
 include "DarkCore/Build-Core.lua"
+include "DarkEditor/Build-Editor.lua"
 include "DarkApp/Build-App.lua"
-include "Vendor/glfw/premake5.lua"
-include "Vendor/Glad/premake5.lua"
-include "Vendor/premakes/ImGuiPremake5.lua"
+
+group "Dependencies"
+	include "Vendor/glfw/premake5.lua"
+	include "Vendor/Glad/premake5.lua"
+	include "Vendor/premakes/ImGuiPremake5.lua"
