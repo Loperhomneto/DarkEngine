@@ -43,11 +43,11 @@ namespace Dark
 
 		if (Input::isKeyPressed(DARK_KEY_Q))
 		{
-			m_CameraRotation += ts.getDeltatime() * m_CameraRotationSpeed;
+			m_CameraRotation -= ts.getDeltatime() * m_CameraRotationSpeed;
 		}
 		else if (Input::isKeyPressed(DARK_KEY_E))
 		{
-			m_CameraRotation -= ts.getDeltatime() * m_CameraRotationSpeed;
+			m_CameraRotation += ts.getDeltatime() * m_CameraRotationSpeed;
 		}
 
 	}
@@ -77,7 +77,7 @@ namespace Dark
 
 	void OrthoCameraController::OnMouseScroll(MouseScrollEvent& e)
 	{
-		m_ZoomLevel += e.scrolly * m_ZoomSpeed;
+		m_ZoomLevel -= e.scrolly * m_ZoomSpeed;
 		if (m_ZoomLevel < 0.25f)
 		{
 			m_ZoomLevel = 0.25f;
