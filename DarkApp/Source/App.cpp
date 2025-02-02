@@ -38,6 +38,8 @@ void FooLayer::OnAttach()
 
 void FooLayer::OnUpdate(TimeStep ts)
 {
+	m_Rotation += ts.getDeltatime() * 50;
+
 	Renderer2D::DrawBackDrop("floor");
 	//Renderer2D::DrawBackDrop(glm::vec3(0.1f, 0.2f, 0.3f));
 	float colorZ = m_Color.z + (ts.getDeltatime() * add * 5.0f);
@@ -58,6 +60,8 @@ void FooLayer::OnUpdate(TimeStep ts)
 	Renderer2D::Draw2DQuad(glm::vec2(-1.5f, -1.5f), glm::vec2(3.0f, 3.0f), "papiface");
 
 	Renderer2D::DrawSprite(glm::vec2(-3.0f, -0.5f), glm::vec2(1.0f, 2.0f), "testSpritesheet", glm::vec2(0, 1), glm::vec2(1, 2));
+	Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(2.0f, 2.0f), m_Rotation, glm::vec3(1.0f, 1.0f, 1.0f));
+	Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(1.0f, 1.0f), -m_Rotation, "container", glm::vec3(1.0f, 1.0f, 0.8f));
 
 
 
