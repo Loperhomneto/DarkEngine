@@ -12,7 +12,7 @@ namespace Dark {
 	public:
 		static void Init(std::shared_ptr<Window> window);
 		static void DeInit();
-		static void startRendererCall(int width, int height);
+		static void startRendererCall();
 		static void endRendererCall();
 		static void DrawBackDrop(const glm::vec4 color);
 		static void DrawBackDrop(const glm::vec3 color);

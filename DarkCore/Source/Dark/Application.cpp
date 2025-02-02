@@ -15,7 +15,7 @@ namespace Dark {
 
 	Application::Application()
 	{
-		m_window = std::make_shared<Window>(DARK_BIND_FN(OnEvent), "New Window", 800, 600);
+		m_window = std::make_shared<Window>(DARK_BIND_FN(OnEvent), "New Window", 1280, 720);
 		Renderer::Init(m_window);
 
 #ifdef DK_DEBUG
@@ -32,7 +32,7 @@ namespace Dark {
 			timeprev = timenext;
 			TimeStep ts(deltatime);
 
-			Renderer::startRendererCall(m_window->getScreenWidth(), m_window->getScreenHeight());
+			Renderer::startRendererCall();
 			Renderer::OnUpdate(ts);
 
 			auto it = m_LayerManager.begin();

@@ -25,6 +25,7 @@ namespace Dark
 		float m_AspectRatio;
 		float m_CameraTranslationSpeed = 5.0f, m_CameraRotationSpeed = 180.0f, m_ZoomSpeed = 0.25f;
 		float m_ZoomLevel = 1.0f;
+		float m_OrthographicSize = 2.0f;
 	private:
 		void OnWindowResize(WindowResizeEvent& e);
 		void OnMouseScroll(MouseScrollEvent& e);

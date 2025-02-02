@@ -73,12 +73,10 @@ namespace Dark {
 			"out vec4 ourColor; \n"
 			"out vec2 TexCoord; \n"
 			"out float TexIndex; \n"
-			"uniform int sHeight;\n"
-			"uniform int sWidth;\n"
 			"uniform mat4 sViewProjectionMatrix;"
 			"void main()\n"
 			"{\n"
-			"	gl_Position = sViewProjectionMatrix * vec4(((aPos.x*2)-sWidth)/sWidth, ((aPos.y*2)-sHeight)/sHeight, aPos.z, 1.0); \n"
+			"	gl_Position = sViewProjectionMatrix * vec4(aPos, 1.0); \n"
 			"	ourColor = aColor; \n"
 			"	TexCoord = aTexCoord; \n"
 			"   TexIndex = aTexIndex; \n"
@@ -117,13 +115,11 @@ namespace Dark {
 		data.imGuiRenderer->Shutdown();
 	}
 
-	void Renderer::startRendererCall(int width, int height)
+	void Renderer::startRendererCall()
 	{
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		data.TextureShader.Use();
-		data.TextureShader.setInt("sWidth", width);
-		data.TextureShader.setInt("sHeight", height);
 
 		if (data.isCameraController)
 		{
@@ -160,18 +156,15 @@ namespace Dark {
 		Renderer::DrawBackDrop(glm::vec4(color.x, color.y, color.z, 1.0f));
 	}
 
+	//TODO: fix DrawBackDrop with the proper dimensions and with use of the orthographic camera controller
 	void Renderer::DrawBackDrop(const glm::vec4 color)
 	{
-		int width = data.m_window->getScreenWidth();
-		int height = data.m_window->getScreenHeight();
-		Draw2DQuad(glm::vec2(0.0f), glm::vec2(width, height), color);
+		Draw2DQuad(glm::vec2(-5.0f, -5.0f), glm::vec2(10.0f, 10.0f), color);
 	}
 
 	void Renderer::DrawBackDrop(const std::string& texSource)
 	{
-		int width = data.m_window->getScreenWidth();
-		int height = data.m_window->getScreenHeight();
-		Draw2DQuad(glm::vec2(0.0f), glm::vec2(width, height), texSource);
+		Draw2DQuad(glm::vec2(-5.0f, -5.0f), glm::vec2(10.0f, 10.0f), texSource);
 	}
 
 	void Renderer::Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, glm::vec3 color)
@@ -312,15 +305,6 @@ namespace Dark {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		// remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-		// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-		// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-		//for (int i = 0; i < data.batchdata.texIndex; i++)
-		//{
-		//	data.texLib.LoadTexture(data.batchdata.textures[i])->Bind(i);
-		//}
-		//Logger::info(std::to_string(VAO).c_str());
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, data.batchdata.QuadCount * 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
@@ -411,7 +395,7 @@ namespace Dark {
 		data.batchdata.QuadCount++;
 	}
 
-	void DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
+	void Renderer::DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
 		const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec3 color)
 	{
 		DrawSprite(corner, size, spritesheetName, spriteCoords, spriteSize, glm::vec4(color.x, color.y, color.z, 1.0f));

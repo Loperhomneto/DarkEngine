@@ -12,10 +12,12 @@ public:
 class FooLayer : public Layer
 {
 public:
-	virtual void OnAttach() override;
+	void OnAttach() override;
+	void OnUpdate(TimeStep ts) override;
+	void OnEvent(Event& e) override;
 
-	virtual void OnUpdate(TimeStep ts) override;
-	virtual void OnEvent(Event& e) override;
+private:
+	glm::vec3 m_Color = glm::vec3(1.0f);
 	//void EventWindowResize(WindowResizeEvent& e);
 
 	//game logic
