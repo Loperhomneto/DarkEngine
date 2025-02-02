@@ -63,17 +63,7 @@ void FooLayer::OnUpdate(TimeStep ts)
 	Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(2.0f, 2.0f), m_Rotation, glm::vec3(1.0f, 1.0f, 1.0f));
 	Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(1.0f, 1.0f), -m_Rotation, "container", glm::vec3(1.0f, 1.0f, 0.8f));
 
-
-
-	//Tables
-	//float s = width / 8;
-	//for (float x = 0; x < width /*- (width / 4)*/; x += width / 4) {
-	//	for (float y = 0; y < height ; y += height / 4) {
-	//		glm::vec2 vert = glm::vec2(x + width / 8 - s / 2, y + height / 8 - s / 2);
-	//		glm::vec2 size = glm::vec2(s);
-	//		Renderer2D::Draw2DQuad(vert, size, "table");
-	//	}
-	//}
+	// Imgui DockerSpacer
 	bool my_tool_active;
 	ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
 	if (ImGui::BeginMenuBar())
@@ -109,19 +99,8 @@ void FooLayer::OnUpdate(TimeStep ts)
 
 void FooLayer::OnEvent(Event& e)
 {
-	//Event::CheckEventFunc<WindowResizeEvent>(e, BIND_FN(&FooLayer::EventWindowResize));
-
-	if (Event::CheckEvent(EventTypes::KeyInput, e))
-	{
-		//SoundEngine::PlaySound("explosion", 0.1);
-	}
 
 }
-
-//void FooLayer::EventWindowResize(WindowResizeEvent& e)
-//{
-//	std::cout << "Height: " << e.height << " Width: " << e.width;
-//}
 
 Dark::Application* Dark::CreateApplication()
 {

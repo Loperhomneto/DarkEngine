@@ -10,7 +10,7 @@ bin-int/
 *.vcxproj.filters
 *.sln
 *.log
-DarkApp/imgui.ini
+*.ini
 Makefile
 
 # Exclude
