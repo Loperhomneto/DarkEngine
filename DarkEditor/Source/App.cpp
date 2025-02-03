@@ -66,6 +66,7 @@ void FooLayer::OnUpdate(TimeStep ts)
 	// Imgui DockerSpacer
 	bool my_tool_active;
 	ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
+
 	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
@@ -81,12 +82,6 @@ void FooLayer::OnUpdate(TimeStep ts)
 	// Edit a color stored as 4 floats
 	float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	ImGui::ColorEdit4("Color", color);
-
-	// Generate samples and plot them
-	float samples[100];
-	for (int n = 0; n < 100; n++)
-		samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);
-	ImGui::PlotLines("Samples", samples, 100);
 
 	// Display contents in a scrolling region
 	ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
