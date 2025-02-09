@@ -102,7 +102,7 @@ namespace Dark {
 		 glEnable(GL_BLEND);
 		 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		 data.imGuiRenderer->Init();
+		 data.imGuiRenderer->Init(window);
 
 		 data.batchdata.vertsStart = new Vertex[data.batchdata.MaxVertices];
 		 data.batchdata.indicesStart = new unsigned int[data.batchdata.MaxIndices];

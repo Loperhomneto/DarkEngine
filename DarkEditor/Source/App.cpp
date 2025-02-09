@@ -65,6 +65,7 @@ void FooLayer::OnUpdate(TimeStep ts)
 
 	// Imgui DockerSpacer
 	bool my_tool_active;
+	bool my_other_tool_active;
 	ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
 
 	if (ImGui::BeginMenuBar())
@@ -90,6 +91,12 @@ void FooLayer::OnUpdate(TimeStep ts)
 		ImGui::Text("%04d: Some text", n);
 	ImGui::EndChild();
 	ImGui::End();
+
+	//ImGui::Begin("Another window", &my_other_tool_active);
+	//ImGui::Text("Geegerbis for bludignton");
+	//ImGui::End();
+	bool show_demo_window;
+	ImGui::ShowDemoWindow(&show_demo_window);
 }
 
 void FooLayer::OnEvent(Event& e)

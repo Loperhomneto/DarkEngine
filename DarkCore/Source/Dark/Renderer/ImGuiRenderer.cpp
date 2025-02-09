@@ -7,26 +7,28 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Dark/Core.h"
+#define IMGUI_IMPL_OPENGL_LOADER_GLAD
 
 namespace Dark
 {
 
-	void ImGuiRenderer::Init()
+	void ImGuiRenderer::Init(std::shared_ptr<Window> window)
 	{
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+        //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        io.ConfigFlags |= ImGuiWindowFlags_MenuBar;
 
         // Setup Dear ImGui style
         ImGui::StyleColorsDark();
         //ImGui::StyleColorsLight();
 
         // Setup Platform/Renderer backends
-        GLFWwindow* window = glfwGetCurrentContext();
-        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplGlfw_InitForOpenGL(window->getWindow(), true);
         ImGui_ImplOpenGL3_Init("#version 330");
 	}
 
@@ -42,15 +44,17 @@ namespace Dark
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
-        //bool show_demo_window;
-        //ImGui::ShowDemoWindow(&show_demo_window);
     }
 
     void ImGuiRenderer::EndRendererCall()
     {
         ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData()); 
+
+		GLFWwindow* backup_current_context = glfwGetCurrentContext();
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+		glfwMakeContextCurrent(backup_current_context);
     }
 
 }

@@ -14,6 +14,8 @@ namespace Dark
 		int getScreenWidth() { return m_data.SCR_WIDTH; }
 		int getScreenHeight() { return m_data.SCR_HEIGHT; }
 
+		GLFWwindow* getWindow() { return window; }
+
 		void end();
 
 		void ShutDown();
