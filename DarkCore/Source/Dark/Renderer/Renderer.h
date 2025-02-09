@@ -55,6 +55,8 @@ namespace Dark {
 		static void OnEvent(Event& e);
 	private:
 		static void flushBatch();
+
+		static void createFrameBuffer();
 	};
 
 }

@@ -5,8 +5,12 @@
 #include "ImGuiRenderer.h"
 #include "Dark/Core.h"
 #include "Shader.h"
+#include "Dark/Input.h"
+//Remove later
+#include "imgui.h"
 #include "OrthoCameraController.h"
 #include "gtc/matrix_transform.hpp"
+#include <iostream>
 
 namespace Dark {
 	
@@ -62,6 +66,9 @@ namespace Dark {
 		std::shared_ptr<OrthoCameraController> orthoCameraController;
 
 		std::unordered_map<std::string, std::shared_ptr<Spritesheet>> spritesheets;
+
+		unsigned int frameBufferRendererID = 0;
+		unsigned int colorAttachmentRendererID = 0;
 	} data;
 	
 
@@ -111,6 +118,8 @@ namespace Dark {
 		 std::shared_ptr<Texture> whiteTexture = std::make_shared<Texture>(1, 1, &whiteTextureData);
 		 data.texLib.AddTexture(whiteTexture, "whiteTexture");
 		 data.batchdata.textures[0] = "whiteTexture";
+
+		 createFrameBuffer();
 	}
 
 	void Renderer::DeInit()
@@ -122,8 +131,14 @@ namespace Dark {
 
 	void Renderer::startRendererCall()
 	{
+		glBindFramebuffer(GL_FRAMEBUFFER, data.frameBufferRendererID);
+
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
 		data.TextureShader.Use();
 
 		if (data.isCameraController)
@@ -152,6 +167,11 @@ namespace Dark {
 	void Renderer::endRendererCall()
 	{
 		flushBatch();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		ImGui::Begin("Framebuffer");
+		ImGui::Image(data.colorAttachmentRendererID, ImVec2(1280, 720), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+		ImGui::End();
 
 		data.imGuiRenderer->EndRendererCall();
 	}
@@ -552,6 +572,35 @@ namespace Dark {
 		glDeleteVertexArrays(1, vertexArraysBuffer);
 	}
 
+
+	void Renderer::createFrameBuffer()
+	{
+		glGenFramebuffers(1, &data.frameBufferRendererID);
+		glBindFramebuffer(GL_FRAMEBUFFER, data.frameBufferRendererID);
+
+		unsigned int depthAttachment;
+		unsigned int windowWidth = Input::GetWindowWidth();
+		unsigned int windowHeight = Input::GetWindowHeight();
+
+		glGenTextures(1, &data.colorAttachmentRendererID);
+		glBindTexture(GL_TEXTURE_2D, data.colorAttachmentRendererID);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowWidth, windowHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, data.colorAttachmentRendererID, 0);
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &depthAttachment);
+		glBindTexture(GL_TEXTURE_2D, depthAttachment);
+		glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, windowWidth, windowHeight);
+		// glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height, 0,
+		// 	GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthAttachment, 0);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+			Logger::error("Framebuffer is incomplete!");
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
 
 	//Updating every frame
 	void Renderer::OnUpdate(TimeStep ts)
