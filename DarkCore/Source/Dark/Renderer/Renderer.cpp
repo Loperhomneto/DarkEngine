@@ -131,10 +131,10 @@ namespace Dark {
 
 	void Renderer::startRendererCall()
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, data.frameBufferRendererID);
-
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, data.frameBufferRendererID);
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -168,14 +168,18 @@ namespace Dark {
 	{
 		flushBatch();
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
 
-		ImGui::Begin("Framebuffer");
-		ImGui::Image(data.colorAttachmentRendererID, ImVec2(1280, 720), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
-		ImGui::End();
 
+	void Renderer::endImguiRendererCall()
+	{
 		data.imGuiRenderer->EndRendererCall();
 	}
 
+	unsigned int Renderer::getColorAttachment()
+	{
+		return data.colorAttachmentRendererID;
+	}
 
 	//Drawing backdrops 
 	void Renderer::DrawBackDrop(const glm::vec3 color)

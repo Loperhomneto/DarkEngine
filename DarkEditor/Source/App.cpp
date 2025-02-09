@@ -62,46 +62,53 @@ void FooLayer::OnUpdate(TimeStep ts)
 	Renderer2D::DrawSprite(glm::vec2(-3.0f, -0.5f), glm::vec2(1.0f, 2.0f), "testSpritesheet", glm::vec2(0, 1), glm::vec2(1, 2));
 	Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(2.0f, 2.0f), m_Rotation, glm::vec3(1.0f, 1.0f, 1.0f));
 	Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(1.0f, 1.0f), -m_Rotation, "container", glm::vec3(1.0f, 1.0f, 0.8f));
-
-	// Imgui DockerSpacer
-	//bool my_tool_active;
-	//bool my_other_tool_active;
-	//ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
-
-	//if (ImGui::BeginMenuBar())
-	//{
-	//	if (ImGui::BeginMenu("File"))
-	//	{
-	//		if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
-	//		if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
-	//		if (ImGui::MenuItem("Close", "Ctrl+W")) { my_tool_active = false; }
-	//		ImGui::EndMenu();
-	//	}
-	//	ImGui::EndMenuBar();
-	//}
-
-	//// Edit a color stored as 4 floats
-	//float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	//ImGui::ColorEdit4("Color", color);
-
-	//// Display contents in a scrolling region
-	//ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
-	//ImGui::BeginChild("Scrolling");
-	//for (int n = 0; n < 50; n++)
-	//	ImGui::Text("%04d: Some text", n);
-	//ImGui::EndChild();
-	//ImGui::End();
-
-	////ImGui::Begin("Another window", &my_other_tool_active);
-	////ImGui::Text("Geegerbis for bludignton");
-	////ImGui::End();
-	//bool show_demo_window;
-	//ImGui::ShowDemoWindow(&show_demo_window);
 }
 
 void FooLayer::OnEvent(Event& e)
 {
 
+}
+
+void FooLayer::ImGuiRender(unsigned int colorAttachmnetRendererID)
+{
+	ImGui::Begin("Framebuffer");
+	ImGui::Image(colorAttachmnetRendererID, ImVec2(1280, 720), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+	ImGui::End();
+
+	// Imgui DockerSpacer
+	bool my_tool_active;
+	bool my_other_tool_active;
+	ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
+
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
+			if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
+			if (ImGui::MenuItem("Close", "Ctrl+W")) { my_tool_active = false; }
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+
+	// Edit a color stored as 4 floats
+	float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	ImGui::ColorEdit4("Color", color);
+
+	// Display contents in a scrolling region
+	ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
+	ImGui::BeginChild("Scrolling");
+	for (int n = 0; n < 50; n++)
+		ImGui::Text("%04d: Some text", n);
+	ImGui::EndChild();
+	ImGui::End();
+
+	//ImGui::Begin("Another window", &my_other_tool_active);
+	//ImGui::Text("Geegerbis for bludignton");
+	//ImGui::End();
+	bool show_demo_window;
+	ImGui::ShowDemoWindow(&show_demo_window);
 }
 
 Dark::Application* Dark::CreateApplication()

@@ -14,6 +14,8 @@ namespace Dark {
 
 		void virtual OnUpdate(TimeStep ts) {};
 		void virtual OnEvent(Event& e) {};
+
+		void virtual ImGuiRender(unsigned int colorAttachmnetRendererID) {};
 	};
 
 }

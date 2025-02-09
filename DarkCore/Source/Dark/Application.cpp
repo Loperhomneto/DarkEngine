@@ -43,6 +43,15 @@ namespace Dark {
 
 			Renderer::endRendererCall();
 
+			unsigned int colorAttachmnetRendererID = Renderer::getColorAttachment();
+			it = m_LayerManager.begin();
+			for (s_Layer layer = m_LayerManager(it); it < m_LayerManager.end(); it++)
+			{
+				layer->ImGuiRender(colorAttachmnetRendererID);
+			}
+
+			Renderer::endImguiRendererCall();
+
 			m_window->end();
 			//_CrtDumpMemoryLeaks();
 		}

@@ -15,6 +15,9 @@ namespace Dark {
 
 		static void startRendererCall();
 		static void endRendererCall();
+		static void endImguiRendererCall();
+
+		static unsigned int getColorAttachment();
 
 		//Backgrounds
 		static void DrawBackDrop(const glm::vec4 color);

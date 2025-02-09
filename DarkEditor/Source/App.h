@@ -16,6 +16,7 @@ public:
 	void OnUpdate(TimeStep ts) override;
 	void OnEvent(Event& e) override;
 
+	void ImGuiRender(unsigned int colorAttachmnetRendererID) override;
 private:
 	glm::vec3 m_Color = glm::vec3(1.0f);
 	int add = -1;
