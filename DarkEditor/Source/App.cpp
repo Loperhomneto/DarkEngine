@@ -71,42 +71,79 @@ void FooLayer::OnEvent(Event& e)
 
 void FooLayer::ImGuiRender(unsigned int colorAttachmnetRendererID)
 {
-	ImGui::Begin("Framebuffer");
-	ImGui::Image(colorAttachmnetRendererID, ImVec2(1280, 720), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
-	ImGui::End();
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse
+		| ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDocking;
 
-	// Imgui DockerSpacer
-	bool my_tool_active;
-	bool my_other_tool_active;
-	ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
+	ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(viewport->Pos);
+	ImGui::SetNextWindowSize(viewport->Size);
+	ImGui::SetNextWindowViewport(viewport->ID);
 
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+
+	bool dockspaceOpen = true;
+	ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
+	ImGui::PopStyleVar(3);
+
+	ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f));
 	if (ImGui::BeginMenuBar())
 	{
-		if (ImGui::BeginMenu("File"))
+		if (ImGui::BeginMenu("Tools"))
 		{
-			if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
-			if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
-			if (ImGui::MenuItem("Close", "Ctrl+W")) { my_tool_active = false; }
+			if (ImGui::MenuItem("Open Viewport")) {  }
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
 	}
 
-	// Edit a color stored as 4 floats
-	float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	ImGui::ColorEdit4("Color", color);
-
-	// Display contents in a scrolling region
-	ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
-	ImGui::BeginChild("Scrolling");
-	for (int n = 0; n < 50; n++)
-		ImGui::Text("%04d: Some text", n);
-	ImGui::EndChild();
+	bool another_window = true;
+	bool open_viewport = true;
+	ImGui::Begin("Another window", &another_window);
+	ImGui::Text("Geegerbis for bludington");
 	ImGui::End();
 
-	//ImGui::Begin("Another window", &my_other_tool_active);
-	//ImGui::Text("Geegerbis for bludignton");
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("Viewport", &open_viewport);
+	ImGui::PopStyleVar();
+	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+	ImGui::Image(colorAttachmnetRendererID, viewportPanelSize, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+	ImGui::End();
+
+	ImGui::End();
+
+	 //Imgui DockerSpacer
+	//bool my_tool_active;
+	//bool my_other_tool_active;
+	//ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
+
+	//if (ImGui::BeginMenuBar())
+	//{
+	//	if (ImGui::BeginMenu("File"))
+	//	{
+	//		if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
+	//		if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
+	//		if (ImGui::MenuItem("Close", "Ctrl+W")) { my_tool_active = false; }
+	//		ImGui::EndMenu();
+	//	}
+	//	ImGui::EndMenuBar();
+	//}
+
+	//// Edit a color stored as 4 floats
+	//float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	//ImGui::ColorEdit4("Color", color);
+
+	//// Display contents in a scrolling region
+	//ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
+	//ImGui::BeginChild("Scrolling");
+	//for (int n = 0; n < 50; n++)
+	//	ImGui::Text("%04d: Some text", n);
+	//ImGui::EndChild();
 	//ImGui::End();
+
+
 	bool show_demo_window;
 	ImGui::ShowDemoWindow(&show_demo_window);
 }
