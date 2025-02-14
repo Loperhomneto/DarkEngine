@@ -72,7 +72,7 @@ void FooLayer::OnEvent(Event& e)
 void FooLayer::ImGuiRender(unsigned int colorAttachmnetRendererID)
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse
-		| ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDocking;
+		| ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
 
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(viewport->Pos);
@@ -84,7 +84,7 @@ void FooLayer::ImGuiRender(unsigned int colorAttachmnetRendererID)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
 	bool dockspaceOpen = true;
-	ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
+	ImGui::Begin("DockSpace", &dockspaceOpen, window_flags);
 	ImGui::PopStyleVar(3);
 
 	ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
@@ -101,51 +101,24 @@ void FooLayer::ImGuiRender(unsigned int colorAttachmnetRendererID)
 
 	bool another_window = true;
 	bool open_viewport = true;
-	ImGui::Begin("Another window", &another_window);
-	ImGui::Text("Geegerbis for bludington");
+	ImGui::Begin("Scene Panel", &another_window);
 	ImGui::End();
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin("Viewport", &open_viewport);
 	ImGui::PopStyleVar();
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-	ImGui::Image(colorAttachmnetRendererID, viewportPanelSize, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+	m_framebufferSize = { viewportPanelSize.x, viewportPanelSize.y };
+	Logger::info(viewportPanelSize.x);
+	ImGui::Image(colorAttachmnetRendererID, { m_framebufferSize.x, m_framebufferSize.y }, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 	ImGui::End();
-
-	ImGui::End();
-
-	 //Imgui DockerSpacer
-	//bool my_tool_active;
-	//bool my_other_tool_active;
-	//ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
-
-	//if (ImGui::BeginMenuBar())
-	//{
-	//	if (ImGui::BeginMenu("File"))
-	//	{
-	//		if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
-	//		if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
-	//		if (ImGui::MenuItem("Close", "Ctrl+W")) { my_tool_active = false; }
-	//		ImGui::EndMenu();
-	//	}
-	//	ImGui::EndMenuBar();
-	//}
-
-	//// Edit a color stored as 4 floats
-	//float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	//ImGui::ColorEdit4("Color", color);
-
-	//// Display contents in a scrolling region
-	//ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
-	//ImGui::BeginChild("Scrolling");
-	//for (int n = 0; n < 50; n++)
-	//	ImGui::Text("%04d: Some text", n);
-	//ImGui::EndChild();
-	//ImGui::End();
-
 
 	bool show_demo_window;
 	ImGui::ShowDemoWindow(&show_demo_window);
+
+	ImGui::End();
+
+	Renderer2D::updateFramebuffer(m_framebufferSize);
 }
 
 Dark::Application* Dark::CreateApplication()

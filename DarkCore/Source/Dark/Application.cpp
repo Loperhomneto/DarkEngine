@@ -16,7 +16,7 @@ namespace Dark {
 	Application::Application()
 	{
 		m_window = std::make_shared<Window>(DARK_BIND_FN(OnEvent), "New Window", 1280, 720);
-		Renderer::Init(m_window);
+		Renderer::Init(m_window, true);
 
 #ifdef DK_DEBUG
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -75,6 +75,11 @@ namespace Dark {
 		Shutdown();
 	}
 
+	void Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		Renderer::OnWindowResize(e);
+	}
+
 	void Application::pushLayer(std::shared_ptr<Layer>& layer)
 	{
 		m_LayerManager.pushLayer(layer);
@@ -95,7 +100,7 @@ namespace Dark {
 
 	void Application::Shutdown()
 	{
-		Renderer::DeInit();
+		Renderer::Shutdown();
 		m_window->ShutDown();
 		m_running = false;
 	}

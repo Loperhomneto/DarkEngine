@@ -19,6 +19,7 @@ namespace Dark {
 
 		void OnEvent(Event& e);
 		void OnWindowClose(WindowCloseEvent& e);
+		void OnWindowResize(WindowResizeEvent& e);
 
 		void Run();
 	private:

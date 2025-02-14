@@ -80,4 +80,9 @@ namespace Dark
 	}
 
 
+	void Renderer2D::updateFramebuffer(glm::vec2 size)
+	{
+		Renderer::updateFramebuffer(size);
+	}
+
 }

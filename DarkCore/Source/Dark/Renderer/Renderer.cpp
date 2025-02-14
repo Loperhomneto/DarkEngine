@@ -69,13 +69,19 @@ namespace Dark {
 
 		unsigned int frameBufferRendererID = 0;
 		unsigned int colorAttachmentRendererID = 0;
+		unsigned int depthAttactmentRendererID = 0;
+
+		bool usingFrameBuffer = false;
+		bool updateQueueFrameBuffer = true;
+		glm::vec2 framebufferSize = glm::vec2(1280, 720);
 	} data;
 	
 
 	//Renderer initiliaztion and deinilization
-	void Renderer::Init(std::shared_ptr<Window> window)
+	void Renderer::Init(std::shared_ptr<Window> window, bool useFrameBuffer)
 	{
 		data.m_window = window;
+		data.usingFrameBuffer = useFrameBuffer;
 
 		const char* vSource2 = "#version 330 core\n"
 			"layout(location = 0) in vec3 aPos; \n"
@@ -119,26 +125,52 @@ namespace Dark {
 		 data.texLib.AddTexture(whiteTexture, "whiteTexture");
 		 data.batchdata.textures[0] = "whiteTexture";
 
-		 createFrameBuffer();
+		 if (data.usingFrameBuffer)
+		 {
+			 unsigned int windowWidth = Input::GetWindowWidth();
+			 unsigned int windowHeight = Input::GetWindowHeight();
+			 data.framebufferSize = { windowWidth, windowHeight };
+		 }
 	}
 
-	void Renderer::DeInit()
+	void Renderer::Shutdown()
 	{
 		delete[] data.batchdata.vertsStart;
 		delete[] data.batchdata.indicesStart;
 		data.imGuiRenderer->Shutdown();
+
+		if (data.usingFrameBuffer)
+		{
+			glDeleteFramebuffers(1, &data.frameBufferRendererID);
+			glDeleteTextures(1, &data.colorAttachmentRendererID);
+			glDeleteTextures(1, &data.depthAttactmentRendererID);
+		}
 	}
 
 	void Renderer::startRendererCall()
 	{
+		if (data.updateQueueFrameBuffer)
+		{
+			glDeleteFramebuffers(1, &data.frameBufferRendererID);
+			glDeleteTextures(1, &data.colorAttachmentRendererID);
+			glDeleteTextures(1, &data.depthAttactmentRendererID);
+			createFrameBuffer(data.framebufferSize);
+			//data.orthoCameraController->setWindowSize(data.framebufferSize);
+
+			data.updateQueueFrameBuffer = false;
+		}
+
+
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glBindFramebuffer(GL_FRAMEBUFFER, data.frameBufferRendererID);
+		if (data.usingFrameBuffer)
+		{
+			glBindFramebuffer(GL_FRAMEBUFFER, data.frameBufferRendererID);
 
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+		}
 		data.TextureShader.Use();
 
 		if (data.isCameraController)
@@ -167,7 +199,10 @@ namespace Dark {
 	void Renderer::endRendererCall()
 	{
 		flushBatch();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		if (data.usingFrameBuffer)
+		{
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		}
 	}
 
 
@@ -514,7 +549,6 @@ namespace Dark {
 		DrawSprite(corner, size, spritesheetName, spriteCoords, spriteSize, glm::vec4(color.x, color.y, color.z, 1.0f));
 	}
 
-
 	//Rendering all the quads in the batch
 	void Renderer::flushBatch()
 	{
@@ -577,33 +611,35 @@ namespace Dark {
 	}
 
 
-	void Renderer::createFrameBuffer()
+	void Renderer::createFrameBuffer(glm::vec2 size)
 	{
 		glGenFramebuffers(1, &data.frameBufferRendererID);
 		glBindFramebuffer(GL_FRAMEBUFFER, data.frameBufferRendererID);
 
-		unsigned int depthAttachment;
-		unsigned int windowWidth = Input::GetWindowWidth();
-		unsigned int windowHeight = Input::GetWindowHeight();
-
 		glGenTextures(1, &data.colorAttachmentRendererID);
 		glBindTexture(GL_TEXTURE_2D, data.colorAttachmentRendererID);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowWidth, windowHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, size.x, size.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, data.colorAttachmentRendererID, 0);
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &depthAttachment);
-		glBindTexture(GL_TEXTURE_2D, depthAttachment);
-		glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, windowWidth, windowHeight);
+		glCreateTextures(GL_TEXTURE_2D, 1, &data.depthAttactmentRendererID);
+		glBindTexture(GL_TEXTURE_2D, data.depthAttactmentRendererID);
+		glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, size.x, size.y);
 		// glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height, 0,
 		// 	GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthAttachment, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, data.depthAttactmentRendererID, 0);
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 			Logger::error("Framebuffer is incomplete!");
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	void Renderer::updateFramebuffer(glm::vec2 size)
+	{
+		data.updateQueueFrameBuffer = true;
+		data.framebufferSize = size;
 	}
 
 	//Updating every frame
@@ -622,6 +658,14 @@ namespace Dark {
 		{
 			data.orthoCameraController->OnEvent(e);
 		}
+	}
+
+	void Renderer::OnWindowResize(WindowResizeEvent& e)
+	{
+		//if (!data.usingFrameBuffer)
+		//{
+		data.orthoCameraController->setWindowSize(glm::vec2((float)e.width, (float)e.height));
+		//}
 	}
 
 }

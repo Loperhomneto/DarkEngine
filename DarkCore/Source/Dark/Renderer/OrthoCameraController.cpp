@@ -12,8 +12,9 @@ namespace Dark
 	OrthoCameraController::OrthoCameraController()
 	{
 		m_AspectRatio = (float)Input::GetWindowWidth() / (float)Input::GetWindowHeight();
+		Logger::info(m_AspectRatio);
 
-		m_OrthographicSize = 2.0f;
+		m_OrthographicSize = 3.0f;
 		m_viewMatrix = glm::translate(glm::mat4(1.0f), m_CameraPosition) * glm::rotate(glm::mat4(1.0f), glm::radians(m_CameraRotation), glm::vec3(0.0f, 0.0f, 1.0f));
 		m_projectionMatrix = glm::ortho(-m_OrthographicSize * m_AspectRatio * m_ZoomLevel, m_OrthographicSize * m_AspectRatio * m_ZoomLevel,
 			-m_OrthographicSize * m_ZoomLevel, m_OrthographicSize * m_ZoomLevel);
@@ -63,17 +64,21 @@ namespace Dark
 		return m_viewProjectionMatrix;
 	}
 
+	void OrthoCameraController::setWindowSize(glm::vec2 size)
+	{
+		m_AspectRatio = size.x / size.y;
+	}
+
 	void OrthoCameraController::OnEvent(Event& e)
 	{
-		Event::CheckEventFunc<WindowResizeEvent>(e, DARK_BIND_FN(OnWindowResize));
 		Event::CheckEventFunc<MouseScrollEvent>(e, DARK_BIND_FN(OnMouseScroll));
 	}
 
-	void OrthoCameraController::OnWindowResize(WindowResizeEvent& e)	
-	{
-		m_AspectRatio = (float)Input::GetWindowWidth() / (float)Input::GetWindowHeight();
-		//Logger::info("window resized", Input::GetWindowWidth(), Input::GetWindowHeight());
-	}
+	//void OrthoCameraController::OnWindowResize(WindowResizeEvent& e)	
+	//{
+	//	m_AspectRatio = (float)Input::GetWindowWidth() / (float)Input::GetWindowHeight();
+	//	//Logger::info("window resized", Input::GetWindowWidth(), Input::GetWindowHeight());
+	//}
 
 	void OrthoCameraController::OnMouseScroll(MouseScrollEvent& e)
 	{

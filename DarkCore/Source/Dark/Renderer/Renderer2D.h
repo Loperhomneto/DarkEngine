@@ -32,6 +32,8 @@ namespace Dark
 		static void DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
 			const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec3 color);
 
+		static void updateFramebuffer(glm::vec2 size);
+
 
 		static void AddOrthoCameraController();
 	};

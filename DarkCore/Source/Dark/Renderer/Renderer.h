@@ -10,8 +10,8 @@ namespace Dark {
 	class Renderer
 	{
 	public:
-		static void Init(std::shared_ptr<Window> window);
-		static void DeInit();
+		static void Init(std::shared_ptr<Window> window, bool useFrameBuffer);
+		static void Shutdown();
 
 		static void startRendererCall();
 		static void endRendererCall();
@@ -52,14 +52,17 @@ namespace Dark {
 		static void DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
 			const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec3 color);
 
+		static void updateFramebuffer(glm::vec2 size);
+
 		//Updating and using the camera
 		static void AddOrthoCameraController();
 		static void OnUpdate(TimeStep ts);
 		static void OnEvent(Event& e);
+		static void OnWindowResize(WindowResizeEvent& e);
 	private:
 		static void flushBatch();
 
-		static void createFrameBuffer();
+		static void createFrameBuffer(glm::vec2 size);
 	};
 
 }
