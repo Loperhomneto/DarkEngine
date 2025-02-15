@@ -15,7 +15,7 @@ project "DarkCore"
 
    includedirs
    {
-      "Source", "../Vendor/Glad/include", "../Vendor/glfw/include", "../Vendor/glm/glm", "../Vendor/stb", "../Vendor/Irrklang/include", "../Vendor/spdlog/include", "../Vendor/imgui", "../Vendor/imgui/backends"
+      "Source", "../Vendor/Glad/include", "../Vendor/glfw/include", "../Vendor/glm/glm", "../Vendor/stb", "../Vendor/Irrklang/include", "../Vendor/spdlog/include", "../Vendor/imgui", "../Vendor/imgui/backends", "../Vendor/entt/src/entt"
    }
 
    libdirs

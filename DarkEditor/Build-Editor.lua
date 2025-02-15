@@ -15,7 +15,8 @@ project "DarkEditor"
       "../DarkCore/Source",
       -- Include glm
       "../Vendor/glm/glm",
-      "../Vendor/imgui"
+      "../Vendor/imgui",
+      "../Vendor/entt/src/entt"
    }
 
    links

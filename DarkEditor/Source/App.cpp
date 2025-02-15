@@ -127,4 +127,3 @@ Dark::Application* Dark::CreateApplication()
 {
 	return new App();
 }
-
