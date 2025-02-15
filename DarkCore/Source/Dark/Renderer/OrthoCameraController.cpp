@@ -12,14 +12,9 @@ namespace Dark
 	OrthoCameraController::OrthoCameraController()
 	{
 		m_AspectRatio = (float)Input::GetWindowWidth() / (float)Input::GetWindowHeight();
-		Logger::info(m_AspectRatio);
-
 		m_OrthographicSize = 3.0f;
-		m_viewMatrix = glm::translate(glm::mat4(1.0f), m_CameraPosition) * glm::rotate(glm::mat4(1.0f), glm::radians(m_CameraRotation), glm::vec3(0.0f, 0.0f, 1.0f));
-		m_projectionMatrix = glm::ortho(-m_OrthographicSize * m_AspectRatio * m_ZoomLevel, m_OrthographicSize * m_AspectRatio * m_ZoomLevel,
-			-m_OrthographicSize * m_ZoomLevel, m_OrthographicSize * m_ZoomLevel);
-
-		m_viewProjectionMatrix = m_viewMatrix * m_projectionMatrix;
+		
+		CalculateViewProj();
 	}
 
 	void OrthoCameraController::OnUpdate(TimeStep ts)
@@ -55,12 +50,7 @@ namespace Dark
 
 	glm::mat4 OrthoCameraController::getViewProjectionMatrix()
 	{
-		m_viewMatrix = glm::translate(glm::mat4(1.0f), m_CameraPosition) * glm::rotate(glm::mat4(1.0f), glm::radians(m_CameraRotation), glm::vec3(0.0f, 0.0f, 1.0f));
-		m_projectionMatrix = glm::ortho(-m_OrthographicSize * m_AspectRatio * m_ZoomLevel, m_OrthographicSize * m_AspectRatio * m_ZoomLevel,
-			-m_OrthographicSize * m_ZoomLevel, m_OrthographicSize * m_ZoomLevel);
-
-		m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
-
+		CalculateViewProj();
 		return m_viewProjectionMatrix;
 	}
 
@@ -87,6 +77,16 @@ namespace Dark
 		{
 			m_ZoomLevel = 0.25f;
 		}
+	}
+
+	void OrthoCameraController::CalculateViewProj()
+	{
+		Logger::info(m_AspectRatio);
+		m_viewMatrix = glm::translate(glm::mat4(1.0f), m_CameraPosition) * glm::rotate(glm::mat4(1.0f), glm::radians(m_CameraRotation), glm::vec3(0.0f, 0.0f, 1.0f));
+		m_projectionMatrix = glm::ortho(-m_OrthographicSize * m_AspectRatio * m_ZoomLevel, m_OrthographicSize * m_AspectRatio * m_ZoomLevel,
+			-m_OrthographicSize * m_ZoomLevel, m_OrthographicSize * m_ZoomLevel);
+
+		m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
 	}
 
 }

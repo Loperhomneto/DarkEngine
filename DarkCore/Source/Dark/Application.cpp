@@ -62,6 +62,7 @@ namespace Dark {
 		Renderer::OnEvent(e);
 
 		Event::CheckEventFunc<WindowCloseEvent>(e, DARK_BIND_FN(OnWindowClose));
+		Event::CheckEventFunc<WindowResizeEvent>(e, DARK_BIND_FN(OnWindowResize));
 
 		auto it = m_LayerManager.begin();
 		for (s_Layer layer = m_LayerManager(it); it < m_LayerManager.end(); it++)

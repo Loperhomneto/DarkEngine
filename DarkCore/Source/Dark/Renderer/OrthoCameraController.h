@@ -31,6 +31,8 @@ namespace Dark
 	private:
 		//void OnWindowResize(WindowResizeEvent& e);
 		void OnMouseScroll(MouseScrollEvent& e);
+
+		void CalculateViewProj();
 	};
 
 }

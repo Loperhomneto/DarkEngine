@@ -155,7 +155,7 @@ namespace Dark {
 			glDeleteTextures(1, &data.colorAttachmentRendererID);
 			glDeleteTextures(1, &data.depthAttactmentRendererID);
 			createFrameBuffer(data.framebufferSize);
-			//data.orthoCameraController->setWindowSize(data.framebufferSize);
+			data.orthoCameraController->setWindowSize(data.framebufferSize);
 
 			data.updateQueueFrameBuffer = false;
 		}
@@ -171,7 +171,12 @@ namespace Dark {
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 		}
-		data.TextureShader.Use();
+		else
+		{
+			int windowWidth = Input::GetWindowWidth();
+			int windowHeight = Input::GetWindowHeight();
+			glViewport(0, 0, windowWidth, windowHeight);
+		}
 
 		if (data.isCameraController)
 		{
@@ -182,6 +187,7 @@ namespace Dark {
 			data.TextureShader.setMat4("sViewProjectionMatrix", glm::mat4(1.0f));
 		}
 
+		data.TextureShader.Use();
 		int samplers[data.batchdata.MaxTextures];
 		for (int i = 0; i < data.batchdata.MaxTextures; i++)
 		{
@@ -613,6 +619,7 @@ namespace Dark {
 
 	void Renderer::createFrameBuffer(glm::vec2 size)
 	{
+		glViewport(0, 0, size.x, size.y);
 		glGenFramebuffers(1, &data.frameBufferRendererID);
 		glBindFramebuffer(GL_FRAMEBUFFER, data.frameBufferRendererID);
 
@@ -640,6 +647,7 @@ namespace Dark {
 	{
 		data.updateQueueFrameBuffer = true;
 		data.framebufferSize = size;
+		Logger::info(data.framebufferSize.x);
 	}
 
 	//Updating every frame
@@ -664,7 +672,7 @@ namespace Dark {
 	{
 		//if (!data.usingFrameBuffer)
 		//{
-		data.orthoCameraController->setWindowSize(glm::vec2((float)e.width, (float)e.height));
+		//data.orthoCameraController->setWindowSize(glm::vec2((float)e.width, (float)e.height));
 		//}
 	}
 

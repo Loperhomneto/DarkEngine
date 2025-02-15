@@ -85,7 +85,7 @@ namespace Dark
 
 		glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
 			{
-				glViewport(0, 0, width, height);
+				//glViewport(0, 0, width, height);
 				DATA* Data = (DATA*)glfwGetWindowUserPointer(window);
 				Data->SCR_WIDTH = width;
 				Data->SCR_HEIGHT = height;

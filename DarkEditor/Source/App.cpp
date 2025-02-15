@@ -22,6 +22,7 @@ void FooLayer::OnAttach()
 
 	Renderer2D::AddTexture("assets/textures/container.jpg", false, "container");
 	Renderer2D::AddTexture("assets/textures/awesomeface.png", true, "papiface");
+	Renderer2D::AddTexture("assets/textures/check.jpg", false, "checkerboard");
 	//Renderer2D::AddTexture("assets/textures/flooring.jpg", false, "flooring");
 	Renderer2D::AddTexture("assets/textures/floor.png", true, "floor");
 	//Renderer2D::AddTexture("assets/textures/up1.png", true, "up1");
@@ -62,6 +63,8 @@ void FooLayer::OnUpdate(TimeStep ts)
 	Renderer2D::DrawSprite(glm::vec2(-3.0f, -0.5f), glm::vec2(1.0f, 2.0f), "testSpritesheet", glm::vec2(0, 1), glm::vec2(1, 2));
 	Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(2.0f, 2.0f), m_Rotation, glm::vec3(1.0f, 1.0f, 1.0f));
 	Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(1.0f, 1.0f), -m_Rotation, "container", glm::vec3(1.0f, 1.0f, 0.8f));
+
+	//Renderer2D::Draw2DQuad(glm::vec2(-5.0f, -5.0f), glm::vec2(10.0f, 10.0f), "checkerboard");
 }
 
 void FooLayer::OnEvent(Event& e)
@@ -93,7 +96,7 @@ void FooLayer::ImGuiRender(unsigned int colorAttachmnetRendererID)
 	{
 		if (ImGui::BeginMenu("Tools"))
 		{
-			if (ImGui::MenuItem("Open Viewport")) {  }
+			if (ImGui::MenuItem("Open Viewport")) {   }
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
@@ -109,8 +112,7 @@ void FooLayer::ImGuiRender(unsigned int colorAttachmnetRendererID)
 	ImGui::PopStyleVar();
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 	m_framebufferSize = { viewportPanelSize.x, viewportPanelSize.y };
-	Logger::info(viewportPanelSize.x);
-	ImGui::Image(colorAttachmnetRendererID, { m_framebufferSize.x, m_framebufferSize.y }, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+	ImGui::Image(colorAttachmnetRendererID, viewportPanelSize, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 	ImGui::End();
 
 	bool show_demo_window;
