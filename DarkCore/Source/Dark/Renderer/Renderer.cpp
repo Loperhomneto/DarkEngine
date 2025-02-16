@@ -647,7 +647,6 @@ namespace Dark {
 	{
 		data.updateQueueFrameBuffer = true;
 		data.framebufferSize = size;
-		Logger::info(data.framebufferSize.x);
 	}
 
 	//Updating every frame

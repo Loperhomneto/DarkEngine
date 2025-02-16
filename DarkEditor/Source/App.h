@@ -12,8 +12,6 @@ public:
 class FooLayer : public Layer
 {
 public:
-	FooLayer();
-
 	void OnAttach() override;
 	void OnUpdate(TimeStep ts) override;
 	void OnEvent(Event& e) override;

@@ -15,21 +15,18 @@ namespace Dark
 		template<typename T, typename... Args>	
 		T& AddComponent(Args&&...args)
 		{
-			//TODO: add failsafe
-			return m_Scene->m_registry.emplace<T>(m_entityID, std::forward<Args>(args)...);
+			return m_Scene->m_registry.emplace_or_replace<T>(m_entityID, std::forward<Args>(args)...);
 		}
 
 		template<typename T>
 		T& GetComponent()
 		{
-			//TODO: add failsafe
-			return m_Scene->m_registry.get<T>(m_entityID);
+			return m_Scene->m_registry.try_get<T>(m_entityID);
 		}
 
 		template<typename T>
 		void RemoveComponent()
 		{
-			//TODO: add failsafe
 			return m_Scene->m_registry.remove<T>(m_entityID);
 		}
 	private:
