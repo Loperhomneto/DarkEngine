@@ -43,6 +43,16 @@ namespace Dark
 				Renderer2D::Draw2DRotatedQuad(transformComp.Pos, transformComp.Size, transformComp.Rotation, rendererComp.TexName, rendererComp.Color);
 			}
 		}
+
+		auto view = m_registry.view<NativeScriptComponent>();
+
+		for (auto entity : view)
+		{
+			auto& nativeScriptComp = view.get<NativeScriptComponent>(entity);
+
+			nativeScriptComp.Instance->m_entity = { entity, this } ;
+			nativeScriptComp.Instance->OnUpdate(ts);
+		}
 	}
 
 }

@@ -2,6 +2,7 @@
 #include "entt.hpp"
 
 #include "Scene.h"
+#include "Logger.h"
 
 namespace Dark
 {
@@ -21,7 +22,11 @@ namespace Dark
 		template<typename T>
 		T& GetComponent()
 		{
-			return m_Scene->m_registry.try_get<T>(m_entityID);
+			//TODO: make try_get
+			if (m_Scene->m_registry.all_of<T>(m_entityID))
+				return m_Scene->m_registry.get<T>(m_entityID);
+			else
+				Logger::error("Does not have the component within the entity");
 		}
 
 		template<typename T>

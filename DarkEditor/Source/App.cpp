@@ -39,19 +39,20 @@ void FooLayer::OnAttach()
 	ent->AddComponent<TransformComponent>(glm::vec2(-1.0f, 1.0f), glm::vec2(2.0f, 2.0f));
 	ent->AddComponent<RendererComponent>(glm::vec4(1.0f, 0.8f, 0.6f, 1.0f));
 	
-	//class Script : public NativeScriptComponent
-	//{
-	//public:
-	//	void OnAttach() override {}
-	//	void OnDetach() override {}
+	class Script : public ScriptableEntity
+	{
+	public:
+		void OnAttach() override {}
+		void OnDetach() override {}
 
-	//	void OnUpdate(TimeStep ts) override 
-	//	{
-	//		ent->GetComponent<TransformComponent>().Pos = glm::vec2(1.0f, Transform.Pos.y + ts.getDeltatime());
-	//	}
-	//};
+		void OnUpdate(TimeStep ts) override
+		{
+			glm::vec2& pos = GetComponent<TransformComponent>().Pos;
+			pos.y += ts.getDeltatime()/2.0f;
+		}
+	};
 
-	//ent->AddComponent<NativeScriptComponent>(Script);
+	ent->AddComponent<NativeScriptComponent>(new Script());
 }
 
 void FooLayer::OnUpdate(TimeStep ts)

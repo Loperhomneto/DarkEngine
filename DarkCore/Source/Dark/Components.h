@@ -1,6 +1,7 @@
 #pragma once
 #include "Dark/TimeStep.h"
 #include "glm.hpp"
+#include "ScriptableEntity.h"
 #include <cstring>
 
 namespace Dark
@@ -42,8 +43,26 @@ namespace Dark
 
 	struct NativeScriptComponent
 	{
-		virtual void OnAttach();
-		virtual void OnUpdate(TimeStep ts);
-		virtual void OnDetach();
+		ScriptableEntity* Instance = nullptr;
+
+		NativeScriptComponent(ScriptableEntity* instance)
+		{
+			Instance = instance;
+			Instance->OnAttach();
+		}
+
+		//template<typename T>
+		//void Bind()
+		//{
+		//	Instance = static_cast<ScriptableEntity*>(new T);
+		//	Instance->OnAttach();
+		//}
+
+		~NativeScriptComponent()
+		{
+			Instance->OnDetach();
+			delete Instance;
+			Instance = nullptr;
+		}
 	};
 }
