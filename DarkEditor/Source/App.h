@@ -12,6 +12,8 @@ public:
 class FooLayer : public Layer
 {
 public:
+	FooLayer();
+
 	void OnAttach() override;
 	void OnUpdate(TimeStep ts) override;
 	void OnEvent(Event& e) override;
@@ -23,4 +25,7 @@ private:
 	float m_Rotation = 0.0f;
 
 	glm::vec2 m_framebufferSize = glm::vec2(1280.0f, 720.0f);
+
+	std::shared_ptr<Scene> m_Scene;
+	std::shared_ptr<Entity> ent;
 };

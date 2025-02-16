@@ -7,15 +7,34 @@ App::App()
 	pushLayer(layer);
 }
 
+FooLayer::FooLayer()
+{
+	m_Scene = std::make_shared<Scene>();
+	ent = m_Scene->CreateEntity("Very Named Entity");
+
+	//TODO: fix so that this doesn't give an error
+	//ent->AddComponent<TransformComponent>(glm::vec2(-1.0f, 1.0f), glm::vec2(2.0f, 2.0f));
+	ent->AddComponent<RendererComponent>(glm::vec4(1.0f, 0.8f, 0.6f, 1.0f));
+	//class Script : public NativeScriptComponent
+	//{
+	//public:
+	//	void OnAttach() override {}
+	//	void OnDetach() override {}
+
+	//	void OnUpdate(TimeStep ts) override 
+	//	{
+	//		ent->GetComponent<TransformComponent>().Pos = glm::vec2(1.0f, Transform.Pos.y + ts.getDeltatime());
+	//	}
+	//};
+
+	//ent->AddComponent<NativeScriptComponent>(Script);
+}
+
 void FooLayer::OnAttach()
 {
+	// make logger work without separating lines
+	// add profiling, not sure if something is taking a really long time to render
 	Logger::info("onAttach app");
-
-// make logger work without separating lines
-// add rotated quads
-// how to make a smokey or glowey texture / watch made game in hazel in an hour to see what else to add
-// add profiling, not sure if something is taking a really long time to render
-
 
 	//init
 	SoundEngine::AddSound("assets/sounds/explosion.wav", "explosion");
@@ -65,6 +84,11 @@ void FooLayer::OnUpdate(TimeStep ts)
 	Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(1.0f, 1.0f), -m_Rotation, "container", glm::vec3(1.0f, 1.0f, 0.8f));
 
 	//Renderer2D::Draw2DQuad(glm::vec2(-5.0f, -5.0f), glm::vec2(10.0f, 10.0f), "checkerboard");
+
+	//auto &transform = ent->GetComponent<TransformComponent>();
+	//transform.Pos = glm::vec2(1.0f, 1.0f);
+
+	m_Scene->OnUpdate(ts);
 }
 
 void FooLayer::OnEvent(Event& e)
