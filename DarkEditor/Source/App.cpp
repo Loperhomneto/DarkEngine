@@ -10,6 +10,8 @@ App::App()
 void FooLayer::OnAttach()
 {
 	// make logger work without separating lines
+	// enables asserts and fail safes things that might not work
+	// maintence to make this robust
 	// add profiling, not sure if something is taking a really long time to render
 	Logger::info("onAttach app");
 
