@@ -17,9 +17,9 @@ namespace Dark
 		}
 
 		//TODO: make these non-virtual
-		virtual void OnAttach() = 0;
-		virtual void OnUpdate(TimeStep ts) = 0;
-		virtual void OnDetach() = 0;
+		virtual void OnAttach() {};
+		virtual void OnUpdate(TimeStep ts) {};
+		virtual void OnDetach() {};
 	private:
 		Entity m_entity;
 

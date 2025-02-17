@@ -24,21 +24,21 @@ namespace Dark
 		glm::vec2 Size;
 		float Rotation;
 
-		TransformComponent(glm::vec2 pos, glm::vec2 size, float rotation = 0.0f)
-			: Pos(pos), Size(size), Rotation(rotation) {
-		}
+		TransformComponent(glm::vec2 pos, glm::vec2 size, float rotation = 90.0f)
+			: Pos(pos), Size(size), Rotation(rotation) {}
 	};
 
 	struct RendererComponent
 	{
 		glm::vec4 Color;
-		std::string TexName;
+		std::string TexName = "None";
 
-		RendererComponent(glm::vec4 color, std::string texName = std::string("None"))
+		RendererComponent(glm::vec4 color)
+			: Color(color) {}
+		RendererComponent(std::string texName, glm::vec4 color = glm::vec4(1.0f))
 			: Color(color), TexName(texName) {}
-		RendererComponent(glm::vec4 color, const char* texName)
-			: Color(color), TexName(texName) {
-		}
+		RendererComponent(const char* texName, glm::vec4 color = glm::vec4(1.0f))
+			: Color(color), TexName(texName) {}
 	};
 
 	struct NativeScriptComponent

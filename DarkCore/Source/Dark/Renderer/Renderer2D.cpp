@@ -34,24 +34,24 @@ namespace Dark
 		Renderer::Draw2DQuad(corner, size, texSource, color);
 	}
 
-	void Renderer2D::Draw2DRotatedQuad(const glm::vec2& corner, const glm::vec2& size, float rotation, glm::vec4 color /*= glm::vec4(1.0f)*/)
+	void Renderer2D::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, glm::vec4 color /*= glm::vec4(1.0f)*/)
 	{
-		Renderer::Draw2DRotatedQuad(corner, size, rotation, color);
+		Renderer::Draw2DRotatedQuad(center, size, rotation, color);
 	}
 
-	void Renderer2D::Draw2DRotatedQuad(const glm::vec2& corner, const glm::vec2& size, float rotation, glm::vec3 color)
+	void Renderer2D::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, glm::vec3 color)
 	{
-		Renderer::Draw2DRotatedQuad(corner, size, rotation, color);
+		Renderer::Draw2DRotatedQuad(center, size, rotation, color);
 	}
 
-	void Renderer2D::Draw2DRotatedQuad(const glm::vec2& corner, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec4 color /*= glm::vec4(1.0f)*/)
+	void Renderer2D::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec4 color /*= glm::vec4(1.0f)*/)
 	{
-		Renderer::Draw2DRotatedQuad(corner, size, rotation, texSource, color);
+		Renderer::Draw2DRotatedQuad(center, size, rotation, texSource, color);
 	}
 
-	void Renderer2D::Draw2DRotatedQuad(const glm::vec2& corner, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec3 color)
+	void Renderer2D::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec3 color)
 	{
-		Renderer::Draw2DRotatedQuad(corner, size, rotation, texSource, color);
+		Renderer::Draw2DRotatedQuad(center, size, rotation, texSource, color);
 	}
 
 	void Renderer2D::AddTexture(std::string texSource, bool alpha, std::string name)

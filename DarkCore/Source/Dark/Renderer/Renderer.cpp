@@ -439,28 +439,33 @@ namespace Dark {
 
 
 	//Drawing rotated quads with flat colors
-	void Renderer::Draw2DRotatedQuad(const glm::vec2& corner, const glm::vec2& size, float rotation, glm::vec4 color /*= glm::vec4(1.0f)*/)
+	void Renderer::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, glm::vec4 color /*= glm::vec4(1.0f)*/)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(corner.x, corner.y, 0.0f)) * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(center.x, center.y, 0.0f)) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
+			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
+
 		Draw2DQuad(transform, color);
 	}
 
-	void Renderer::Draw2DRotatedQuad(const glm::vec2& corner, const glm::vec2& size, float rotation, glm::vec3 color)
+	void Renderer::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, glm::vec3 color)
 	{
-		Draw2DRotatedQuad(corner, size, rotation, glm::vec4( color.x, color.y, color.z, 1.0f ));
+		Draw2DRotatedQuad(center, size, rotation, glm::vec4( color.x, color.y, color.z, 1.0f ));
 	}
 
 
 	//Drawing rotated quads with textures
-	void Renderer::Draw2DRotatedQuad(const glm::vec2& corner, const glm::vec2& size, float rotation, const std::string& texName, glm::vec4 color /*= glm::vec4(1.0f)*/)
+	void Renderer::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, const std::string& texName, glm::vec4 color /*= glm::vec4(1.0f)*/)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(corner.x, corner.y, 0.0f)) * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(center.x, center.y, 0.0f)) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
+			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
 		Draw2DQuad(transform, texName, color);
 	}
 
-	void Renderer::Draw2DRotatedQuad(const glm::vec2& corner, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec3 color)
+	void Renderer::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec3 color)
 	{
-		Draw2DRotatedQuad(corner, size, rotation, texSource, glm::vec4(color.x, color.y, color.z, 1.0f));
+		Draw2DRotatedQuad(center, size, rotation, texSource, glm::vec4(color.x, color.y, color.z, 1.0f));
 	}
 
 

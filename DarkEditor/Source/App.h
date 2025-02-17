@@ -18,12 +18,11 @@ public:
 
 	void ImGuiRender(unsigned int colorAttachmnetRendererID) override;
 private:
-	glm::vec3 m_Color = glm::vec3(1.0f);
-	int add = -1;
+	//glm::vec3 m_Color = glm::vec3(1.0f);
+	//int add = -1;
 	float m_Rotation = 0.0f;
 
 	glm::vec2 m_framebufferSize = glm::vec2(1280.0f, 720.0f);
 
 	std::shared_ptr<Scene> m_Scene;
-	std::shared_ptr<Entity> ent;
 };

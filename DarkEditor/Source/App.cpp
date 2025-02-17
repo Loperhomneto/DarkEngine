@@ -34,16 +34,16 @@ void FooLayer::OnAttach()
 
 	//ECS entt
 	m_Scene = std::make_shared<Scene>();
-	ent = m_Scene->CreateEntity("Very Named Entity");
+	std::shared_ptr<Entity> ent = m_Scene->CreateEntity("Very Named Entity");
 
-	ent->AddComponent<TransformComponent>(glm::vec2(-1.0f, 1.0f), glm::vec2(2.0f, 2.0f));
+	ent->AddComponent<TransformComponent>(glm::vec2(-1.0f, 1.0f), glm::vec2(1.5f, 1.5f));
 	ent->AddComponent<RendererComponent>(glm::vec4(1.0f, 0.8f, 0.6f, 1.0f));
 	
-	class Script : public ScriptableEntity
+	class MoveUpScript : public ScriptableEntity
 	{
 	public:
-		void OnAttach() override {}
-		void OnDetach() override {}
+		void OnAttach() override { Logger::info("MoveUpScript attached!"); }
+		void OnDetach() override { Logger::info("MoveUpScript detached!"); }
 
 		void OnUpdate(TimeStep ts) override
 		{
@@ -52,7 +52,47 @@ void FooLayer::OnAttach()
 		}
 	};
 
-	ent->AddComponent<NativeScriptComponent>(new Script());
+	class ChangingColorScript : public ScriptableEntity
+	{
+	public:
+		void OnUpdate(TimeStep ts) override 
+		{
+			glm::vec4& color = GetComponent<RendererComponent>().Color;
+			float colorZ = color.z + (ts.getDeltatime() * add * 5.0f);
+			if (colorZ < 0.0f)
+			{
+				add = 1.0f;
+			}
+			else if (colorZ > 1.0f)
+			{
+				add = -1.0f;
+			}
+
+			color = glm::vec4(1.0f, 1.0f, colorZ, 1.0f);
+		}
+	private:
+		int add = -1;
+	};
+
+	//class 
+
+	ent->AddComponent<NativeScriptComponent>(new MoveUpScript());
+
+	std::shared_ptr<Entity> ent2 = m_Scene->CreateEntity("Changing Color Square", glm::vec2(0.5f, 0.5f), glm::vec2(1.0f, 1.0f));
+	ent2->AddComponent<RendererComponent>(glm::vec4(1.0f, 0.8f, 0.6f, 1.0f));
+	ent2->AddComponent<NativeScriptComponent>(new ChangingColorScript());
+
+	std::shared_ptr<Entity> ent3 = m_Scene->CreateEntity("Colored Entity", glm::vec2(1.0f, -2.0f), glm::vec2(2.0f, 2.0f));
+	ent3->AddComponent<RendererComponent>(glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+	std::shared_ptr<Entity> ent4 = m_Scene->CreateEntity("Container Entity", glm::vec2(-3.0f, -2.0f), glm::vec2(1.0f, 1.0f));
+	ent4->AddComponent<RendererComponent>("container");
+
+	std::shared_ptr<Entity> ent5 = m_Scene->CreateEntity("Papiface Entity 1", glm::vec2(-2.0f, -2.0f), glm::vec2(0.5f, 0.5f));
+	ent5->AddComponent<RendererComponent>("papiface");
+
+	std::shared_ptr<Entity> ent6 = m_Scene->CreateEntity("Papiface Entity 2", glm::vec2(-1.5f, -1.5f), glm::vec2(3.0f, 3.0f));
+	ent6->AddComponent<RendererComponent>("papiface");
 }
 
 void FooLayer::OnUpdate(TimeStep ts)
@@ -61,22 +101,22 @@ void FooLayer::OnUpdate(TimeStep ts)
 
 	Renderer2D::DrawBackDrop("floor");
 	//Renderer2D::DrawBackDrop(glm::vec3(0.1f, 0.2f, 0.3f));
-	float colorZ = m_Color.z + (ts.getDeltatime() * add * 5.0f);
-	if (colorZ < 0.0f)
-	{
-		add = 1.0f;
-	}
-	else if (colorZ > 1.0f)
-	{
-		add = -1.0f;
-	}
-	m_Color = glm::vec3(1.0f, 1.0f, colorZ);
-	Renderer2D::Draw2DQuad(glm::vec2(0.5f, 0.5f), glm::vec2(1.0f, 1.0f), m_Color);
-	Renderer2D::Draw2DQuad(glm::vec2(1.0f, -2.0f), glm::vec2(2.0f, 2.0f), glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+	//float colorZ = m_Color.z + (ts.getDeltatime() * add * 5.0f);
+	//if (colorZ < 0.0f)
+	//{
+	//	add = 1.0f;
+	//}
+	//else if (colorZ > 1.0f)
+	//{
+	//	add = -1.0f;
+	//}
+	//m_Color = glm::vec3(1.0f, 1.0f, colorZ);
+	//Renderer2D::Draw2DQuad(glm::vec2(0.5f, 0.5f), glm::vec2(1.0f, 1.0f), m_Color);
+	//Renderer2D::Draw2DQuad(glm::vec2(1.0f, -2.0f), glm::vec2(2.0f, 2.0f), glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
 
-	Renderer2D::Draw2DQuad(glm::vec2(-3.0f, -2.0f), glm::vec2(1.0f, 1.0f), "container");
-	Renderer2D::Draw2DQuad(glm::vec2(-2.0f, -2.0f), glm::vec2(0.5f, 0.5f), "papiface");
-	Renderer2D::Draw2DQuad(glm::vec2(-1.5f, -1.5f), glm::vec2(3.0f, 3.0f), "papiface");
+	//Renderer2D::Draw2DQuad(glm::vec2(-3.0f, -2.0f), glm::vec2(1.0f, 1.0f), "container");
+	//Renderer2D::Draw2DQuad(glm::vec2(-2.0f, -2.0f), glm::vec2(0.5f, 0.5f), "papiface");
+	//Renderer2D::Draw2DQuad(glm::vec2(-1.5f, -1.5f), glm::vec2(3.0f, 3.0f), "papiface");
 
 	Renderer2D::DrawSprite(glm::vec2(-3.0f, -0.5f), glm::vec2(1.0f, 2.0f), "testSpritesheet", glm::vec2(0, 1), glm::vec2(1, 2));
 	Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(2.0f, 2.0f), m_Rotation, glm::vec3(1.0f, 1.0f, 1.0f));
