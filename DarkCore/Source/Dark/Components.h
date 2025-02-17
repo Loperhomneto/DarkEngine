@@ -41,6 +41,16 @@ namespace Dark
 			: Color(color), TexName(texName) {}
 	};
 
+	struct Sprite
+	{
+		std::string SpritesheetTexName;
+		glm::vec2 SpriteCoords;
+		glm::vec2 SpriteSize;
+
+		Sprite(std::string spritesheetTexName, glm::vec2 spriteCoords, glm::vec2 spriteSize = glm::vec2(1.0f, 1.0f))
+			: SpritesheetTexName(spritesheetTexName), SpriteCoords(spriteCoords), SpriteSize(spriteSize) {}
+	};
+
 	struct NativeScriptComponent
 	{
 		ScriptableEntity* Instance = nullptr;

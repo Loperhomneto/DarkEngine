@@ -27,8 +27,7 @@ namespace Dark
 
 	void Scene::OnUpdate(TimeStep ts)
 	{
-		auto group = m_registry.group<TransformComponent>(entt::get<RendererComponent>);
-
+		auto group = m_registry.group<RendererComponent>(entt::get<TransformComponent>, entt::exclude<Sprite>);
 		for (auto entity : group)
 		{
 			auto& transformComp = group.get<TransformComponent>(entity);
@@ -45,13 +44,29 @@ namespace Dark
 		}
 
 		auto view = m_registry.view<NativeScriptComponent>();
-
 		for (auto entity : view)
 		{
 			auto& nativeScriptComp = view.get<NativeScriptComponent>(entity);
 
 			nativeScriptComp.Instance->m_entity = { entity, this } ;
 			nativeScriptComp.Instance->OnUpdate(ts);
+		}
+
+		auto group2 = m_registry.group<Sprite>(entt::get<TransformComponent>);
+		for (auto entity : group2)
+		{
+			auto& transformComp = group2.get<TransformComponent>(entity);
+			auto& spriteComp = group2.get<Sprite>(entity);
+
+			if (m_registry.all_of<RendererComponent>(entity))
+			{
+				auto& rendererComp = m_registry.get<RendererComponent>(entity);
+				Renderer2D::DrawSprite(transformComp.Pos, transformComp.Size, spriteComp.SpritesheetTexName, spriteComp.SpriteCoords, spriteComp.SpriteSize, rendererComp.Color);
+			}
+			else
+			{
+				Renderer2D::DrawSprite(transformComp.Pos, transformComp.Size, spriteComp.SpritesheetTexName, spriteComp.SpriteCoords, spriteComp.SpriteSize);
+			}
 		}
 	}
 

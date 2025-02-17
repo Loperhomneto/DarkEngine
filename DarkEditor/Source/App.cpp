@@ -11,12 +11,13 @@ void FooLayer::OnAttach()
 {
 	// make logger work without separating lines
 	// enables asserts and fail safes things that might not work
-	// maintence to make this robust
+	// maintenance to make this robust
+	// background
+	// add rotation to sprites
 	// add profiling, not sure if something is taking a really long time to render
-	Logger::info("onAttach app");
 
 	//init
-	SoundEngine::AddSound("assets/sounds/explosion.wav", "explosion");
+	Logger::info("onAttach app");
 
 	Renderer2D::AddTexture("assets/textures/container.jpg", false, "container");
 	Renderer2D::AddTexture("assets/textures/awesomeface.png", true, "papiface");
@@ -31,16 +32,10 @@ void FooLayer::OnAttach()
 	//Renderer2D::AddTexture("assets/textures/idle2.png", true, "idle2");
 	//Renderer2D::AddTexture("assets/textures/table.png", true, "table");
 	Renderer2D::AddSpritesheet("assets/textures/RPGpack_sheet_2X.png", true, "testSpritesheet", glm::vec2(128, 128));
-
+	SoundEngine::AddSound("assets/sounds/explosion.wav", "explosion");
 	Renderer2D::AddOrthoCameraController();
 
-	//ECS entt
-	m_Scene = std::make_shared<Scene>();
-	std::shared_ptr<Entity> ent = m_Scene->CreateEntity("Very Named Entity");
-
-	ent->AddComponent<TransformComponent>(glm::vec2(-1.0f, 1.0f), glm::vec2(1.5f, 1.5f));
-	ent->AddComponent<RendererComponent>(glm::vec4(1.0f, 0.8f, 0.6f, 1.0f));
-	
+	//Native Scripts
 	class MoveUpScript : public ScriptableEntity
 	{
 	public:
@@ -50,14 +45,14 @@ void FooLayer::OnAttach()
 		void OnUpdate(TimeStep ts) override
 		{
 			glm::vec2& pos = GetComponent<TransformComponent>().Pos;
-			pos.y += ts.getDeltatime()/2.0f;
+			pos.y += ts.getDeltatime() / 2.0f;
 		}
 	};
 
 	class ChangingColorScript : public ScriptableEntity
 	{
 	public:
-		void OnUpdate(TimeStep ts) override 
+		void OnUpdate(TimeStep ts) override
 		{
 			glm::vec4& color = GetComponent<RendererComponent>().Color;
 			float colorZ = color.z + (ts.getDeltatime() * add * 5.0f);
@@ -76,7 +71,32 @@ void FooLayer::OnAttach()
 		int add = -1;
 	};
 
-	//class 
+	class RotationScript : public ScriptableEntity
+	{
+	public:
+		void OnUpdate(TimeStep ts) override
+		{
+			float& rotation = GetComponent<TransformComponent>().Rotation;
+			rotation += ts.getDeltatime() * 50;
+		}
+	};
+
+	class ReverseRotationScript : public ScriptableEntity
+	{
+	public:
+		void OnUpdate(TimeStep ts) override
+		{
+			float& rotation = GetComponent<TransformComponent>().Rotation;
+			rotation -= ts.getDeltatime() * 50;
+		}
+	};
+
+	//ECS entt
+	m_Scene = std::make_shared<Scene>();
+	std::shared_ptr<Entity> ent = m_Scene->CreateEntity("Very Named Entity");
+
+	ent->AddComponent<TransformComponent>(glm::vec2(-1.0f, 1.0f), glm::vec2(1.5f, 1.5f));
+	ent->AddComponent<RendererComponent>(glm::vec4(1.0f, 0.8f, 0.6f, 1.0f));
 
 	ent->AddComponent<NativeScriptComponent>(new MoveUpScript());
 
@@ -95,13 +115,29 @@ void FooLayer::OnAttach()
 
 	std::shared_ptr<Entity> ent6 = m_Scene->CreateEntity("Papiface Entity 2", glm::vec2(-1.5f, -1.5f), glm::vec2(3.0f, 3.0f));
 	ent6->AddComponent<RendererComponent>("papiface");
+
+	std::shared_ptr<Entity> ent7 = m_Scene->CreateEntity("Tree Sprite", glm::vec2(-3.0f, -0.5f), glm::vec2(1.0f, 2.0f));
+	ent7->AddComponent<Sprite>("testSpritesheet", glm::vec2(0, 1), glm::vec2(1, 2));
+
+	std::shared_ptr<Entity> ent8 = m_Scene->CreateEntity("Colored Sprite", glm::vec2(2.0f, 0.5f), glm::vec2(2.5f, 2.5f));
+	ent8->AddComponent<Sprite>("testSpritesheet", glm::vec2(0, 3));
+	ent8->AddComponent<RendererComponent>(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
+
+	std::shared_ptr<Entity> ent9 = m_Scene->CreateEntity("Rotating Colored Square", glm::vec2(-1.0f, -1.0f), glm::vec2(2.0f, 2.0f));
+	ent9->AddComponent<RendererComponent>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	ent9->AddComponent<NativeScriptComponent>(new RotationScript());
+
+	std::shared_ptr<Entity> ent10 = m_Scene->CreateEntity("Reverse Rotating Square", glm::vec2(-1.0f, -1.0f), glm::vec2(2.5f, 2.5f));
+	ent10->AddComponent<RendererComponent>("container", glm::vec4(1.0f, 1.0f, 0.8f, 1.0f));
+	ent10->AddComponent<NativeScriptComponent>(new ReverseRotationScript());
 }
 
 void FooLayer::OnUpdate(TimeStep ts)
 {
-	m_Rotation += ts.getDeltatime() * 50;
-
 	Renderer2D::DrawBackDrop("floor");
+
+	//m_Rotation += ts.getDeltatime() * 50;
+	// 
 	//Renderer2D::DrawBackDrop(glm::vec3(0.1f, 0.2f, 0.3f));
 	//float colorZ = m_Color.z + (ts.getDeltatime() * add * 5.0f);
 	//if (colorZ < 0.0f)
@@ -115,19 +151,16 @@ void FooLayer::OnUpdate(TimeStep ts)
 	//m_Color = glm::vec3(1.0f, 1.0f, colorZ);
 	//Renderer2D::Draw2DQuad(glm::vec2(0.5f, 0.5f), glm::vec2(1.0f, 1.0f), m_Color);
 	//Renderer2D::Draw2DQuad(glm::vec2(1.0f, -2.0f), glm::vec2(2.0f, 2.0f), glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
-
+	//
 	//Renderer2D::Draw2DQuad(glm::vec2(-3.0f, -2.0f), glm::vec2(1.0f, 1.0f), "container");
 	//Renderer2D::Draw2DQuad(glm::vec2(-2.0f, -2.0f), glm::vec2(0.5f, 0.5f), "papiface");
 	//Renderer2D::Draw2DQuad(glm::vec2(-1.5f, -1.5f), glm::vec2(3.0f, 3.0f), "papiface");
-
-	Renderer2D::DrawSprite(glm::vec2(-3.0f, -0.5f), glm::vec2(1.0f, 2.0f), "testSpritesheet", glm::vec2(0, 1), glm::vec2(1, 2));
-	Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(2.0f, 2.0f), m_Rotation, glm::vec3(1.0f, 1.0f, 1.0f));
-	Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(1.0f, 1.0f), -m_Rotation, "container", glm::vec3(1.0f, 1.0f, 0.8f));
-
+	//
+	//Renderer2D::DrawSprite(glm::vec2(-3.0f, -0.5f), glm::vec2(1.0f, 2.0f), "testSpritesheet", glm::vec2(0, 1), glm::vec2(1, 2));
+	//Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(2.0f, 2.0f), m_Rotation, glm::vec3(1.0f, 1.0f, 1.0f));
+	//Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(1.0f, 1.0f), -m_Rotation, "container", glm::vec3(1.0f, 1.0f, 0.8f));
+	//
 	//Renderer2D::Draw2DQuad(glm::vec2(-5.0f, -5.0f), glm::vec2(10.0f, 10.0f), "checkerboard");
-
-	//auto &transform = ent->GetComponent<TransformComponent>();
-	//transform.Pos = glm::vec2(1.0f, 1.0f);
 
 	m_Scene->OnUpdate(ts);
 }
