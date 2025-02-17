@@ -25,6 +25,10 @@ namespace Dark {
 		static void DrawBackDrop(const std::string& texSource);
 
 		//Flat colored quads and textured quads
+		static void Draw2DQuad(const glm::vec3& corner, const glm::vec2& size, glm::vec4 color = glm::vec4(1.0f));
+		static void Draw2DQuad(const glm::vec3& corner, const glm::vec2& size, glm::vec3 color);
+		static void Draw2DQuad(const glm::vec3& corner, const glm::vec2& size, const std::string& texSource, glm::vec4 color = glm::vec4(1.0f));
+		static void Draw2DQuad(const glm::vec3& corner, const glm::vec2& size, const std::string& texSource, glm::vec3 color);
 		static void Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, glm::vec4 color = glm::vec4(1.0f));
 		static void Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, glm::vec3 color);
 		static void Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, const std::string& texSource, glm::vec4 color = glm::vec4(1.0f));
@@ -37,6 +41,10 @@ namespace Dark {
 		static void Draw2DQuad(const glm::mat4& transform, const std::string& texName, const glm::vec3& color);
 
 		//Drawing rotated quads with flat colors and textures
+		static void Draw2DRotatedQuad(const glm::vec3& center, const glm::vec2& size, float rotation, glm::vec4 color = glm::vec4(1.0f));
+		static void Draw2DRotatedQuad(const glm::vec3& center, const glm::vec2& size, float rotation, glm::vec3 color);
+		static void Draw2DRotatedQuad(const glm::vec3& center, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec4 color = glm::vec4(1.0f));
+		static void Draw2DRotatedQuad(const glm::vec3& center, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec3 color);
 		static void Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, glm::vec4 color = glm::vec4(1.0f));
 		static void Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, glm::vec3 color);
 		static void Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec4 color = glm::vec4(1.0f));

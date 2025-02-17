@@ -20,11 +20,13 @@ namespace Dark
 
 	struct TransformComponent
 	{
-		glm::vec2 Pos;
+		glm::vec3 Pos;
 		glm::vec2 Size;
 		float Rotation;
 
 		TransformComponent(glm::vec2 pos, glm::vec2 size, float rotation = 90.0f)
+			: Pos(pos, 0.0f), Size(size), Rotation(rotation) {}
+		TransformComponent(glm::vec3 pos, glm::vec2 size, float rotation = 90.0f)
 			: Pos(pos), Size(size), Rotation(rotation) {}
 	};
 
@@ -39,6 +41,10 @@ namespace Dark
 			: Color(color), TexName(texName) {}
 		RendererComponent(const char* texName, glm::vec4 color = glm::vec4(1.0f))
 			: Color(color), TexName(texName) {}
+		RendererComponent(std::string texName, glm::vec3 color)
+			: Color(color, 1.0f), TexName(texName) {}
+		RendererComponent(const char* texName, glm::vec3 color)
+			: Color(color, 1.0f), TexName(texName) {}
 	};
 
 	struct Sprite
