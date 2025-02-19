@@ -4,6 +4,8 @@
 
 #include "TimeStep.h"
 
+class ScenePanel;
+
 namespace Dark
 {
 	class Entity;
@@ -24,6 +26,7 @@ namespace Dark
 		entt::registry m_registry;
 
 		friend class Entity;
+		friend class ScenePanel;
 	};
 
 }

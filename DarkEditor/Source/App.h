@@ -1,5 +1,6 @@
 #pragma once
 #include "Dark.h"
+#include "ScenePanel.h"
 #include <iostream>
 using namespace Dark;
 
@@ -25,4 +26,5 @@ private:
 	glm::vec2 m_framebufferSize = glm::vec2(1280.0f, 720.0f);
 
 	std::shared_ptr<Scene> m_Scene;
+	std::shared_ptr<ScenePanel> m_ScenePanel;
 };

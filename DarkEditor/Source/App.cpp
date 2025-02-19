@@ -1,4 +1,5 @@
 #include "App.h"
+
 using namespace Dark;
 
 App::App()
@@ -117,10 +118,10 @@ void FooLayer::OnAttach()
 	ent6->AddComponent<RendererComponent>("papiface");
 
 	std::shared_ptr<Entity> ent7 = m_Scene->CreateEntity("Tree Sprite", glm::vec2(-3.0f, -0.5f), glm::vec2(1.0f, 2.0f));
-	ent7->AddComponent<Sprite>("testSpritesheet", glm::vec2(0, 1), glm::vec2(1, 2));
+	ent7->AddComponent<SpriteComponent>("testSpritesheet", glm::vec2(0, 1), glm::vec2(1, 2));
 
 	std::shared_ptr<Entity> ent8 = m_Scene->CreateEntity("Colored Sprite", glm::vec2(2.0f, 0.5f), glm::vec2(2.5f, 2.5f));
-	ent8->AddComponent<Sprite>("testSpritesheet", glm::vec2(0, 3));
+	ent8->AddComponent<SpriteComponent>("testSpritesheet", glm::vec2(0, 3));
 	ent8->AddComponent<RendererComponent>(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
 
 	std::shared_ptr<Entity> ent9 = m_Scene->CreateEntity("Rotating Colored Square", glm::vec2(-1.0f, -1.0f), glm::vec2(2.0f, 2.0f));
@@ -130,6 +131,8 @@ void FooLayer::OnAttach()
 	std::shared_ptr<Entity> ent10 = m_Scene->CreateEntity("Reverse Rotating Square", glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec2(1.0f, 1.0f));
 	ent10->AddComponent<RendererComponent>("container", glm::vec4(1.0f, 1.0f, 0.8f, 1.0f));
 	ent10->AddComponent<NativeScriptComponent>(new ReverseRotationScript());
+
+	m_ScenePanel = std::make_shared<ScenePanel>(m_Scene);
 }
 
 void FooLayer::OnUpdate(TimeStep ts)
@@ -200,10 +203,47 @@ void FooLayer::ImGuiRender(unsigned int colorAttachmnetRendererID)
 		ImGui::EndMenuBar();
 	}
 
-	bool another_window = true;
+	bool scene_panel = true;
 	bool open_viewport = true;
-	ImGui::Begin("Scene Panel", &another_window);
-	ImGui::End();
+
+	m_ScenePanel->OnImGuiRender();
+
+	//ImGui::Begin("Scene Panel", &scene_panel);
+
+	//if (ImGui::TreeNodeEx("Papiface square", ImGuiTreeNodeFlags_DefaultOpen))
+	//{
+	//	ImGui::PushID(0);
+	//	if (ImGui::TreeNode("", "Child %d", 0))
+	//	{
+	//		ImGui::Text("blah blah");
+	//		ImGui::TreePop();
+	//	}
+	//	ImGui::PopID();
+	//	ImGui::TreePop();
+	//}
+		//for (int i = 0; i < 5; i++)
+		//{
+		//	// Use SetNextItemOpen() so set the default state of a node to be open. We could
+		//	// also use TreeNodeEx() with the ImGuiTreeNodeFlags_DefaultOpen flag to achieve the same thing!
+		//	if (i == 0)
+		//		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+
+		//	// Here we use PushID() to generate a unique base ID, and then the "" used as TreeNode id won't conflict.
+		//	// An alternative to using 'PushID() + TreeNode("", ...)' to generate a unique ID is to use 'TreeNode((void*)(intptr_t)i, ...)',
+		//	// aka generate a dummy pointer-sized value to be hashed. The demo below uses that technique. Both are fine.
+		//	ImGui::PushID(i);
+		//	if (ImGui::TreeNode("", "Child %d", i))
+		//	{
+		//		ImGui::Text("blah blah");
+		//		ImGui::SameLine();
+		//		if (ImGui::SmallButton("button")) {}
+		//		ImGui::TreePop();
+		//	}
+		//	ImGui::PopID();
+		//}
+		//ImGui::TreePop();
+
+	//ImGui::End();
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin("Viewport", &open_viewport);

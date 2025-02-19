@@ -1,6 +1,7 @@
 #pragma once
 #include "Dark/TimeStep.h"
 #include "glm.hpp"
+#include "imgui.h"
 #include "ScriptableEntity.h"
 #include <cstring>
 
@@ -16,6 +17,12 @@ namespace Dark
 		TagComponent(std::string tag)
 			: Tag(tag) {
 		}
+
+		void ImGuiRender()
+		{
+			ImGui::Text(Tag.c_str());
+			//ImGui::SameLine();
+		}
 	};
 
 	struct TransformComponent
@@ -28,6 +35,11 @@ namespace Dark
 			: Pos(pos, 0.0f), Size(size), Rotation(rotation) {}
 		TransformComponent(glm::vec3 pos, glm::vec2 size, float rotation = 90.0f)
 			: Pos(pos), Size(size), Rotation(rotation) {}
+
+		void ImGuiRender()
+		{
+			ImGui::Text("Pos: %.3f, %.3f, %.3f", Pos.x, Pos.y, Pos.z);
+		}
 	};
 
 	struct RendererComponent
@@ -45,16 +57,29 @@ namespace Dark
 			: Color(color, 1.0f), TexName(texName) {}
 		RendererComponent(const char* texName, glm::vec3 color)
 			: Color(color, 1.0f), TexName(texName) {}
+
+		void ImGuiRender()
+		{
+			ImGui::Text("Color: %.3f, %.3f, %.3f, %.3f", Color.x, Color.y, Color.z, Color.w);
+			ImGui::Text("Texture Name: %s", TexName.c_str());
+		}
 	};
 
-	struct Sprite
+	struct SpriteComponent
 	{
 		std::string SpritesheetTexName;
 		glm::vec2 SpriteCoords;
 		glm::vec2 SpriteSize;
 
-		Sprite(std::string spritesheetTexName, glm::vec2 spriteCoords, glm::vec2 spriteSize = glm::vec2(1.0f, 1.0f))
+		SpriteComponent(std::string spritesheetTexName, glm::vec2 spriteCoords, glm::vec2 spriteSize = glm::vec2(1.0f, 1.0f))
 			: SpritesheetTexName(spritesheetTexName), SpriteCoords(spriteCoords), SpriteSize(spriteSize) {}
+		
+		void ImGuiRender()
+		{
+			ImGui::Text("SpritesheetTexName: %s", SpritesheetTexName);
+			ImGui::Text("SpriteCoords: %.2f, %.2f", SpriteCoords.x, SpriteCoords.y);
+			ImGui::Text("SpriteSize: %s", SpriteSize.x, SpriteSize.y);
+		}
 	};
 
 	struct NativeScriptComponent
@@ -79,6 +104,10 @@ namespace Dark
 			Instance->OnDetach();
 			delete Instance;
 			Instance = nullptr;
+		}
+
+		void ImGuiRender()
+		{
 		}
 	};
 }

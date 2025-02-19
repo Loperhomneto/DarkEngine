@@ -20,6 +20,12 @@ namespace Dark
 		}
 
 		template<typename T>
+		bool HasComponent()
+		{
+			return m_Scene->m_registry.all_of<T>(m_entityID);
+		}
+
+		template<typename T>
 		T& GetComponent()
 		{
 			//TODO: make try_get
