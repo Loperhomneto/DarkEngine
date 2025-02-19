@@ -127,7 +127,7 @@ void FooLayer::OnAttach()
 	ent9->AddComponent<RendererComponent>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	ent9->AddComponent<NativeScriptComponent>(new RotationScript());
 
-	std::shared_ptr<Entity> ent10 = m_Scene->CreateEntity("Reverse Rotating Square", glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec2(2.5f, 2.5f));
+	std::shared_ptr<Entity> ent10 = m_Scene->CreateEntity("Reverse Rotating Square", glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec2(1.0f, 1.0f));
 	ent10->AddComponent<RendererComponent>("container", glm::vec4(1.0f, 1.0f, 0.8f, 1.0f));
 	ent10->AddComponent<NativeScriptComponent>(new ReverseRotationScript());
 }

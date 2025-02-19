@@ -25,6 +25,15 @@ namespace Dark
 		return ent;
 	}
 
+	std::shared_ptr<Entity> Scene::CreateEntity(std::string name, glm::vec3 pos, glm::vec2 size)
+	{
+		std::shared_ptr<Entity> ent = std::make_shared<Entity>(m_registry.create(), this);
+		ent->AddComponent<TagComponent>(name.c_str());
+		ent->AddComponent<TransformComponent>(pos, size);
+
+		return ent;
+	}
+
 	void Scene::OnUpdate(TimeStep ts)
 	{
 		auto group = m_registry.group<RendererComponent>(entt::get<TransformComponent>, entt::exclude<Sprite>);

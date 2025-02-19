@@ -83,7 +83,7 @@ namespace Dark
 	{
 		m_viewMatrix = glm::translate(glm::mat4(1.0f), m_CameraPosition) * glm::rotate(glm::mat4(1.0f), glm::radians(m_CameraRotation), glm::vec3(0.0f, 0.0f, 1.0f));
 		m_projectionMatrix = glm::ortho(-m_OrthographicSize * m_AspectRatio * m_ZoomLevel, m_OrthographicSize * m_AspectRatio * m_ZoomLevel,
-			-m_OrthographicSize * m_ZoomLevel, m_OrthographicSize * m_ZoomLevel);
+			-m_OrthographicSize * m_ZoomLevel, m_OrthographicSize * m_ZoomLevel, 1.0f, -1.0f);
 
 		m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
 	}

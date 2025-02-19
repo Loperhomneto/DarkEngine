@@ -15,7 +15,9 @@ namespace Dark
 		~Scene();
 
 		std::shared_ptr<Entity> CreateEntity(std::string name = "Unnamed Component", 
-			glm::vec2 pos = glm::vec2(0.0f, 0.0f), glm::vec2 size = glm::vec2(0.0f, 0.0f));
+			glm::vec2 pos = glm::vec2(0.0f, 0.0f), glm::vec2 size = glm::vec2(1.0f, 1.0f));
+		std::shared_ptr<Entity> CreateEntity(std::string name,
+			glm::vec3 pos, glm::vec2 size = glm::vec2(1.0f, 1.0f));
 
 		void OnUpdate(TimeStep ts);
 	private:

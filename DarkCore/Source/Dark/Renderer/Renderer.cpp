@@ -114,6 +114,8 @@ namespace Dark {
 
 		 glEnable(GL_BLEND);
 		 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		 glEnable(GL_DEPTH_TEST);
+		 glDepthFunc(GL_GEQUAL);
 
 		 data.imGuiRenderer->Init(window);
 
@@ -425,7 +427,7 @@ namespace Dark {
 	{
 		glm::vec4 vertices[4] =
 		{
-			{ -0.5f, -0.5f, 0.0f, 1.0f },
+			{ -0.5f, -0.5f, 0.0f, 1.0f},
 			{ 0.5f, -0.5f, 0.0f, 1.0f },
 			{ 0.5f, 0.5f, 0.0f, 1.0f },
 			{ -0.5f,  0.5f, 0.0f, 1.0f }
@@ -470,7 +472,7 @@ namespace Dark {
 	{
 		glm::vec4 vertices[4] =
 		{
-			{ -0.5f, -0.5f, 0.0f, 1.0f },
+			{ -0.5f, -0.5f, 0.0f, 1.0f},
 			{ 0.5f, -0.5f, 0.0f, 1.0f },
 			{ 0.5f, 0.5f, 0.0f, 1.0f },
 			{ -0.5f,  0.5f, 0.0f, 1.0f }
@@ -532,7 +534,7 @@ namespace Dark {
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), center) *
 			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
-			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
+			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
 
 		Draw2DQuad(transform, color);
 	}
@@ -548,13 +550,14 @@ namespace Dark {
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), center) *
 			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
-			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
+			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
+
 		Draw2DQuad(transform, texName, color);
 	}
 
 	void Renderer::Draw2DRotatedQuad(const glm::vec3& center, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec3 color)
 	{
-		Draw2DRotatedQuad(center, size, rotation, texSource, glm::vec4(color.x, color.y, color.z, 1.0f));
+		Draw2DRotatedQuad(center, size, rotation, texSource, glm::vec4(color.x, color.y, color.z, 0.0f));
 	}
 
 
@@ -562,8 +565,8 @@ namespace Dark {
 	void Renderer::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, glm::vec4 color /*= glm::vec4(1.0f)*/)
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(center.x, center.y, 0.0f)) *
-			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
-			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
+			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 0.0f)) *
+			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
 
 		Draw2DQuad(transform, color);
 	}
