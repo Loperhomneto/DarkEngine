@@ -33,6 +33,16 @@ namespace Dark
 			{
 				if (ImGui::CollapsingHeader(Tag.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 				{
+					ImGui::Text("Entity Name: ");
+					ImGui::SameLine();
+
+					char buffer[256];
+					memset(buffer, 0, sizeof(buffer));
+					strcpy_s(buffer, sizeof(buffer), Tag.c_str());
+					if (ImGui::InputText("##EntityName", buffer, sizeof(buffer)))
+					{
+						Tag = std::string(buffer);
+					}
 				}
 			}
 		}
@@ -44,9 +54,9 @@ namespace Dark
 		glm::vec2 Size;
 		float Rotation;
 
-		TransformComponent(glm::vec2 pos, glm::vec2 size, float rotation = 90.0f)
+		TransformComponent(glm::vec2 pos, glm::vec2 size, float rotation = 0.0f)
 			: Pos(pos, 0.0f), Size(size), Rotation(rotation) {}
-		TransformComponent(glm::vec3 pos, glm::vec2 size, float rotation = 90.0f)
+		TransformComponent(glm::vec3 pos, glm::vec2 size, float rotation = 0.0f)
 			: Pos(pos), Size(size), Rotation(rotation) {}
 
 		void ImGuiRender()
@@ -88,7 +98,6 @@ namespace Dark
 			{
 				ImGui::Text("Texture Name: ");
 				ImGui::SameLine();
-				ImGui::SetNextItemWidth(75);
 
 				char buffer[256];
 				memset(buffer, 0, sizeof(buffer));
@@ -98,7 +107,9 @@ namespace Dark
 					TexName = std::string(buffer);
 				}
 
+				ImGui::PushID("RendererComponentColor");
 				ImGui::ColorEdit4("Color", glm::value_ptr(Color));
+				ImGui::PopID();
 			}
 		}
 	};
@@ -108,9 +119,10 @@ namespace Dark
 		std::string SpritesheetTexName;
 		glm::vec2 SpriteCoords;
 		glm::vec2 SpriteSize;
+		glm::vec4 Color;
 
-		SpriteComponent(std::string spritesheetTexName, glm::vec2 spriteCoords, glm::vec2 spriteSize = glm::vec2(1.0f, 1.0f))
-			: SpritesheetTexName(spritesheetTexName), SpriteCoords(spriteCoords), SpriteSize(spriteSize) {}
+		SpriteComponent(std::string spritesheetTexName, glm::vec2 spriteCoords, glm::vec2 spriteSize = glm::vec2(1.0f, 1.0f), glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f))
+			: SpritesheetTexName(spritesheetTexName), SpriteCoords(spriteCoords), SpriteSize(spriteSize), Color(color) {}
 		
 		void ImGuiRender()
 		{
@@ -118,18 +130,21 @@ namespace Dark
 			{
 				ImGui::Text("Texture Name: ");
 				ImGui::SameLine();
-				ImGui::SetNextItemWidth(75);
 
 				char buffer[256];
 				memset(buffer, 0, sizeof(buffer));
 				strcpy_s(buffer, sizeof(buffer), SpritesheetTexName.c_str());
-				if (ImGui::InputText("##TexName", buffer, sizeof(buffer)))
+				if (ImGui::InputText("##SpriteSheetName", buffer, sizeof(buffer)))
 				{
 					SpritesheetTexName = std::string(buffer);
 				}
 
 				ImGuiVec2Helper("SpriteCoords: ", SpriteCoords);
 				ImGuiVec2Helper("SpriteSize: ", SpriteSize);
+				
+				ImGui::PushID("SpriteComponentColor");
+				ImGui::ColorEdit4("Color", glm::value_ptr(Color));
+				ImGui::PopID();
 			}
 		}
 	};

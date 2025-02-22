@@ -34,12 +34,6 @@ namespace Dark {
 		static void Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, const std::string& texSource, glm::vec4 color = glm::vec4(1.0f));
 		static void Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, const std::string& texSource, glm::vec3 color);
 
-		//Drawing quads with a transform matrix
-		static void Draw2DQuad(const glm::mat4& transform, const glm::vec4& color = glm::vec4(1.0f));
-		static void Draw2DQuad(const glm::mat4& transform, const glm::vec3& color);
-		static void Draw2DQuad(const glm::mat4& transform, const std::string& texName, const glm::vec4& color = glm::vec4(1.0f));
-		static void Draw2DQuad(const glm::mat4& transform, const std::string& texName, const glm::vec3& color);
-
 		//Drawing rotated quads with flat colors and textures
 		static void Draw2DRotatedQuad(const glm::vec3& center, const glm::vec2& size, float rotation, glm::vec4 color = glm::vec4(1.0f));
 		static void Draw2DRotatedQuad(const glm::vec3& center, const glm::vec2& size, float rotation, glm::vec3 color);
@@ -56,10 +50,10 @@ namespace Dark {
 
 		//Drawing and adding sprite sheets
 		static void AddSpritesheet(const std::string& texSource, bool alpha, const std::string& name, const glm::vec2& spriteSize);
-		static void DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName, 
-			const glm::vec2& spriteCoords, const glm::vec2& spriteSize = glm::vec2(1.0f), glm::vec4 color = glm::vec4(1.0f));
-		static void DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
-			const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec3 color);
+		static void DrawSprite(const glm::vec2& center, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize = glm::vec2(1.0f), float rotation = 90.0f, glm::vec4 color = glm::vec4(1.0f));
+		static void DrawSprite(const glm::vec2& center, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize, float rotation, glm::vec3 color);
+		static void DrawSprite(const glm::vec3& center, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize = glm::vec2(1.0f), float rotation = 90.0f, glm::vec4 color = glm::vec4(1.0f));
+		static void DrawSprite(const glm::vec3& center, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize, float rotation, glm::vec3 color);
 
 		static void updateFramebuffer(glm::vec2 size);
 
@@ -72,6 +66,13 @@ namespace Dark {
 		static void flushBatch();
 
 		static void createFrameBuffer(glm::vec2 size);
+
+		static float getTextureIndex(const std::string& texName);
+
+		static void setVertices(const glm::vec3& center, const glm::vec2& size, const glm::vec4& color, float rotation, float textureIndex, glm::vec2 texCoords[4]);
+		static void setVertices(const glm::vec2& center, const glm::vec2& size, const glm::vec4& color, float rotation, float textureIndex, glm::vec2 texCoords[4]);
+		static void setVertices(const glm::vec3& center, const glm::vec2& size, const glm::vec4& color, float rotation = 0.0f, float textureIndex = 0.0f);
+		static void setVertices(const glm::vec2& center, const glm::vec2& size, const glm::vec4& color, float rotation = 0.0f, float textureIndex = 0.0f);
 	};
 
 }

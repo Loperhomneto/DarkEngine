@@ -119,17 +119,26 @@ namespace Dark
 	{
 		Renderer::AddSpritesheet(texSource, alpha, name, spriteSize);
 	}
-	void Renderer2D::DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
-		const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec4 color)
+
+	void Renderer2D::DrawSprite(const glm::vec2& center, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize, float rotation, glm::vec4 color)
 	{
-		Renderer::DrawSprite(corner, size, spritesheetName, spriteCoords, spriteSize, color);
-	}
-	void Renderer2D::DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
-		const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec3 color)
-	{
-		Renderer:DrawSprite(corner, size, spritesheetName, spriteCoords, spriteSize, color);
+		Renderer::DrawSprite(center, size, spritesheetName, spriteCoords, spriteSize, rotation, color);
 	}
 
+	void Renderer2D::DrawSprite(const glm::vec2& center, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize, float rotation, glm::vec3 color)
+	{
+		Renderer::DrawSprite(center, size, spritesheetName, spriteCoords, spriteSize, rotation, color);
+	}
+
+	void Renderer2D::DrawSprite(const glm::vec3& center, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize, float rotation, glm::vec4 color)
+	{
+		Renderer::DrawSprite(center, size, spritesheetName, spriteCoords, spriteSize, rotation, color);
+	}
+
+	void Renderer2D::DrawSprite(const glm::vec3& center, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize, float rotation, glm::vec3 color)
+	{
+		Renderer::DrawSprite(center, size, spritesheetName, spriteCoords, spriteSize, rotation, color);
+	}
 
 	void Renderer2D::updateFramebuffer(glm::vec2 size)
 	{

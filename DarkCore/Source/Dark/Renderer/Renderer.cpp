@@ -213,7 +213,6 @@ namespace Dark {
 		}
 	}
 
-
 	void Renderer::endImguiRendererCall()
 	{
 		data.imGuiRenderer->EndRendererCall();
@@ -249,34 +248,8 @@ namespace Dark {
 
 	void Renderer::Draw2DQuad(const glm::vec3& corner, const glm::vec2& size, glm::vec4 color)
 	{
-		float textureIndex = 0.0f;
-
-		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y, corner.z };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 0.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y + size.y, corner.z };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 1.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x, corner.y + size.y, corner.z };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 1.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x, corner.y, corner.z };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 0.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-		data.batchdata.QuadCount++;
+		setVertices(corner, size, color);
 	}
-
 
 	//Drawing Textured Quads
 	void Renderer::Draw2DQuad(const glm::vec3& corner, const glm::vec2& size, const std::string& texName, glm::vec3 color)
@@ -286,49 +259,8 @@ namespace Dark {
 
 	void Renderer::Draw2DQuad(const glm::vec3& corner, const glm::vec2& size, const std::string& texName, glm::vec4 color)
 	{
-		float textureIndex = 1.0f;
-		bool uniqueTexture = true;
-		for (int i = 1; i < data.batchdata.texIndex; i++)
-		{
-			if (data.batchdata.textures[i] == texName)
-			{
-				textureIndex = i;
-				uniqueTexture = false;
-				break;
-			}
-		}
-
-		if (uniqueTexture)
-		{
-			textureIndex = data.batchdata.texIndex;
-			data.batchdata.textures[textureIndex] = texName;
-			data.batchdata.texIndex++;
-		}
-
-		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y, corner.z };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 0.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y + size.y, corner.z };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 1.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x, corner.y + size.y, corner.z };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 1.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x, corner.y, corner.z };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 0.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-		data.batchdata.QuadCount++;
+		float textureIndex = getTextureIndex(texName);
+		setVertices(corner, size, color, textureIndex);
 	}
 
 	//Drawing flat color quads
@@ -339,35 +271,9 @@ namespace Dark {
 
 	void Renderer::Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, glm::vec4 color)
 	{
-		float textureIndex = 0.0f;
-
-		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y, 0.0f };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 0.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y + size.y, 0.0f };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 1.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x, corner.y + size.y, 0.0f };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 1.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x, corner.y, 0.0f };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 0.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-		data.batchdata.QuadCount++;
+		setVertices(corner, size, color);
 	}
 
-	
 	//Drawing Textured Quads
 	void Renderer::Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, const std::string& texName, glm::vec3 color)
 	{
@@ -376,167 +282,14 @@ namespace Dark {
 
 	void Renderer::Draw2DQuad(const glm::vec2& corner, const glm::vec2& size, const std::string& texName, glm::vec4 color)
 	{
-		float textureIndex = 1.0f;
-		bool uniqueTexture = true;
-		for (int i = 1; i < data.batchdata.texIndex; i++)
-		{
-			if (data.batchdata.textures[i] == texName) 
-			{
-				textureIndex = i;
-				uniqueTexture = false;
-				break;
-			}
-		}
-
-		if (uniqueTexture)
-		{
-			textureIndex = data.batchdata.texIndex;
-			data.batchdata.textures[textureIndex] = texName;
-			data.batchdata.texIndex++;
-		}
-
-		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y, 0.0f };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 0.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y + size.y, 0.0f };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 1.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x, corner.y + size.y, 0.0f };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 1.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x, corner.y, 0.0f };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 0.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-		data.batchdata.QuadCount++;
+		float textureIndex = getTextureIndex(texName);
+		setVertices(corner, size, color, textureIndex);
 	}
-
-
-	//Drawing flat colored Quads with transform matrix
-	void Renderer::Draw2DQuad(const glm::mat4& transform, const glm::vec4& color /*= glm::vec4(1.0f)*/)
-	{
-		glm::vec4 vertices[4] =
-		{
-			{ -0.5f, -0.5f, 0.0f, 1.0f},
-			{ 0.5f, -0.5f, 0.0f, 1.0f },
-			{ 0.5f, 0.5f, 0.0f, 1.0f },
-			{ -0.5f,  0.5f, 0.0f, 1.0f }
-		};
-		
-		float textureIndex = 0.0f;
-
-		data.batchdata.vertsPtr->position = transform * vertices[0];
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 0.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = transform * vertices[1];
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 1.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = transform * vertices[2];
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 1.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = transform * vertices[3];
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 0.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-		data.batchdata.QuadCount++;
-	}
-
-	void Renderer::Draw2DQuad(const glm::mat4& transform, const glm::vec3& color)
-	{
-		Draw2DQuad(transform, glm::vec4(color.x, color.y, color.z, 1.0f));
-	}
-
-
-	//Drawing textured quads with transform matrix
-	void Renderer::Draw2DQuad(const glm::mat4& transform, const std::string& texName, const glm::vec4& color /*= glm::vec4(1.0f)*/)
-	{
-		glm::vec4 vertices[4] =
-		{
-			{ -0.5f, -0.5f, 0.0f, 1.0f},
-			{ 0.5f, -0.5f, 0.0f, 1.0f },
-			{ 0.5f, 0.5f, 0.0f, 1.0f },
-			{ -0.5f,  0.5f, 0.0f, 1.0f }
-		};
-
-		float textureIndex = 1.0f;
-		bool uniqueTexture = true;
-		for (int i = 1; i < data.batchdata.texIndex; i++)
-		{
-			if (data.batchdata.textures[i] == texName)
-			{
-				textureIndex = i;
-				uniqueTexture = false;
-				break;
-			}
-		}
-
-		if (uniqueTexture)
-		{
-			textureIndex = data.batchdata.texIndex;
-			data.batchdata.textures[textureIndex] = texName;
-			data.batchdata.texIndex++;
-		}
-
-		data.batchdata.vertsPtr->position = transform * vertices[0];
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 0.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = transform * vertices[1];
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 1.0f, 1.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = transform * vertices[2];
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 1.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = transform * vertices[3];
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = { 0.0f, 0.0f };
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-		data.batchdata.QuadCount++;
-	}
-
-	void Renderer::Draw2DQuad(const glm::mat4& transform, const std::string& texName, const glm::vec3& color)
-	{
-		Draw2DQuad(transform, texName, glm::vec4(color.x, color.y, color.z, 1.0f));
-	}
-
 
 	//Drawing rotated quads with flat colors
 	void Renderer::Draw2DRotatedQuad(const glm::vec3& center, const glm::vec2& size, float rotation, glm::vec4 color /*= glm::vec4(1.0f)*/)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), center) *
-			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
-			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
-
-		Draw2DQuad(transform, color);
+		setVertices(center, size, color, rotation);
 	}
 
 	void Renderer::Draw2DRotatedQuad(const glm::vec3& center, const glm::vec2& size, float rotation, glm::vec3 color)
@@ -544,15 +297,11 @@ namespace Dark {
 		Draw2DRotatedQuad(center, size, rotation, glm::vec4( color.x, color.y, color.z, 1.0f ));
 	}
 
-
 	//Drawing rotated quads with textures
 	void Renderer::Draw2DRotatedQuad(const glm::vec3& center, const glm::vec2& size, float rotation, const std::string& texName, glm::vec4 color /*= glm::vec4(1.0f)*/)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), center) *
-			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
-			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
-
-		Draw2DQuad(transform, texName, color);
+		float textureIndex = getTextureIndex(texName);
+		setVertices(center, size, color, rotation, textureIndex);
 	}
 
 	void Renderer::Draw2DRotatedQuad(const glm::vec3& center, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec3 color)
@@ -560,15 +309,10 @@ namespace Dark {
 		Draw2DRotatedQuad(center, size, rotation, texSource, glm::vec4(color.x, color.y, color.z, 0.0f));
 	}
 
-
 	//Drawing rotated quads with flat colors
 	void Renderer::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, glm::vec4 color /*= glm::vec4(1.0f)*/)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(center.x, center.y, 0.0f)) *
-			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 0.0f)) *
-			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
-
-		Draw2DQuad(transform, color);
+		setVertices(center, size, color, rotation);
 	}
 
 	void Renderer::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, glm::vec3 color)
@@ -576,19 +320,56 @@ namespace Dark {
 		Draw2DRotatedQuad(center, size, rotation, glm::vec4(color.x, color.y, color.z, 1.0f));
 	}
 
-
 	//Drawing rotated quads with textures
 	void Renderer::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, const std::string& texName, glm::vec4 color /*= glm::vec4(1.0f)*/)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(center.x, center.y, 0.0f)) *
-			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
-			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
-		Draw2DQuad(transform, texName, color);
+		float textureIndex = getTextureIndex(texName);
+		setVertices(center, size, color, rotation, textureIndex);
 	}
 
 	void Renderer::Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec3 color)
 	{
 		Draw2DRotatedQuad(center, size, rotation, texSource, glm::vec4(color.x, color.y, color.z, 1.0f));
+	}
+
+	//Adding and drawing sprites with spritesheets
+	void Renderer::AddSpritesheet(const std::string& texSource, bool alpha, const std::string& name, const glm::vec2& spriteSize)
+	{
+		data.texLib.AddTexture(texSource, alpha, name);
+		std::shared_ptr<Spritesheet> spritesheet = std::make_shared<Spritesheet>(spriteSize);
+		data.spritesheets[name] = spritesheet;
+	}
+
+	void Renderer::DrawSprite(const glm::vec2& center, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize, float rotation, glm::vec4 color)
+	{
+		DrawSprite({ center.x, center.y, 0.0f }, size, spritesheetName, spriteCoords, spriteSize, rotation, color);
+	}
+
+	void Renderer::DrawSprite(const glm::vec2& center, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize, float rotation, glm::vec3 color)
+	{
+		DrawSprite(center, size, spritesheetName, spriteCoords, spriteSize, rotation, glm::vec4(color.x, color.y, color.z, 1.0f));
+	}
+
+	void Renderer::DrawSprite(const glm::vec3& center, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize, float rotation, glm::vec3 color)
+	{
+		DrawSprite(center, size, spritesheetName, spriteCoords, spriteSize, rotation, { color.x, color.y, color.z, 1.0f });
+	}
+
+	void Renderer::DrawSprite(const glm::vec3& center, const glm::vec2& size, std::string spritesheetName, const glm::vec2& spriteCoords, const glm::vec2& spriteSize, float rotation, glm::vec4 color)
+	{
+		float textureIndex = getTextureIndex(spritesheetName);
+
+		unsigned int spritesheetWidth = data.texLib.LoadTexture(spritesheetName)->getWidth();
+		unsigned int spritesheetHeight = data.texLib.LoadTexture(spritesheetName)->getHeight();
+		std::shared_ptr<Spritesheet> spritesheet = data.spritesheets[spritesheetName];
+		glm::vec2 texCoords[] = {
+			{ (spriteCoords.x) * spritesheet->spriteSize.x / spritesheetWidth, spriteCoords.y * spritesheet->spriteSize.y / spritesheetHeight },
+			{ (spriteCoords.x + spriteSize.x) * spritesheet->spriteSize.x / spritesheetWidth, spriteCoords.y * spritesheet->spriteSize.y / spritesheetHeight },
+			{ (spriteCoords.x + spriteSize.x) * spritesheet->spriteSize.x / spritesheetWidth, (spriteCoords.y + spriteSize.y) * spritesheet->spriteSize.y / spritesheetHeight },
+			{ (spriteCoords.x) * spritesheet->spriteSize.x / spritesheetWidth, (spriteCoords.y + spriteSize.y) * spritesheet->spriteSize.y / spritesheetHeight }
+		};
+
+		setVertices(center, size, color, rotation, textureIndex, texCoords);
 	}
 
 	//Adding textures to tex lib
@@ -604,7 +385,6 @@ namespace Dark {
 		return true;
 	}
 
-
 	//Camera controller
 	void Renderer::AddOrthoCameraController()
 	{
@@ -614,79 +394,6 @@ namespace Dark {
 
 			data.orthoCameraController = std::make_shared<OrthoCameraController>();
 		}
-	}
-
-
-	//Adding and drawing sprites with spritesheets
-	void Renderer::AddSpritesheet(const std::string& texSource, bool alpha, const std::string& name, const glm::vec2& spriteSize)
-	{
-		data.texLib.AddTexture(texSource, alpha, name);
-		std::shared_ptr<Spritesheet> spritesheet = std::make_shared<Spritesheet>(spriteSize);
-		data.spritesheets[name] = spritesheet;
-	}
-
-	void Renderer::DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
-		const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec4 color)
-	{
-		float textureIndex = 1.0f;
-		bool uniqueTexture = true;
-		for (int i = 1; i < data.batchdata.texIndex; i++)
-		{
-			if (data.batchdata.textures[i] == spritesheetName)
-			{
-				textureIndex = i;
-				uniqueTexture = false;
-				break;
-			}
-		}
-
-		if (uniqueTexture)
-		{
-			textureIndex = data.batchdata.texIndex;
-			data.batchdata.textures[textureIndex] = spritesheetName;
-			data.batchdata.texIndex++;
-		}
-
-		unsigned int spritesheetWidth = data.texLib.LoadTexture(spritesheetName)->getWidth();
-		unsigned int spritesheetHeight = data.texLib.LoadTexture(spritesheetName)->getHeight();
-		std::shared_ptr<Spritesheet> spritesheet = data.spritesheets[spritesheetName];
-		glm::vec2 texCoords[] = {
-			{ (spriteCoords.x + spriteSize.x) * spritesheet->spriteSize.x / spritesheetWidth, spriteCoords.y * spritesheet->spriteSize.y / spritesheetHeight },
-			{ (spriteCoords.x + spriteSize.x) * spritesheet->spriteSize.x / spritesheetWidth, (spriteCoords.y + spriteSize.y) * spritesheet->spriteSize.y / spritesheetHeight },
-			{ (spriteCoords.x) * spritesheet->spriteSize.x / spritesheetWidth, (spriteCoords.y + spriteSize.y) * spritesheet->spriteSize.y / spritesheetHeight },
-			{ (spriteCoords.x) * spritesheet->spriteSize.x / spritesheetWidth, spriteCoords.y * spritesheet->spriteSize.y / spritesheetHeight }
-		};
-
-		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y, 0.0f };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = texCoords[0];
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x + size.x, corner.y + size.y, 0.0f };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = texCoords[1];
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x, corner.y + size.y, 0.0f };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = texCoords[2];
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-
-		data.batchdata.vertsPtr->position = { corner.x, corner.y, 0.0f };
-		data.batchdata.vertsPtr->color = color;
-		data.batchdata.vertsPtr->texCoords = texCoords[3];
-		data.batchdata.vertsPtr->texIndex = textureIndex;
-		data.batchdata.vertsPtr++;
-		data.batchdata.QuadCount++;
-	}
-
-	void Renderer::DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,
-		const glm::vec2& spriteCoords, const glm::vec2& spriteSize, glm::vec3 color)
-	{
-		DrawSprite(corner, size, spritesheetName, spriteCoords, spriteSize, glm::vec4(color.x, color.y, color.z, 1.0f));
 	}
 
 	//Rendering all the quads in the batch
@@ -778,6 +485,92 @@ namespace Dark {
 			Logger::error("Framebuffer is incomplete!");
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	float Renderer::getTextureIndex(const std::string& texName)
+	{
+		float textureIndex = 1.0f;
+		bool uniqueTexture = true;
+		for (int i = 1; i < data.batchdata.texIndex; i++)
+		{
+			if (data.batchdata.textures[i] == texName)
+			{
+				textureIndex = i;
+				uniqueTexture = false;
+				break;
+			}
+		}
+
+		if (uniqueTexture)
+		{
+			textureIndex = data.batchdata.texIndex;
+			data.batchdata.textures[textureIndex] = texName;
+			data.batchdata.texIndex++;
+		}
+
+		return textureIndex;
+	}
+
+	void Renderer::setVertices(const glm::vec3& center, const glm::vec2& size, const glm::vec4& color, float rotation, float textureIndex, glm::vec2 texCoords[4])
+	{
+		glm::vec4 vertices[4] =
+		{
+			{ -0.5f, -0.5f, 0.0f, 1.0f},
+			{ 0.5f, -0.5f, 0.0f, 1.0f },
+			{ 0.5f, 0.5f, 0.0f, 1.0f },
+			{ -0.5f,  0.5f, 0.0f, 1.0f }
+		};
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), center) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
+			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
+		
+		data.batchdata.vertsPtr->position = transform * vertices[0];
+		data.batchdata.vertsPtr->color = color;
+		data.batchdata.vertsPtr->texCoords = texCoords[0];
+		data.batchdata.vertsPtr->texIndex = textureIndex;
+		data.batchdata.vertsPtr++;
+
+		data.batchdata.vertsPtr->position = transform * vertices[1];
+		data.batchdata.vertsPtr->color = color;
+		data.batchdata.vertsPtr->texCoords = texCoords[1];
+		data.batchdata.vertsPtr->texIndex = textureIndex;
+		data.batchdata.vertsPtr++;
+
+		data.batchdata.vertsPtr->position = transform * vertices[2];
+		data.batchdata.vertsPtr->color = color;
+		data.batchdata.vertsPtr->texCoords = texCoords[2];
+		data.batchdata.vertsPtr->texIndex = textureIndex;
+		data.batchdata.vertsPtr++;
+
+		data.batchdata.vertsPtr->position = transform * vertices[3];
+		data.batchdata.vertsPtr->color = color;
+		data.batchdata.vertsPtr->texCoords = texCoords[3];
+		data.batchdata.vertsPtr->texIndex = textureIndex;
+		data.batchdata.vertsPtr++;
+		data.batchdata.QuadCount++;
+	}
+
+	void Renderer::setVertices(const glm::vec2& center, const glm::vec2& size, const glm::vec4& color, float rotation, float textureIndex, glm::vec2 texCoords[4])
+	{
+		setVertices({ center.x, center.y, 0.0f }, size, color, rotation, textureIndex, texCoords);
+	}
+
+	void Renderer::setVertices(const glm::vec2& center, const glm::vec2& size, const glm::vec4& color, float rotation, float textureIndex)
+	{
+		setVertices({ center.x, center.y, 0.0f }, size, color, rotation, textureIndex);
+	}
+
+	void Renderer::setVertices(const glm::vec3& center, const glm::vec2& size, const glm::vec4& color, float rotation, float textureIndex)
+	{
+		glm::vec2 texCoords[4] = {
+			{ 0.0f, 0.0f },
+			{ 1.0f, 0.0f },
+			{ 1.0f, 1.0f },
+			{ 0.0f, 1.0f }
+		};
+
+		setVertices(center, size, color, rotation, textureIndex, texCoords);
 	}
 
 	void Renderer::updateFramebuffer(glm::vec2 size)

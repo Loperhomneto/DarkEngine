@@ -10,6 +10,7 @@ App::App()
 
 void FooLayer::OnAttach()
 {
+	// add profiling, not sure if something is taking a really long time to render
 	// make logger work without separating lines
 	// enables asserts and fail safes things that might not work
 	// background
@@ -17,8 +18,8 @@ void FooLayer::OnAttach()
 	// runtime camera component
 	// clicking and dragging entities
 	// saving scenes
-	// rename entities
-	// add profiling, not sure if something is taking a really long time to render
+	// make the vec2 and vec3 alignment like unity
+	// button to add and remove entities
 
 	//init
 	Logger::info("onAttach app");
@@ -124,8 +125,7 @@ void FooLayer::OnAttach()
 	ent7->AddComponent<SpriteComponent>("testSpritesheet", glm::vec2(0, 1), glm::vec2(1, 2));
 
 	std::shared_ptr<Entity> ent8 = m_Scene->CreateEntity("Colored Sprite", glm::vec2(2.0f, 0.5f), glm::vec2(2.5f, 2.5f));
-	ent8->AddComponent<SpriteComponent>("testSpritesheet", glm::vec2(0, 3));
-	ent8->AddComponent<RendererComponent>(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
+	ent8->AddComponent<SpriteComponent>("testSpritesheet", glm::vec2(0, 3), glm::vec2(1, 1), glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
 
 	std::shared_ptr<Entity> ent9 = m_Scene->CreateEntity("Rotating Colored Square", glm::vec2(-1.0f, -1.0f), glm::vec2(2.0f, 2.0f));
 	ent9->AddComponent<RendererComponent>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
@@ -148,7 +148,6 @@ void FooLayer::OnEvent(Event& e)
 	if (m_blockEvents && (Event::CheckEvent(EventTypes::MouseOnClick, e) || Event::CheckEvent(EventTypes::MouseMove, e) 
 		|| Event::CheckEvent(EventTypes::MouseScroll, e) || Event::CheckEvent(EventTypes::KeyInput, e)))
 	{
-		Logger::info("blocked events");
 		e.handled = true;
 	}
 }
@@ -190,8 +189,7 @@ void FooLayer::ImGuiRender(unsigned int colorAttachmnetRendererID)
 
 	bool viewportFocused = ImGui::IsWindowFocused();
 	bool viewportHovered = ImGui::IsWindowHovered();
-	//std::cout << "viewportFocused: " << viewportFocused << " viewportHovered: " << viewportHovered << std::endl;
-	if (viewportFocused && viewportHovered)
+	if (viewportFocused || viewportHovered)
 	{
 		m_blockEvents = false;
 		Input::BlockInput(false);

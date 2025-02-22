@@ -67,18 +67,11 @@ namespace Dark
 			auto& transformComp = group2.get<TransformComponent>(entity);
 			auto& spriteComp = group2.get<SpriteComponent>(entity);
 
-			if (m_registry.all_of<RendererComponent>(entity))
+			if (Renderer2D::ValidateTexture(spriteComp.SpritesheetTexName))
 			{
-				auto& rendererComp = m_registry.get<RendererComponent>(entity);
-				Renderer2D::DrawSprite(transformComp.Pos, transformComp.Size, spriteComp.SpritesheetTexName, spriteComp.SpriteCoords, spriteComp.SpriteSize, rendererComp.Color);
-			}
-			else
-			{
-				Renderer2D::DrawSprite(transformComp.Pos, transformComp.Size, spriteComp.SpritesheetTexName, spriteComp.SpriteCoords, spriteComp.SpriteSize);
+				Renderer2D::DrawSprite(transformComp.Pos, transformComp.Size, spriteComp.SpritesheetTexName, spriteComp.SpriteCoords, spriteComp.SpriteSize, transformComp.Rotation, spriteComp.Color);
 			}
 		}
-
-		
 	}
 
 }
