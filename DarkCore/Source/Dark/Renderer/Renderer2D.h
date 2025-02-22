@@ -10,6 +10,7 @@ namespace Dark
 	class Renderer2D
 	{
 	public:
+		//BackDrops (Deprecated do not use)
 		static void DrawBackDrop(const glm::vec4 color);
 		static void DrawBackDrop(const glm::vec3 color);
 		static void DrawBackDrop(std::string texSource);
@@ -32,7 +33,8 @@ namespace Dark
 		static void Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec4 color = glm::vec4(1.0f));
 		static void Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec3 color);
 
-		static void AddTexture(std::string texSource, bool alpha, std::string name);
+		static void AddTexture(const std::string& texName, bool alpha, std::string name);
+		static bool ValidateTexture(const std::string& texName);
 
 		static void AddSpritesheet(const std::string& texSource, bool alpha, const std::string& name, const glm::vec2& spriteSize);
 		static void DrawSprite(const glm::vec2& corner, const glm::vec2& size, std::string spritesheetName,

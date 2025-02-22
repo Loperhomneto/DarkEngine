@@ -1,4 +1,5 @@
 #include "dkpch.h"
+#include "Dark/Logger.h"
 #include "TextureLibrary.h"
 
 namespace Dark
@@ -9,11 +10,18 @@ namespace Dark
 		m_textures = std::unordered_map < std::string, std::shared_ptr<Texture>>();
 	}
 
-	void TextureLibrary::AddTexture(std::string texSource, bool alpha, std::string name)
+	void TextureLibrary::AddTexture(std::string texName, bool alpha, std::string name)
 	{
-		std::shared_ptr<Texture> texture = std::make_shared<Texture>(texSource, alpha);
+		if (texName == "None")
+			Logger::error("Cannot have texture with name 'None'");
+		else if (texName == "")
+			Logger::error("Cannot have an empty texture name!");
+		else
+		{
+			std::shared_ptr<Texture> texture = std::make_shared<Texture>(texName, alpha);
 
-		m_textures[name] = texture;
+			m_textures[name] = texture;
+		}
 	}
 
 	void TextureLibrary::AddTexture(const std::shared_ptr<Texture>& texture, std::string name)
@@ -32,35 +40,5 @@ namespace Dark
 	{
 		return m_textures[name];
 	}
-
-	// Spritesheets
-	//SpritesheetLibrary::SpritesheetLibrary()
-	//{
-	//	m_spritesheets = std::unordered_map < std::string, std::shared_ptr<SpriteSheet>>();
-	//}
-
-	//void SpritesheetLibrary::AddSpritesheet(std::string texSource, bool alpha, std::string name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize)
-	//{
-	//	std::shared_ptr<Texture> texture = std::make_shared<Texture>(texSource, alpha);
-	//	std::shared_ptr<SpriteSheet> spritesheet = std::make_shared<SpriteSheet>(texture, spritesheetSize, spriteSize);
-
-	//	m_spritesheets[name] = spritesheet;
-	//}
-	//void SpritesheetLibrary::AddSpritesheet(const std::shared_ptr<Texture>& texture, std::string name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize)
-	//{
-	//	std::shared_ptr<SpriteSheet> spritesheet = std::make_shared<SpriteSheet>(texture, spritesheetSize, spriteSize);
-	//	m_spritesheets[name] = spritesheet;
-	//}
-	//void SpritesheetLibrary::AddSpritesheet(unsigned int width, unsigned int height, void* data, std::string name, const glm::vec2& spritesheetSize, const glm::vec2& spriteSize)
-	//{
-	//	std::shared_ptr<Texture> texture = std::make_shared<Texture>(width, height, data);
-	//	std::shared_ptr<SpriteSheet> spritesheet = std::make_shared<SpriteSheet>(texture, spritesheetSize, spriteSize);
-
-	//	m_spritesheets[name] = spritesheet;
-	//}
-	//std::shared_ptr<SpriteSheet> SpritesheetLibrary::LoadSpritesheet(std::string name)
-	//{
-	//	return m_spritesheets[name];
-	//}
 
 }

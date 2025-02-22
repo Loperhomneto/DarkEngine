@@ -12,9 +12,11 @@ void FooLayer::OnAttach()
 {
 	// make logger work without separating lines
 	// enables asserts and fail safes things that might not work
-	// maintenance to make this robust
 	// background
 	// add rotation to sprites
+	// runtime camera component
+	// cliking and dragging entities
+	// saving scenes
 	// add profiling, not sure if something is taking a really long time to render
 
 	//init
@@ -137,44 +139,22 @@ void FooLayer::OnAttach()
 
 void FooLayer::OnUpdate(TimeStep ts)
 {
-	Renderer2D::DrawBackDrop("floor");
-
-	//m_Rotation += ts.getDeltatime() * 50;
-	// 
-	//Renderer2D::DrawBackDrop(glm::vec3(0.1f, 0.2f, 0.3f));
-	//float colorZ = m_Color.z + (ts.getDeltatime() * add * 5.0f);
-	//if (colorZ < 0.0f)
-	//{
-	//	add = 1.0f;
-	//}
-	//else if (colorZ > 1.0f)
-	//{
-	//	add = -1.0f;
-	//}
-	//m_Color = glm::vec3(1.0f, 1.0f, colorZ);
-	//Renderer2D::Draw2DQuad(glm::vec2(0.5f, 0.5f), glm::vec2(1.0f, 1.0f), m_Color);
-	//Renderer2D::Draw2DQuad(glm::vec2(1.0f, -2.0f), glm::vec2(2.0f, 2.0f), glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
-	//
-	//Renderer2D::Draw2DQuad(glm::vec2(-3.0f, -2.0f), glm::vec2(1.0f, 1.0f), "container");
-	//Renderer2D::Draw2DQuad(glm::vec2(-2.0f, -2.0f), glm::vec2(0.5f, 0.5f), "papiface");
-	//Renderer2D::Draw2DQuad(glm::vec2(-1.5f, -1.5f), glm::vec2(3.0f, 3.0f), "papiface");
-	//
-	//Renderer2D::DrawSprite(glm::vec2(-3.0f, -0.5f), glm::vec2(1.0f, 2.0f), "testSpritesheet", glm::vec2(0, 1), glm::vec2(1, 2));
-	//Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(2.0f, 2.0f), m_Rotation, glm::vec3(1.0f, 1.0f, 1.0f));
-	//Renderer2D::Draw2DRotatedQuad(glm::vec2(-1.0f, -1.0f), glm::vec2(1.0f, 1.0f), -m_Rotation, "container", glm::vec3(1.0f, 1.0f, 0.8f));
-	//
-	//Renderer2D::Draw2DQuad(glm::vec2(-5.0f, -5.0f), glm::vec2(10.0f, 10.0f), "checkerboard");
-
 	m_Scene->OnUpdate(ts);
 }
 
 void FooLayer::OnEvent(Event& e)
 {
-
+	if (m_blockEvents && (Event::CheckEvent(EventTypes::MouseOnClick, e) || Event::CheckEvent(EventTypes::MouseMove, e) 
+		|| Event::CheckEvent(EventTypes::MouseScroll, e) || Event::CheckEvent(EventTypes::KeyInput, e)))
+	{
+		Logger::info("blocked events");
+		e.handled = true;
+	}
 }
 
 void FooLayer::ImGuiRender(unsigned int colorAttachmnetRendererID)
 {
+	//dockspace and viewport
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse
 		| ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
 
@@ -188,6 +168,7 @@ void FooLayer::ImGuiRender(unsigned int colorAttachmnetRendererID)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
 	bool dockspaceOpen = true;
+	bool open_viewport = true;
 	ImGui::Begin("DockSpace", &dockspaceOpen, window_flags);
 	ImGui::PopStyleVar(3);
 
@@ -203,61 +184,36 @@ void FooLayer::ImGuiRender(unsigned int colorAttachmnetRendererID)
 		ImGui::EndMenuBar();
 	}
 
-	bool scene_panel = true;
-	bool open_viewport = true;
-
-	m_ScenePanel->OnImGuiRender();
-
-	//ImGui::Begin("Scene Panel", &scene_panel);
-
-	//if (ImGui::TreeNodeEx("Papiface square", ImGuiTreeNodeFlags_DefaultOpen))
-	//{
-	//	ImGui::PushID(0);
-	//	if (ImGui::TreeNode("", "Child %d", 0))
-	//	{
-	//		ImGui::Text("blah blah");
-	//		ImGui::TreePop();
-	//	}
-	//	ImGui::PopID();
-	//	ImGui::TreePop();
-	//}
-		//for (int i = 0; i < 5; i++)
-		//{
-		//	// Use SetNextItemOpen() so set the default state of a node to be open. We could
-		//	// also use TreeNodeEx() with the ImGuiTreeNodeFlags_DefaultOpen flag to achieve the same thing!
-		//	if (i == 0)
-		//		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-
-		//	// Here we use PushID() to generate a unique base ID, and then the "" used as TreeNode id won't conflict.
-		//	// An alternative to using 'PushID() + TreeNode("", ...)' to generate a unique ID is to use 'TreeNode((void*)(intptr_t)i, ...)',
-		//	// aka generate a dummy pointer-sized value to be hashed. The demo below uses that technique. Both are fine.
-		//	ImGui::PushID(i);
-		//	if (ImGui::TreeNode("", "Child %d", i))
-		//	{
-		//		ImGui::Text("blah blah");
-		//		ImGui::SameLine();
-		//		if (ImGui::SmallButton("button")) {}
-		//		ImGui::TreePop();
-		//	}
-		//	ImGui::PopID();
-		//}
-		//ImGui::TreePop();
-
-	//ImGui::End();
-
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin("Viewport", &open_viewport);
+
+	bool viewportFocused = ImGui::IsWindowFocused();
+	bool viewportHovered = ImGui::IsWindowHovered();
+	//std::cout << "viewportFocused: " << viewportFocused << " viewportHovered: " << viewportHovered << std::endl;
+	if (viewportFocused && viewportHovered)
+	{
+		m_blockEvents = false;
+		Input::BlockInput(false);
+	}
+	else
+	{
+		m_blockEvents = true;
+		Input::BlockInput(true);
+	}
+
 	ImGui::PopStyleVar();
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 	m_framebufferSize = { viewportPanelSize.x, viewportPanelSize.y };
 	ImGui::Image(colorAttachmnetRendererID, viewportPanelSize, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 	ImGui::End();
 
+
+	//other panels
+	m_ScenePanel->OnImGuiRender();
 	bool show_demo_window;
 	ImGui::ShowDemoWindow(&show_demo_window);
 
 	ImGui::End();
-
 	Renderer2D::updateFramebuffer(m_framebufferSize);
 }
 

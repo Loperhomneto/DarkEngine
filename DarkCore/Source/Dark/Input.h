@@ -17,6 +17,10 @@ namespace Dark {
 
 		static int GetWindowWidth();
 		static int GetWindowHeight();
+
+		static void BlockInput(bool block) { m_blockInputs = block; }
+	private:
+		static bool m_blockInputs;
 	};
 
 }

@@ -5,22 +5,32 @@
 
 namespace Dark {
 
+	bool Input::m_blockInputs = false;
+
 	bool Input::isKeyPressed(int keycode)
 	{
-		GLFWwindow* window = glfwGetCurrentContext();
-		int key = glfwGetKey(window, keycode);
-
-		if (key == GLFW_PRESS || key == GLFW_REPEAT)
+		if (!m_blockInputs)
 		{
-			return true;
+			GLFWwindow* window = glfwGetCurrentContext();
+			int key = glfwGetKey(window, keycode);
+
+			if (key == GLFW_PRESS || key == GLFW_REPEAT)
+			{
+				return true;
+			}
+			return false;
 		}
 		return false;
 	}
 
 	bool Input::isMousePressed(int button)
 	{
-		GLFWwindow* window = glfwGetCurrentContext();
-		return glfwGetMouseButton(window, button);
+		if (!m_blockInputs)
+		{
+			GLFWwindow* window = glfwGetCurrentContext();
+			return glfwGetMouseButton(window, button);
+		}
+		return false;
 	}
 
 	std::pair<int, int> Input::GetMousePosition()

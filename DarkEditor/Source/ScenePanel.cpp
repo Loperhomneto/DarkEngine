@@ -14,40 +14,69 @@ void ScenePanel::OnImGuiRender()
 {
 	ImGui::Begin("Scene Panel");
 
+	int i = 0;
 	auto view = m_context->m_registry.view<TagComponent>();
 	for (auto entity : view)
 	{
 		Entity ent = Entity(entity, m_context.get());
-		TreeNode(ent);
+
+		auto& tagComp = ent.GetComponent<TagComponent>();
+
+		ImGui::PushID(i);
+		if (ImGui::TreeNode("", tagComp.Tag.c_str()))
+		{
+			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+			{
+				selectedEntity = ent;
+				m_OpenPropertiesPanel = true;
+			}
+
+			ImGui::TreePop();
+		}
+		ImGui::PopID();
+		i++;
 	}
 
 	ImGui::End();
+
+	OpenPropertiesPanelUI();
 }
 
-#define IMGUI_SET_COMPONENTS(componentName) if (entity.HasComponent<componentName>())\
-{\
-	ImGui::PushID(i);\
-	if (ImGui::TreeNode("", #componentName))\
-	{\
-		entity.GetComponent<componentName>().ImGuiRender();\
-\
-		ImGui::TreePop();\
-	}\
-	ImGui::PopID();\
-	i++;\
-}
-
-void ScenePanel::TreeNode(Entity entity)
+void ScenePanel::OpenPropertiesPanelUI()
 {
-	auto& tagComp = entity.GetComponent<TagComponent>();
+	if (m_OpenPropertiesPanel)
+	{
+		ImGui::Begin("Properties Panel");
 
-	ImGui::TreeNodeEx(tagComp.Tag.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
+		if (selectedEntity)
+		{
+			if (selectedEntity.HasComponent<TagComponent>())
+			{
+				auto& tagComp = selectedEntity.GetComponent<TagComponent>();
+				tagComp.ImGuiRender();
+			}
+			if (selectedEntity.HasComponent<TransformComponent>())
+			{
+				auto& transformComp = selectedEntity.GetComponent<TransformComponent>();
+				transformComp.ImGuiRender();
+			}
+			if (selectedEntity.HasComponent<RendererComponent>())
+			{
+				auto& rendererComp = selectedEntity.GetComponent<RendererComponent>();
+				rendererComp.ImGuiRender();
+			}
+			if (selectedEntity.HasComponent<SpriteComponent>())
+			{
+				auto& spriteComp = selectedEntity.GetComponent<SpriteComponent>();
+				spriteComp.ImGuiRender();
+			}
+			if (selectedEntity.HasComponent<NativeScriptComponent>())
+			{
+				auto& nativeScriptComp = selectedEntity.GetComponent<NativeScriptComponent>();
+				nativeScriptComp.ImGuiRender();
+			}
+		}
 
-	int i = 0;
-	IMGUI_SET_COMPONENTS(TransformComponent)
-	IMGUI_SET_COMPONENTS(RendererComponent)
-	IMGUI_SET_COMPONENTS(SpriteComponent)
-	IMGUI_SET_COMPONENTS(NativeScriptComponent)
-
-	ImGui::TreePop();
+		ImGui::End();
+	}
 }

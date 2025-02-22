@@ -40,6 +40,15 @@ namespace Dark
 		{
 			return m_Scene->m_registry.remove<T>(m_entityID);
 		}
+
+		operator bool() const 
+		{
+			if (m_entityID == entt::null)
+			{
+				return false;
+			}
+			return true;
+		}
 	private:
 		entt::entity m_entityID = entt::null;
 		Scene* m_Scene = nullptr;

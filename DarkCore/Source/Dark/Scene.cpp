@@ -42,13 +42,13 @@ namespace Dark
 			auto& transformComp = group.get<TransformComponent>(entity);
 			auto& rendererComp = group.get<RendererComponent>(entity);
 
-			if (rendererComp.TexName == "None")
+			if (Renderer2D::ValidateTexture(rendererComp.TexName))
 			{
-				Renderer2D::Draw2DRotatedQuad(transformComp.Pos, transformComp.Size, transformComp.Rotation, rendererComp.Color);
+				Renderer2D::Draw2DRotatedQuad(transformComp.Pos, transformComp.Size, transformComp.Rotation, rendererComp.TexName, rendererComp.Color);
 			}
 			else
 			{
-				Renderer2D::Draw2DRotatedQuad(transformComp.Pos, transformComp.Size, transformComp.Rotation, rendererComp.TexName, rendererComp.Color);
+				Renderer2D::Draw2DRotatedQuad(transformComp.Pos, transformComp.Size, transformComp.Rotation, rendererComp.Color);
 			}
 		}
 

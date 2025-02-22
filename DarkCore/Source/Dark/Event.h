@@ -22,17 +22,18 @@ namespace Dark
 		virtual const char* getName() = 0;
 
 		static bool CheckEvent(EventTypes type, Event& e);
+
 		template <typename T>
 		static void CheckEventFunc(Event& e, std::function<void(T&)> func) 
 		{
-			if (T::getStaticEventType() == e.getEventType() && !e.m_handled)
+			if (T::getStaticEventType() == e.getEventType() && !e.handled)
 			{
 				T* event = static_cast<T*>(&e);
 				func(*event);
 			}
 		};
 
-		bool m_handled = false;
+		bool handled = false;
 	};
 
 	class MouseOnClickEvent : public Event

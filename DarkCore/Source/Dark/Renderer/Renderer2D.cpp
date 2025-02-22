@@ -100,14 +100,19 @@ namespace Dark
 		Renderer::Draw2DRotatedQuad(center, size, rotation, texSource, color);
 	}
 
-	void Renderer2D::AddTexture(std::string texSource, bool alpha, std::string name)
+	void Renderer2D::AddTexture(const std::string& texName, bool alpha, std::string name)
 	{
-		Renderer::AddTexture(texSource, alpha, name);
+		Renderer::AddTexture(texName, alpha, name);
 	}
 
 	void Renderer2D::AddOrthoCameraController()
 	{
 		Renderer::AddOrthoCameraController();
+	}
+
+	bool Renderer2D::ValidateTexture(const std::string& texName)
+	{
+		return Renderer::ValidateTexture(texName);
 	}
 
 	void Renderer2D::AddSpritesheet(const std::string& texSource, bool alpha, const std::string& name, const glm::vec2& spriteSize)

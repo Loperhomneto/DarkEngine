@@ -15,7 +15,10 @@ public:
 
 	void OnImGuiRender();
 private:
-	void TreeNode(Entity entity);
+	void OpenPropertiesPanelUI();
 private:
 	std::shared_ptr<Scene> m_context;
+
+	bool m_OpenPropertiesPanel = false;
+	Entity selectedEntity;
 };

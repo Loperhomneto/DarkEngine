@@ -8,7 +8,7 @@ namespace Dark
 
 	bool Event::CheckEvent(EventTypes type, Event& e)
 	{
-		if (type == e.getEventType() && !e.m_handled)
+		if (type == e.getEventType() && !e.handled)
 		{
 			//e.m_handled = true;
 			return true;

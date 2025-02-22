@@ -163,14 +163,14 @@ namespace Dark {
 		}
 
 
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		if (data.usingFrameBuffer)
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, data.frameBufferRendererID);
 
-			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 		}
 		else
@@ -592,9 +592,16 @@ namespace Dark {
 	}
 
 	//Adding textures to tex lib
-	void Renderer::AddTexture(const std::string& texSource, bool alpha, const std::string& name)
+	void Renderer::AddTexture(const std::string& texName, bool alpha, const std::string& name)
 	{
-		data.texLib.AddTexture(texSource, alpha, name);
+		data.texLib.AddTexture(texName, alpha, name);
+	}
+
+	bool Renderer::ValidateTexture(const std::string& texName)
+	{
+		if (data.texLib.LoadTexture(texName) == nullptr)
+			return false;
+		return true;
 	}
 
 
@@ -689,6 +696,9 @@ namespace Dark {
 		{
 			std::shared_ptr<Texture> tex = data.texLib.LoadTexture(data.batchdata.textures[i]);
 			tex->Bind(i);
+
+			if (!tex)
+				Logger::error("Missing texture in flush");
 		}
 
 		unsigned int offset = 0;

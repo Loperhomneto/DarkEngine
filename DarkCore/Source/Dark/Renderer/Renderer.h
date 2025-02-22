@@ -19,7 +19,7 @@ namespace Dark {
 
 		static unsigned int getColorAttachment();
 
-		//Backgrounds
+		//Backgrounds (Deprecated do not use)
 		static void DrawBackDrop(const glm::vec4 color);
 		static void DrawBackDrop(const glm::vec3 color);
 		static void DrawBackDrop(const std::string& texSource);
@@ -51,7 +51,8 @@ namespace Dark {
 		static void Draw2DRotatedQuad(const glm::vec2& center, const glm::vec2& size, float rotation, const std::string& texSource, glm::vec3 color);
 		
 		//Adding texture to texture lib
-		static void AddTexture(const std::string& texSource, bool alpha, const std::string& name);
+		static void AddTexture(const std::string& texName, bool alpha, const std::string& name);
+		static bool ValidateTexture(const std::string& texName);
 
 		//Drawing and adding sprite sheets
 		static void AddSpritesheet(const std::string& texSource, bool alpha, const std::string& name, const glm::vec2& spriteSize);
