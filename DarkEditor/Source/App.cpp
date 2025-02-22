@@ -15,8 +15,9 @@ void FooLayer::OnAttach()
 	// background
 	// add rotation to sprites
 	// runtime camera component
-	// cliking and dragging entities
+	// clicking and dragging entities
 	// saving scenes
+	// rename entities
 	// add profiling, not sure if something is taking a really long time to render
 
 	//init
